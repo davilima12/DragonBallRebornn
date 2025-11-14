@@ -43,9 +43,9 @@
   --chart-3: 35 90% 40%;
   --chart-4: 280 65% 35%;
   --chart-5: 200 70% 35%;
-  --font-sans: Open Sans, sans-serif;
-  --font-serif: Georgia, serif;
-  --font-mono: Menlo, monospace;
+  --font-sans: Inter, sans-serif;
+  --font-heading: Rajdhani, sans-serif;
+  --font-display: Orbitron, sans-serif;
   --radius: .5rem;
   --shadow-2xs: 0px 2px 0px 0px hsl(0 0% 0% / 0.00);
   --shadow-xs: 0px 2px 0px 0px hsl(0 0% 0% / 0.00);
