@@ -11,11 +11,13 @@ export default function GuildDetail() {
   const guild = {
     name: params?.name || "Z Fighters",
     leader: "Goku Master",
+    viceLeader: "VegetaPrince",
     memberCount: 50,
     totalPower: 45000000,
-    description: "A guild mais poderosa do servidor, formada pelos melhores guerreiros.",
+    description: "A guild mais poderosa do servidor, formada pelos melhores guerreiros. Nosso objetivo é dominar o ranking e ajudar todos os membros a evoluírem juntos.",
     level: 15,
     founded: "01/01/2024",
+    logo: "🛡️",
   };
 
   const members = [
@@ -52,10 +54,12 @@ export default function GuildDetail() {
           <Card className="p-8">
             <div className="flex items-start justify-between mb-6">
               <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <Shield className="w-10 h-10 text-primary" />
-                  <div>
-                    <h1 className="text-4xl font-display font-bold" data-testid="text-guild-name">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-20 h-20 bg-primary/10 rounded-xl flex items-center justify-center text-4xl border-2 border-primary/30">
+                    {guild.logo}
+                  </div>
+                  <div className="flex-1">
+                    <h1 className="text-4xl font-display font-bold mb-1" data-testid="text-guild-name">
                       {guild.name}
                     </h1>
                     <p className="text-muted-foreground">
@@ -63,7 +67,20 @@ export default function GuildDetail() {
                     </p>
                   </div>
                 </div>
-                <p className="text-muted-foreground mt-4">{guild.description}</p>
+                <div className="bg-muted p-4 rounded-md mb-4">
+                  <h3 className="font-semibold mb-2">Descrição da Guild</h3>
+                  <p className="text-sm text-muted-foreground">{guild.description}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-muted rounded-md">
+                    <p className="text-xs text-muted-foreground mb-1">Líder</p>
+                    <p className="font-semibold" data-testid="text-leader">{guild.leader}</p>
+                  </div>
+                  <div className="p-3 bg-muted rounded-md">
+                    <p className="text-xs text-muted-foreground mb-1">Vice-Líder</p>
+                    <p className="font-semibold" data-testid="text-vice-leader">{guild.viceLeader}</p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -97,9 +114,9 @@ export default function GuildDetail() {
               <div className="p-4 bg-muted rounded-md">
                 <div className="flex items-center gap-2 mb-1">
                   <Crown className="w-4 h-4 text-yellow-500" />
-                  <span className="text-sm text-muted-foreground">Líder</span>
+                  <span className="text-sm text-muted-foreground">Fundação</span>
                 </div>
-                <p className="text-lg font-bold truncate" data-testid="text-leader">{guild.leader}</p>
+                <p className="text-lg font-bold">{guild.founded}</p>
               </div>
             </div>
 

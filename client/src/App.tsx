@@ -8,6 +8,7 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import ForgotPassword from "@/pages/ForgotPassword";
 import Dashboard from "@/pages/Dashboard";
+import AccountSettings from "@/pages/AccountSettings";
 import Characters from "@/pages/Characters";
 import CharacterDetail from "@/pages/CharacterDetail";
 import Shop from "@/pages/Shop";
@@ -16,6 +17,7 @@ import SellPoints from "@/pages/SellPoints";
 import Ranking from "@/pages/Ranking";
 import Guilds from "@/pages/Guilds";
 import GuildDetail from "@/pages/GuildDetail";
+import CreateGuild from "@/pages/CreateGuild";
 import Support from "@/pages/Support";
 import NotFound from "@/pages/not-found";
 
@@ -27,6 +29,7 @@ function Router() {
       <Route path="/register" component={Register} />
       <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/account-settings" component={AccountSettings} />
       <Route path="/characters" component={Characters} />
       <Route path="/character/:id" component={CharacterDetail} />
       <Route path="/shop" component={Shop} />
@@ -35,6 +38,7 @@ function Router() {
       <Route path="/ranking" component={Ranking} />
       <Route path="/guilds" component={Guilds} />
       <Route path="/guild/:name" component={GuildDetail} />
+      <Route path="/create-guild" component={CreateGuild} />
       <Route path="/support" component={Support} />
       <Route component={NotFound} />
     </Switch>

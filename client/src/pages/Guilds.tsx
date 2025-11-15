@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Plus } from "lucide-react";
 import { useState } from "react";
+import { Link } from "wouter";
 
 export default function Guilds() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -51,10 +52,12 @@ export default function Guilds() {
                   data-testid="input-search"
                 />
               </div>
-              <Button data-testid="button-create-guild">
-                <Plus className="w-4 h-4 mr-2" />
-                Criar Guild
-              </Button>
+              <Link href="/create-guild">
+                <Button data-testid="button-create-guild">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Criar Guild
+                </Button>
+              </Link>
             </div>
           </div>
 
