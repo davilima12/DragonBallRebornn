@@ -32,6 +32,7 @@ export default function Navbar() {
     { label: "Início", path: "/" },
     { label: "Ranking", path: "/ranking" },
     { label: "Guilds", path: "/guilds" },
+    { label: "Downloads", path: "/downloads" },
     { label: "Suporte", path: "/support" },
   ];
 

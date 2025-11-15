@@ -25,6 +25,7 @@ import Guilds from "@/pages/Guilds";
 import GuildDetail from "@/pages/GuildDetail";
 import CreateGuild from "@/pages/CreateGuild";
 import Support from "@/pages/Support";
+import Downloads from "@/pages/Downloads";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -50,6 +51,7 @@ function Router() {
       <Route path="/guild/:name" component={GuildDetail} />
       <Route path="/create-guild" component={CreateGuild} />
       <Route path="/support" component={Support} />
+      <Route path="/downloads" component={Downloads} />
       <Route component={NotFound} />
     </Switch>
   );
