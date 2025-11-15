@@ -2,10 +2,11 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Menu, X, ChevronDown, User, LogOut, Settings, Coins, Users as UsersIcon } from "lucide-react";
+import { Menu, X, ChevronDown, User, LogOut, Settings, Coins, Users as UsersIcon, Sun, Moon } from "lucide-react";
 import { SiDiscord } from "react-icons/si";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +20,7 @@ export default function Navbar() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [, setLocation] = useLocation();
 
   const handleLogout = () => {
@@ -104,6 +106,21 @@ export default function Navbar() {
           </div>
 
           <div className="hidden lg:flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="rounded-md"
+              data-testid="button-theme-toggle"
+              title={theme === "dark" ? "Modo Claro" : "Modo Escuro"}
+            >
+              {theme === "dark" ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
+            </Button>
+            
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -227,6 +244,25 @@ export default function Navbar() {
             </div>
             
             <div className="space-y-2 pt-2 border-t border-border mt-2">
+              <Button
+                variant="ghost"
+                onClick={toggleTheme}
+                className="w-full justify-start"
+                data-testid="mobile-button-theme-toggle"
+              >
+                {theme === "dark" ? (
+                  <>
+                    <Sun className="w-4 h-4 mr-2" />
+                    Modo Claro
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-4 h-4 mr-2" />
+                    Modo Escuro
+                  </>
+                )}
+              </Button>
+
               {isAuthenticated ? (
                 <>
                   <div className="p-3 bg-muted rounded-md">
