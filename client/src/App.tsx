@@ -12,6 +12,7 @@ import Dashboard from "@/pages/Dashboard";
 import AccountSettings from "@/pages/AccountSettings";
 import Characters from "@/pages/Characters";
 import CharacterDetail from "@/pages/CharacterDetail";
+import PlayerProfile from "@/pages/PlayerProfile";
 import Shop from "@/pages/Shop";
 import Deposit from "@/pages/Deposit";
 import SellPoints from "@/pages/SellPoints";
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/account-settings" component={AccountSettings} />
       <Route path="/characters" component={Characters} />
       <Route path="/character/:id" component={CharacterDetail} />
+      <Route path="/player/:id" component={PlayerProfile} />
       <Route path="/shop" component={Shop} />
       <Route path="/deposit" component={Deposit} />
       <Route path="/sell-points" component={SellPoints} />

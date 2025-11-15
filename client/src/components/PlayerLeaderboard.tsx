@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Trophy, Zap } from "lucide-react";
+import { Link } from "wouter";
 
 interface Player {
   rank: number;
@@ -8,6 +9,7 @@ interface Player {
   level: number;
   power: number;
   guild?: string;
+  id?: string;
 }
 
 interface PlayerLeaderboardProps {
@@ -32,37 +34,41 @@ export default function PlayerLeaderboard({ players, title = "Top 10 Jogadores" 
 
       <div className="space-y-3">
         {players.map((player) => (
-          <div
+          <Link 
             key={player.rank}
-            className="flex items-center gap-4 p-3 rounded-md hover-elevate border border-card-border"
-            data-testid={`player-row-${player.rank}`}
+            href={`/player/${player.id || player.name.toLowerCase().replace(/\s+/g, '-')}`}
           >
-            <div className={`w-8 text-center font-display font-bold text-lg ${getRankColor(player.rank)}`}>
-              {player.rank === 1 && <Trophy className="w-6 h-6 inline" />}
-              {player.rank > 1 && `#${player.rank}`}
-            </div>
-
-            <div className="flex-1 min-w-0">
-              <div className="font-heading font-semibold text-foreground" data-testid={`text-player-name-${player.rank}`}>
-                {player.name}
+            <div
+              className="flex items-center gap-4 p-3 rounded-md hover-elevate active-elevate-2 border border-card-border cursor-pointer transition-all"
+              data-testid={`player-row-${player.rank}`}
+            >
+              <div className={`w-8 text-center font-display font-bold text-lg ${getRankColor(player.rank)}`}>
+                {player.rank === 1 && <Trophy className="w-6 h-6 inline" />}
+                {player.rank > 1 && `#${player.rank}`}
               </div>
-              {player.guild && (
-                <div className="text-xs text-muted-foreground" data-testid={`text-guild-${player.rank}`}>
-                  [{player.guild}]
+
+              <div className="flex-1 min-w-0">
+                <div className="font-heading font-semibold text-foreground" data-testid={`text-player-name-${player.rank}`}>
+                  {player.name}
                 </div>
-              )}
-            </div>
+                {player.guild && (
+                  <div className="text-xs text-muted-foreground" data-testid={`text-guild-${player.rank}`}>
+                    [{player.guild}]
+                  </div>
+                )}
+              </div>
 
-            <div className="flex items-center gap-4 text-sm">
-              <Badge variant="secondary" className="font-mono">
-                Nv. {player.level}
-              </Badge>
-              <div className="flex items-center gap-1 text-primary font-semibold">
-                <Zap className="w-4 h-4" />
-                <span data-testid={`text-power-${player.rank}`}>{player.power.toLocaleString()}</span>
+              <div className="flex items-center gap-4 text-sm">
+                <Badge variant="secondary" className="font-mono">
+                  Nv. {player.level}
+                </Badge>
+                <div className="flex items-center gap-1 text-primary font-semibold">
+                  <Zap className="w-4 h-4" />
+                  <span data-testid={`text-power-${player.rank}`}>{player.power.toLocaleString()}</span>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </Card>

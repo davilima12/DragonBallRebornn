@@ -130,39 +130,41 @@ export default function GuildDetail() {
             
             <div className="space-y-3">
               {members.map((member) => (
-                <div
+                <Link
                   key={member.id}
-                  className="flex items-center gap-4 p-4 rounded-md border border-card-border hover-elevate"
-                  data-testid={`member-row-${member.id}`}
+                  href={`/player/${member.id}`}
                 >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Link href={`/character/${member.id}`}>
-                        <span className="font-heading font-bold hover:text-primary transition-colors cursor-pointer" data-testid={`text-member-name-${member.id}`}>
+                  <div
+                    className="flex items-center gap-4 p-4 rounded-md border border-card-border hover-elevate active-elevate-2 cursor-pointer transition-all"
+                    data-testid={`member-row-${member.id}`}
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-heading font-bold" data-testid={`text-member-name-${member.id}`}>
                           {member.name}
                         </span>
-                      </Link>
-                      {member.isOnline && (
-                        <div className="w-2 h-2 rounded-full bg-status-online animate-pulse"></div>
-                      )}
-                      {getRoleBadge(member.role)}
+                        {member.isOnline && (
+                          <div className="w-2 h-2 rounded-full bg-status-online animate-pulse"></div>
+                        )}
+                        {getRoleBadge(member.role)}
+                      </div>
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Swords className="w-3 h-3" />
+                          {member.classType}
+                        </span>
+                        <span>Nv. {member.level}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Swords className="w-3 h-3" />
-                        {member.classType}
-                      </span>
-                      <span>Nv. {member.level}</span>
-                    </div>
-                  </div>
 
-                  <div className="flex items-center gap-2 text-primary font-semibold">
-                    <Zap className="w-4 h-4" />
-                    <span className="font-mono" data-testid={`text-member-power-${member.id}`}>
-                      {member.power.toLocaleString()}
-                    </span>
+                    <div className="flex items-center gap-2 text-primary font-semibold">
+                      <Zap className="w-4 h-4" />
+                      <span className="font-mono" data-testid={`text-member-power-${member.id}`}>
+                        {member.power.toLocaleString()}
+                      </span>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </Card>
