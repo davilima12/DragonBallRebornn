@@ -93,6 +93,16 @@ export default function Navbar() {
           </div>
 
           <div className="hidden lg:flex items-center gap-2">
+            <Link href="/dashboard">
+              <Button variant="ghost" size="sm" data-testid="button-dashboard">
+                Dashboard
+              </Button>
+            </Link>
+            <Link href="/characters">
+              <Button variant="ghost" size="sm" data-testid="button-characters">
+                Personagens
+              </Button>
+            </Link>
             <Link href="/login">
               <Button variant="ghost" size="sm" data-testid="button-login">
                 Login
@@ -166,17 +176,29 @@ export default function Navbar() {
               ))}
             </div>
             
-            <div className="flex gap-2 pt-2 border-t border-border mt-2">
-              <Link href="/login" className="flex-1">
-                <Button variant="ghost" className="w-full" data-testid="mobile-button-login">
-                  Login
+            <div className="space-y-2 pt-2 border-t border-border mt-2">
+              <Link href="/dashboard" className="block">
+                <Button variant="ghost" className="w-full" data-testid="mobile-button-dashboard">
+                  Dashboard
                 </Button>
               </Link>
-              <Link href="/register" className="flex-1">
-                <Button variant="default" className="w-full" data-testid="mobile-button-register">
-                  Cadastrar
+              <Link href="/characters" className="block">
+                <Button variant="ghost" className="w-full" data-testid="mobile-button-characters">
+                  Personagens
                 </Button>
               </Link>
+              <div className="flex gap-2">
+                <Link href="/login" className="flex-1">
+                  <Button variant="ghost" className="w-full" data-testid="mobile-button-login">
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/register" className="flex-1">
+                  <Button variant="default" className="w-full" data-testid="mobile-button-register">
+                    Cadastrar
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

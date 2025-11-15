@@ -1,10 +1,13 @@
 import Navbar from "@/components/Navbar";
 import UserStatsCard from "@/components/UserStatsCard";
 import TransactionItem from "@/components/TransactionItem";
+import CharacterCard from "@/components/CharacterCard";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Coins, Crown, ShoppingBag, Zap } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Coins, Crown, ShoppingBag, Zap, Users } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Dashboard() {
   const transactions = [
@@ -13,6 +16,11 @@ export default function Dashboard() {
     { id: "tx3", type: "sale" as const, description: "Venda de 500 Pontos", amount: 5.00, status: "pending" as const, date: "14/11/2025 às 11:00" },
     { id: "tx4", type: "deposit" as const, description: "Depósito via Cartão", amount: 100.00, status: "failed" as const, date: "13/11/2025 às 15:20" },
     { id: "tx5", type: "purchase" as const, description: "Compra de 1000 Pontos", amount: 10.00, status: "completed" as const, date: "13/11/2025 às 14:00" },
+  ];
+
+  const characters = [
+    { id: "char1", name: "SuperWarrior", level: 150, power: 999999, classType: "Guerreiro Sayajin", guild: "Z Fighters", isOnline: true },
+    { id: "char2", name: "MysticMage", level: 135, power: 654321, classType: "Mago Místico", guild: "Dragon Force", isOnline: false },
   ];
 
   return (
@@ -71,6 +79,35 @@ export default function Dashboard() {
               description="Últimos 30 dias"
             />
           </div>
+
+          <Card className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-heading font-bold">Meus Personagens</h2>
+              <Link href="/characters">
+                <Button variant="outline" size="sm" data-testid="button-view-all-characters">
+                  <Users className="w-4 h-4 mr-2" />
+                  Ver Todos
+                </Button>
+              </Link>
+            </div>
+            
+            {characters.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground mb-4">Você ainda não tem personagens</p>
+                <Link href="/characters">
+                  <Button data-testid="button-create-character-dashboard">
+                    Criar Personagem
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {characters.map((character) => (
+                  <CharacterCard key={character.id} {...character} />
+                ))}
+              </div>
+            )}
+          </Card>
 
           <Card className="p-6">
             <h2 className="text-2xl font-heading font-bold mb-6">Histórico de Transações</h2>
