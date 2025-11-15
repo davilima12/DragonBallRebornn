@@ -1,17 +1,29 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Menu, X, ChevronDown, User, LogOut, Settings, Coins, Users as UsersIcon } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 
 export default function Navbar() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
+  const [, setLocation] = useLocation();
+
+  const handleLogout = () => {
+    logout();
+    setLocation("/");
+  };
 
   const navItems = [
     { label: "Início", path: "/" },
@@ -93,26 +105,78 @@ export default function Navbar() {
           </div>
 
           <div className="hidden lg:flex items-center gap-2">
-            <Link href="/dashboard">
-              <Button variant="ghost" size="sm" data-testid="button-dashboard">
-                Dashboard
-              </Button>
-            </Link>
-            <Link href="/characters">
-              <Button variant="ghost" size="sm" data-testid="button-characters">
-                Personagens
-              </Button>
-            </Link>
-            <Link href="/login">
-              <Button variant="ghost" size="sm" data-testid="button-login">
-                Login
-              </Button>
-            </Link>
-            <Link href="/register">
-              <Button variant="default" size="sm" data-testid="button-register">
-                Cadastrar
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="gap-2" data-testid="button-account">
+                    <Avatar className="w-6 h-6 border border-primary">
+                      <AvatarFallback className="bg-primary/20 text-primary text-xs font-bold">
+                        {user?.username.substring(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span>Minha Conta</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-semibold">{user?.username}</p>
+                      <p className="text-xs text-muted-foreground">{user?.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
+                        <Coins className="w-4 h-4 text-primary" />
+                        <span>Pontos</span>
+                      </div>
+                      <Badge variant="secondary" className="font-mono">
+                        {user?.points.toLocaleString()}
+                      </Badge>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard" className="w-full cursor-pointer" data-testid="menu-dashboard">
+                      <User className="w-4 h-4 mr-2" />
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/characters" className="w-full cursor-pointer" data-testid="menu-characters">
+                      <UsersIcon className="w-4 h-4 mr-2" />
+                      Personagens
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/account-settings" className="w-full cursor-pointer" data-testid="menu-settings">
+                      <Settings className="w-4 h-4 mr-2" />
+                      Configurações
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive" data-testid="menu-logout">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sair
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Link href="/login">
+                  <Button variant="ghost" size="sm" data-testid="button-login">
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button variant="default" size="sm" data-testid="button-register">
+                    Cadastrar
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           <button
@@ -177,28 +241,59 @@ export default function Navbar() {
             </div>
             
             <div className="space-y-2 pt-2 border-t border-border mt-2">
-              <Link href="/dashboard" className="block">
-                <Button variant="ghost" className="w-full" data-testid="mobile-button-dashboard">
-                  Dashboard
-                </Button>
-              </Link>
-              <Link href="/characters" className="block">
-                <Button variant="ghost" className="w-full" data-testid="mobile-button-characters">
-                  Personagens
-                </Button>
-              </Link>
-              <div className="flex gap-2">
-                <Link href="/login" className="flex-1">
-                  <Button variant="ghost" className="w-full" data-testid="mobile-button-login">
-                    Login
+              {isAuthenticated ? (
+                <>
+                  <div className="p-3 bg-muted rounded-md">
+                    <p className="text-sm font-semibold mb-1">{user?.username}</p>
+                    <div className="flex items-center gap-2">
+                      <Coins className="w-4 h-4 text-primary" />
+                      <Badge variant="secondary" className="font-mono">
+                        {user?.points.toLocaleString()} pontos
+                      </Badge>
+                    </div>
+                  </div>
+                  <Link href="/dashboard" className="block">
+                    <Button variant="ghost" className="w-full justify-start" data-testid="mobile-menu-dashboard">
+                      <User className="w-4 h-4 mr-2" />
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <Link href="/characters" className="block">
+                    <Button variant="ghost" className="w-full justify-start" data-testid="mobile-menu-characters">
+                      <UsersIcon className="w-4 h-4 mr-2" />
+                      Personagens
+                    </Button>
+                  </Link>
+                  <Link href="/account-settings" className="block">
+                    <Button variant="ghost" className="w-full justify-start" data-testid="mobile-menu-settings">
+                      <Settings className="w-4 h-4 mr-2" />
+                      Configurações
+                    </Button>
+                  </Link>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start text-destructive hover:text-destructive"
+                    onClick={handleLogout}
+                    data-testid="mobile-menu-logout"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sair
                   </Button>
-                </Link>
-                <Link href="/register" className="flex-1">
-                  <Button variant="default" className="w-full" data-testid="mobile-button-register">
-                    Cadastrar
-                  </Button>
-                </Link>
-              </div>
+                </>
+              ) : (
+                <div className="flex gap-2">
+                  <Link href="/login" className="flex-1">
+                    <Button variant="ghost" className="w-full" data-testid="mobile-button-login">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link href="/register" className="flex-1">
+                    <Button variant="default" className="w-full" data-testid="mobile-button-register">
+                      Cadastrar
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

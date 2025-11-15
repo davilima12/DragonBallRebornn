@@ -1,11 +1,20 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import CharacterCard from "@/components/CharacterCard";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Plus, Users } from "lucide-react";
 
 export default function Characters() {
+  return (
+    <ProtectedRoute>
+      <CharactersPage />
+    </ProtectedRoute>
+  );
+}
+
+function CharactersPage() {
   const [characters] = useState([
     { id: "char1", name: "SuperWarrior", level: 150, power: 999999, classType: "Guerreiro Sayajin", guild: "Z Fighters", isOnline: true },
     { id: "char2", name: "MysticMage", level: 135, power: 654321, classType: "Mago Místico", guild: "Dragon Force", isOnline: false },
@@ -75,3 +84,4 @@ export default function Characters() {
     </div>
   );
 }
+

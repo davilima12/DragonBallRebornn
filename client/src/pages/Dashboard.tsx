@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import UserStatsCard from "@/components/UserStatsCard";
 import TransactionItem from "@/components/TransactionItem";
 import CharacterCard from "@/components/CharacterCard";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -9,8 +10,19 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Coins, Crown, ShoppingBag, Zap, Users, Settings, TrendingUp, Mail } from "lucide-react";
 import { Link } from "wouter";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Dashboard() {
+  return (
+    <ProtectedRoute>
+      <DashboardPage />
+    </ProtectedRoute>
+  );
+}
+
+function DashboardPage() {
+  const { user } = useAuth();
+
   const allTransactions = [
     { id: "tx1", type: "deposit" as const, description: "Depósito via PIX", amount: 50.00, status: "completed" as const, date: "14/11/2025 às 10:30" },
     { id: "tx2", type: "purchase" as const, description: "Compra de VIP 30 Dias", amount: 29.90, status: "completed" as const, date: "14/11/2025 às 10:35" },
@@ -46,17 +58,19 @@ export default function Dashboard() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1">
                     <h1 className="text-2xl font-heading font-bold" data-testid="text-username">
-                      SuperWarrior99
+                      {user?.username || "SuperWarrior99"}
                     </h1>
-                    <Badge className="bg-primary">
-                      <Crown className="w-3 h-3 mr-1" />
-                      VIP
-                    </Badge>
+                    {user?.isVip && (
+                      <Badge className="bg-primary">
+                        <Crown className="w-3 h-3 mr-1" />
+                        VIP
+                      </Badge>
+                    )}
                   </div>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Mail className="w-4 h-4" />
-                      user@example.com
+                      {user?.email || "user@example.com"}
                     </span>
                   </div>
                 </div>
@@ -73,7 +87,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <UserStatsCard
               title="Saldo de Pontos"
-              value="15,450"
+              value={user?.points.toLocaleString() || "15,450"}
               icon={Coins}
               description="Pontos disponíveis"
               highlight={true}
@@ -173,3 +187,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

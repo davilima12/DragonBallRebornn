@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import Navbar from "@/components/Navbar";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,14 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ArrowLeft, Key, User, Mail } from "lucide-react";
 
 export default function AccountSettings() {
+  return (
+    <ProtectedRoute>
+      <AccountSettingsPage />
+    </ProtectedRoute>
+  );
+}
+
+function AccountSettingsPage() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -166,3 +175,4 @@ export default function AccountSettings() {
     </div>
   );
 }
+
