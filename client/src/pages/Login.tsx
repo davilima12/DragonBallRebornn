@@ -6,17 +6,24 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLoading } from "@/contexts/LoadingContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
+  const { showLoading } = useLoading();
   const [, setLocation] = useLocation();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login(email, password);
-    setLocation("/dashboard");
+    const hideLoadingFn = showLoading("Entrando...");
+    try {
+      await login(email, password);
+      setLocation("/dashboard");
+    } finally {
+      hideLoadingFn();
+    }
   };
 
   return (

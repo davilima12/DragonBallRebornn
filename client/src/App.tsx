@@ -5,6 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { LoadingProvider } from "@/contexts/LoadingContext";
+import GlobalLoading from "@/components/GlobalLoading";
+import { useQueryLoading } from "@/hooks/use-query-loading";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -25,6 +28,9 @@ import Support from "@/pages/Support";
 import NotFound from "@/pages/not-found";
 
 function Router() {
+  // Automatically show loading for React Query operations
+  useQueryLoading();
+  
   return (
     <Switch>
       <Route path="/" component={Home} />
@@ -53,12 +59,15 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <AuthProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
-        </AuthProvider>
+        <LoadingProvider>
+          <AuthProvider>
+            <TooltipProvider>
+              <GlobalLoading />
+              <Toaster />
+              <Router />
+            </TooltipProvider>
+          </AuthProvider>
+        </LoadingProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

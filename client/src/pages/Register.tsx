@@ -5,16 +5,25 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useLoading } from "@/contexts/LoadingContext";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { showLoading } = useLoading();
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Register attempt:", { username, email, password, confirmPassword });
+    const hideLoadingFn = showLoading("Criando conta...");
+    try {
+      // Simular delay de API
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      console.log("Register attempt:", { username, email, password, confirmPassword });
+    } finally {
+      hideLoadingFn();
+    }
   };
 
   return (
