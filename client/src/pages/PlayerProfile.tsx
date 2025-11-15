@@ -13,24 +13,67 @@ export default function PlayerProfile() {
   const [, params] = useRoute("/player/:id");
   const playerId = params?.id;
 
-  const player = {
-    id: playerId,
-    username: "SuperWarrior99",
-    level: 250,
-    totalPower: 2500000,
-    rank: 1,
-    guild: "Z Fighters",
-    isVip: true,
-    joinDate: "01/01/2024",
-    battles: 1234,
-    victories: 987,
+  const playerData: Record<string, any> = {
+    player1: {
+      id: "player1",
+      username: "SuperSaiyan99",
+      level: 150,
+      totalPower: 999999,
+      rank: 1,
+      guild: "Z Fighters",
+      isVip: true,
+      joinDate: "01/01/2024",
+      battles: 1234,
+      victories: 987,
+      characters: [
+        { id: "char1", name: "GokuWarrior", level: 150, power: 500000, classType: "Guerreiro Sayajin", guild: "Z Fighters", isOnline: true },
+        { id: "char2", name: "VegetaPrince", level: 148, power: 499999, classType: "Príncipe Sayajin", guild: "Z Fighters", isOnline: false },
+      ],
+    },
+    player2: {
+      id: "player2",
+      username: "KameHameHa",
+      level: 145,
+      totalPower: 887654,
+      rank: 2,
+      guild: "Dragon Force",
+      isVip: false,
+      joinDate: "15/02/2024",
+      battles: 980,
+      victories: 745,
+      characters: [
+        { id: "char3", name: "EnergyBlaster", level: 145, power: 450000, classType: "Mestre de Energia", guild: "Dragon Force", isOnline: false },
+      ],
+    },
+    player3: { id: "player3", username: "UltraInstinct", level: 142, totalPower: 776543, rank: 3, guild: "Gods Army", isVip: true, joinDate: "20/02/2024", battles: 890, victories: 678, characters: [] },
+    player4: { id: "player4", username: "FusionWarrior", level: 138, totalPower: 665432, rank: 4, isVip: false, joinDate: "25/02/2024", battles: 750, victories: 550, characters: [] },
+    player5: { id: "player5", username: "EnergyBlast", level: 135, totalPower: 554321, rank: 5, guild: "Elite Squad", isVip: false, joinDate: "01/03/2024", battles: 680, victories: 480, characters: [] },
+    player6: { id: "player6", username: "PowerUpKing", level: 132, totalPower: 443210, rank: 6, isVip: true, joinDate: "05/03/2024", battles: 620, victories: 420, characters: [] },
+    player7: { id: "player7", username: "MysticWarrior", level: 128, totalPower: 332109, rank: 7, guild: "Shadow Clan", isVip: false, joinDate: "10/03/2024", battles: 560, victories: 360, characters: [] },
+    player8: { id: "player8", username: "ThunderStrike", level: 125, totalPower: 221098, rank: 8, isVip: false, joinDate: "15/03/2024", battles: 500, victories: 300, characters: [] },
+    player9: { id: "player9", username: "PhoenixRise", level: 122, totalPower: 110987, rank: 9, guild: "Phoenix Squad", isVip: true, joinDate: "20/03/2024", battles: 450, victories: 250, characters: [] },
+    player10: { id: "player10", username: "DragonFist", level: 120, totalPower: 99876, rank: 10, isVip: false, joinDate: "25/03/2024", battles: 400, victories: 200, characters: [] },
+    player11: { id: "player11", username: "SpiritBomb", level: 118, totalPower: 88765, rank: 11, isVip: false, joinDate: "30/03/2024", battles: 380, victories: 190, characters: [] },
+    player12: { id: "player12", username: "FinalFlash", level: 115, totalPower: 77654, rank: 12, isVip: false, joinDate: "05/04/2024", battles: 360, victories: 180, characters: [] },
+    player13: { id: "player13", username: "GalickGun", level: 112, totalPower: 66543, rank: 13, isVip: false, joinDate: "10/04/2024", battles: 340, victories: 170, characters: [] },
+    player14: { id: "player14", username: "SpecialBeam", level: 110, totalPower: 55432, rank: 14, isVip: false, joinDate: "15/04/2024", battles: 320, victories: 160, characters: [] },
+    player15: { id: "player15", username: "DestructoDisk", level: 108, totalPower: 44321, rank: 15, isVip: false, joinDate: "20/04/2024", battles: 300, victories: 150, characters: [] },
   };
 
-  const [characters] = useState([
-    { id: "char1", name: "SuperWarrior", level: 150, power: 999999, classType: "Guerreiro Sayajin", guild: "Z Fighters", isOnline: true },
-    { id: "char2", name: "MysticMage", level: 135, power: 654321, classType: "Mago Místico", guild: "Z Fighters", isOnline: false },
-    { id: "char3", name: "ShadowNinja", level: 142, power: 777888, classType: "Ninja das Sombras", isOnline: false },
-  ]);
+  const player = playerData[playerId as string] || {
+    id: playerId,
+    username: "Jogador Desconhecido",
+    level: 1,
+    totalPower: 0,
+    rank: 999,
+    isVip: false,
+    joinDate: "01/01/2025",
+    battles: 0,
+    victories: 0,
+    characters: [],
+  };
+
+  const [characters] = useState(player.characters);
 
   return (
     <div className="min-h-screen bg-background">
@@ -160,7 +203,7 @@ export default function PlayerProfile() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {characters.map((character) => (
+                {characters.map((character: any) => (
                   <CharacterCard key={character.id} {...character} />
                 ))}
               </div>

@@ -6,21 +6,21 @@ import { Trophy, Users, Zap } from "lucide-react";
 
 export default function Ranking() {
   const topPlayers = [
-    { rank: 1, name: "SuperSaiyan99", level: 150, power: 999999, guild: "Z Fighters" },
-    { rank: 2, name: "KameHameHa", level: 145, power: 887654, guild: "Dragon Force" },
-    { rank: 3, name: "UltraInstinct", level: 142, power: 776543, guild: "Gods Army" },
-    { rank: 4, name: "FusionWarrior", level: 138, power: 665432 },
-    { rank: 5, name: "EnergyBlast", level: 135, power: 554321, guild: "Elite Squad" },
-    { rank: 6, name: "PowerUpKing", level: 132, power: 443210 },
-    { rank: 7, name: "MysticWarrior", level: 128, power: 332109, guild: "Shadow Clan" },
-    { rank: 8, name: "ThunderStrike", level: 125, power: 221098 },
-    { rank: 9, name: "PhoenixRise", level: 122, power: 110987, guild: "Phoenix Squad" },
-    { rank: 10, name: "DragonFist", level: 120, power: 99876 },
-    { rank: 11, name: "SpiritBomb", level: 118, power: 88765 },
-    { rank: 12, name: "FinalFlash", level: 115, power: 77654 },
-    { rank: 13, name: "GalickGun", level: 112, power: 66543 },
-    { rank: 14, name: "SpecialBeam", level: 110, power: 55432 },
-    { rank: 15, name: "DestructoDisk", level: 108, power: 44321 },
+    { id: "player1", rank: 1, name: "SuperSaiyan99", level: 150, power: 999999, guild: "Z Fighters" },
+    { id: "player2", rank: 2, name: "KameHameHa", level: 145, power: 887654, guild: "Dragon Force" },
+    { id: "player3", rank: 3, name: "UltraInstinct", level: 142, power: 776543, guild: "Gods Army" },
+    { id: "player4", rank: 4, name: "FusionWarrior", level: 138, power: 665432 },
+    { id: "player5", rank: 5, name: "EnergyBlast", level: 135, power: 554321, guild: "Elite Squad" },
+    { id: "player6", rank: 6, name: "PowerUpKing", level: 132, power: 443210 },
+    { id: "player7", rank: 7, name: "MysticWarrior", level: 128, power: 332109, guild: "Shadow Clan" },
+    { id: "player8", rank: 8, name: "ThunderStrike", level: 125, power: 221098 },
+    { id: "player9", rank: 9, name: "PhoenixRise", level: 122, power: 110987, guild: "Phoenix Squad" },
+    { id: "player10", rank: 10, name: "DragonFist", level: 120, power: 99876 },
+    { id: "player11", rank: 11, name: "SpiritBomb", level: 118, power: 88765 },
+    { id: "player12", rank: 12, name: "FinalFlash", level: 115, power: 77654 },
+    { id: "player13", rank: 13, name: "GalickGun", level: 112, power: 66543 },
+    { id: "player14", rank: 14, name: "SpecialBeam", level: 110, power: 55432 },
+    { id: "player15", rank: 15, name: "DestructoDisk", level: 108, power: 44321 },
   ];
 
   const topGuilds = [

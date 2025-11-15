@@ -21,14 +21,14 @@ export default function GuildDetail() {
   };
 
   const members = [
-    { id: "1", name: "Goku Master", level: 150, power: 999999, classType: "Guerreiro Sayajin", role: "leader", isOnline: true },
-    { id: "2", name: "VegetaPrince", level: 148, power: 987654, classType: "Príncipe Guerreiro", role: "vice", isOnline: true },
-    { id: "3", name: "GohanScholar", level: 145, power: 876543, classType: "Guerreiro Místico", role: "member", isOnline: false },
-    { id: "4", name: "PiccoloWise", level: 142, power: 765432, classType: "Namekuseijin", role: "member", isOnline: true },
-    { id: "5", name: "TrunksTime", level: 140, power: 654321, classType: "Guerreiro do Futuro", role: "member", isOnline: false },
-    { id: "6", name: "GotenKid", level: 135, power: 543210, classType: "Jovem Guerreiro", role: "member", isOnline: true },
-    { id: "7", name: "KrillinBrave", level: 130, power: 432109, classType: "Mestre das Artes", role: "member", isOnline: false },
-    { id: "8", name: "TienThird", level: 128, power: 321098, classType: "Olho Celestial", role: "member", isOnline: true },
+    { id: "player1", name: "SuperSaiyan99", level: 150, power: 999999, classType: "Guerreiro Sayajin", role: "leader", isOnline: true },
+    { id: "player2", name: "KameHameHa", level: 148, power: 887654, classType: "Príncipe Guerreiro", role: "vice", isOnline: true },
+    { id: "player3", name: "UltraInstinct", level: 145, power: 776543, classType: "Guerreiro Místico", role: "member", isOnline: false },
+    { id: "player4", name: "FusionWarrior", level: 142, power: 665432, classType: "Namekuseijin", role: "member", isOnline: true },
+    { id: "player5", name: "EnergyBlast", level: 140, power: 554321, classType: "Guerreiro do Futuro", role: "member", isOnline: false },
+    { id: "player6", name: "PowerUpKing", level: 135, power: 443210, classType: "Jovem Guerreiro", role: "member", isOnline: true },
+    { id: "player7", name: "MysticWarrior", level: 130, power: 332109, classType: "Mestre das Artes", role: "member", isOnline: false },
+    { id: "player8", name: "ThunderStrike", level: 128, power: 221098, classType: "Olho Celestial", role: "member", isOnline: true },
   ];
 
   const getRoleBadge = (role: string) => {
