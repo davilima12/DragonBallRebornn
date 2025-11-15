@@ -1,7 +1,13 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Navbar() {
   const [location] = useLocation();
@@ -9,13 +15,16 @@ export default function Navbar() {
 
   const navItems = [
     { label: "Início", path: "/" },
-    { label: "Shop", path: "/shop" },
-    { label: "Depositar", path: "/deposit" },
-    { label: "Vender Pontos", path: "/sell-points" },
     { label: "Ranking", path: "/ranking" },
     { label: "Guilds", path: "/guilds" },
     { label: "Discord", path: "https://discord.gg/dragonwarriors", external: true },
     { label: "Suporte", path: "/support" },
+  ];
+
+  const shopMenuItems = [
+    { label: "Shop", path: "/shop" },
+    { label: "Depositar", path: "/deposit" },
+    { label: "Vender Pontos", path: "/sell-points" },
   ];
 
   return (
@@ -56,6 +65,31 @@ export default function Navbar() {
                 </Link>
               )
             ))}
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className={`px-3 py-2 text-sm font-medium transition-colors flex items-center gap-1 ${
+                    shopMenuItems.some(item => location === item.path)
+                      ? "text-primary"
+                      : "text-foreground/80 hover:text-primary"
+                  }`}
+                  data-testid="dropdown-loja"
+                >
+                  Loja
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {shopMenuItems.map((item) => (
+                  <DropdownMenuItem key={item.label} asChild>
+                    <Link href={item.path} className="cursor-pointer" data-testid={`dropdown-link-${item.label.toLowerCase().replace(/\s+/g, '-')}`}>
+                      {item.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           <div className="hidden lg:flex items-center gap-2">
@@ -112,6 +146,26 @@ export default function Navbar() {
                 </Link>
               )
             ))}
+            
+            <div className="pt-2 border-t border-border">
+              <div className="px-3 py-2 text-sm font-semibold text-muted-foreground">Loja</div>
+              {shopMenuItems.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.path}
+                  className={`block px-3 py-2 text-base font-medium rounded-md hover-elevate ${
+                    location === item.path
+                      ? "text-primary bg-primary/10"
+                      : "text-foreground/80"
+                  }`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  data-testid={`mobile-link-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+            
             <div className="flex gap-2 pt-2 border-t border-border mt-2">
               <Link href="/login" className="flex-1">
                 <Button variant="ghost" className="w-full" data-testid="mobile-button-login">
