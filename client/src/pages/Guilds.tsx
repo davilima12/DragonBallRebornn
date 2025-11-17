@@ -15,10 +15,19 @@ export default function Guilds() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, isLoading } = useQuery<GuildsPaginatedResponse>({
-    queryKey: ['/api/guilds', currentPage],
+    queryKey: ['/api/guilds', currentPage, searchTerm],
     queryFn: async () => {
       const offset = (currentPage - 1) * 10;
-      const response = await fetch(`${GUILDS_API_URL}?limit=10&offset=${offset}`);
+      const params = new URLSearchParams({
+        limit: '10',
+        offset: offset.toString(),
+      });
+      
+      if (searchTerm.trim()) {
+        params.append('name', searchTerm.trim());
+      }
+      
+      const response = await fetch(`${GUILDS_API_URL}?${params}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch guilds');
@@ -35,9 +44,7 @@ export default function Guilds() {
     retry: false,
   });
 
-  const filteredGuilds = data?.data.filter(guild => 
-    guild.name.toLowerCase().includes(searchTerm.toLowerCase())
-  ) || [];
+  const filteredGuilds = data?.data || [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -57,9 +64,12 @@ export default function Guilds() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   type="search"
-                  placeholder="Buscar guild por nome ou líder..."
+                  placeholder="Buscar guild por nome..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    setCurrentPage(1);
+                  }}
                   className="pl-10"
                   data-testid="input-search"
                 />

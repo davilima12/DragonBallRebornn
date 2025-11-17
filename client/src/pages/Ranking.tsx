@@ -7,8 +7,12 @@ import { useQuery } from "@tanstack/react-query";
 import { GuildsPaginatedResponse } from "@/types/guild";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GUILDS_API_URL } from "@/lib/api";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 export default function Ranking() {
+  const [guildsPage, setGuildsPage] = useState(1);
   const topPlayers = [
     { id: "player1", rank: 1, name: "SuperSaiyan99", level: 150, power: 999999, guild: "Z Fighters" },
     { id: "player2", rank: 2, name: "KameHameHa", level: 145, power: 887654, guild: "Dragon Force" },
@@ -28,9 +32,10 @@ export default function Ranking() {
   ];
 
   const { data: guildsData, isLoading: isLoadingGuilds } = useQuery<GuildsPaginatedResponse>({
-    queryKey: ['/api/guilds/ranking'],
+    queryKey: ['/api/guilds/ranking', guildsPage],
     queryFn: async () => {
-      const response = await fetch(`${GUILDS_API_URL}?limit=10&offset=0`);
+      const offset = (guildsPage - 1) * 10;
+      const response = await fetch(`${GUILDS_API_URL}?limit=10&offset=${offset}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch guilds');
@@ -39,7 +44,7 @@ export default function Ranking() {
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
         console.warn('API retornou HTML ao invés de JSON - backend externo pode não estar rodando');
-        return { data: [], current_page: 1, total: 0, per_page: 10 };
+        return { data: [], current_page: 1, total: 0, per_page: 10, last_page: 1 };
       }
       
       return response.json();
@@ -99,15 +104,45 @@ export default function Ranking() {
                     </p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {guildsData?.data.map((guild, index) => (
-                      <GuildCard
-                        key={guild.id}
-                        rank={index + 1}
-                        {...guild}
-                      />
-                    ))}
-                  </div>
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {guildsData?.data.map((guild, index) => (
+                        <GuildCard
+                          key={guild.id}
+                          rank={(guildsPage - 1) * 10 + index + 1}
+                          {...guild}
+                        />
+                      ))}
+                    </div>
+
+                    {guildsData && guildsData.last_page > 1 && (
+                      <div className="flex items-center justify-center gap-2 mt-8">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setGuildsPage(p => Math.max(1, p - 1))}
+                          disabled={guildsPage === 1}
+                          data-testid="button-prev-page-guilds"
+                        >
+                          <ChevronLeft className="w-4 h-4 mr-1" />
+                          Anterior
+                        </Button>
+                        <span className="text-sm text-muted-foreground px-4">
+                          Página {guildsPage} de {guildsData.last_page}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setGuildsPage(p => Math.min(guildsData.last_page, p + 1))}
+                          disabled={guildsPage === guildsData.last_page}
+                          data-testid="button-next-page-guilds"
+                        >
+                          Próxima
+                          <ChevronRight className="w-4 h-4 ml-1" />
+                        </Button>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </TabsContent>
