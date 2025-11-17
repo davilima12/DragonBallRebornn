@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import GuildCard from "@/components/GuildCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Plus, ChevronLeft, ChevronRight, Shield } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
@@ -17,12 +17,22 @@ export default function Guilds() {
   const { data, isLoading } = useQuery<GuildsPaginatedResponse>({
     queryKey: ['/api/guilds', currentPage],
     queryFn: async () => {
-      const response = await fetch(`${GUILDS_API_URL}?page=${currentPage}`);
+      const offset = (currentPage - 1) * 10;
+      const response = await fetch(`${GUILDS_API_URL}?limit=10&offset=${offset}`);
+      
       if (!response.ok) {
         throw new Error('Failed to fetch guilds');
       }
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        console.warn('API retornou HTML ao invés de JSON - backend externo pode não estar rodando');
+        return { data: [], current_page: 1, total: 0, per_page: 10 };
+      }
+      
       return response.json();
     },
+    retry: false,
   });
 
   const filteredGuilds = data?.data.filter(guild => 
@@ -68,6 +78,14 @@ export default function Guilds() {
               {[...Array(6)].map((_, i) => (
                 <Skeleton key={i} className="h-48 w-full" />
               ))}
+            </div>
+          ) : data?.data.length === 0 ? (
+            <div className="text-center py-12">
+              <Shield className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+              <p className="text-muted-foreground">Aguardando dados do servidor...</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                Backend externo (localhost:8000) não está disponível
+              </p>
             </div>
           ) : (
             <>

@@ -24,15 +24,24 @@ export default function Home() {
     { id: "player10", rank: 10, name: "DragonFist", level: 120, power: 99876 },
   ];
 
-  const { data: guildsData, isLoading: isLoadingGuilds } = useQuery<GuildsPaginatedResponse>({
+  const { data: guildsData, isLoading: isLoadingGuilds, error: guildsError } = useQuery<GuildsPaginatedResponse>({
     queryKey: ['/api/guilds/top5'],
     queryFn: async () => {
-      const response = await fetch(`${GUILDS_API_URL}?per_page=5`);
+      const response = await fetch(`${GUILDS_API_URL}?limit=5&offset=0`);
+      
       if (!response.ok) {
         throw new Error('Failed to fetch guilds');
       }
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        console.warn('API retornou HTML ao invés de JSON - backend externo pode não estar rodando');
+        return { data: [], current_page: 1, total: 0, per_page: 5 };
+      }
+      
       return response.json();
     },
+    retry: false,
   });
 
   return (
@@ -91,6 +100,15 @@ export default function Home() {
                     <Skeleton key={i} className="h-32 w-full" />
                   ))}
                 </div>
+              ) : guildsData?.data.length === 0 ? (
+                <Card className="p-8 text-center">
+                  <p className="text-muted-foreground">
+                    Aguardando dados do servidor...
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Backend externo (localhost:8000) não está disponível
+                  </p>
+                </Card>
               ) : (
                 <div className="space-y-4">
                   {guildsData?.data.slice(0, 5).map((guild, index) => (
