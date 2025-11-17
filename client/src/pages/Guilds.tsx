@@ -2,30 +2,33 @@ import Navbar from "@/components/Navbar";
 import GuildCard from "@/components/GuildCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+import { GuildsPaginatedResponse } from "@/types/guild";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const GUILDS_API_URL = "http://localhost:8000/api/guilds";
 
 export default function Guilds() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const guilds = [
-    { rank: 1, name: "Z Fighters", leader: "Goku Master", memberCount: 50, totalPower: 45000000 },
-    { rank: 2, name: "Dragon Force", leader: "Vegeta Pro", memberCount: 48, totalPower: 42000000 },
-    { rank: 3, name: "Gods Army", leader: "Divine Warrior", memberCount: 45, totalPower: 39000000 },
-    { rank: 4, name: "Elite Warriors", leader: "Piccolo King", memberCount: 42, totalPower: 36000000 },
-    { rank: 5, name: "Phoenix Squad", leader: "Gohan Hero", memberCount: 40, totalPower: 33000000 },
-    { rank: 6, name: "Shadow Clan", leader: "Dark Master", memberCount: 38, totalPower: 30000000 },
-    { rank: 7, name: "Thunder Legion", leader: "Storm King", memberCount: 35, totalPower: 27000000 },
-    { rank: 8, name: "Fire Dragons", leader: "Blaze Lord", memberCount: 32, totalPower: 24000000 },
-    { rank: 9, name: "Ice Warriors", leader: "Frost Queen", memberCount: 30, totalPower: 21000000 },
-    { rank: 10, name: "Wind Riders", leader: "Tempest", memberCount: 28, totalPower: 18000000 },
-  ];
+  const { data, isLoading } = useQuery<GuildsPaginatedResponse>({
+    queryKey: ['/api/guilds', currentPage],
+    queryFn: async () => {
+      const response = await fetch(`${GUILDS_API_URL}?page=${currentPage}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch guilds');
+      }
+      return response.json();
+    },
+  });
 
-  const filteredGuilds = guilds.filter(guild => 
-    guild.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    guild.leader.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredGuilds = data?.data.filter(guild => 
+    guild.name.toLowerCase().includes(searchTerm.toLowerCase())
+  ) || [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -61,16 +64,82 @@ export default function Guilds() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredGuilds.map((guild) => (
-              <GuildCard key={guild.rank} {...guild} />
-            ))}
-          </div>
-
-          {filteredGuilds.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">Nenhuma guild encontrada com esse critério de busca.</p>
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <Skeleton key={i} className="h-48 w-full" />
+              ))}
             </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredGuilds.map((guild, index) => (
+                  <GuildCard 
+                    key={guild.id} 
+                    rank={(currentPage - 1) * (data?.per_page || 5) + index + 1}
+                    {...guild} 
+                  />
+                ))}
+              </div>
+
+              {filteredGuilds.length === 0 && (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground">Nenhuma guild encontrada com esse critério de busca.</p>
+                </div>
+              )}
+
+              {data && data.last_page > 1 && (
+                <div className="flex items-center justify-center gap-2 mt-8">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    data-testid="button-prev-page"
+                  >
+                    <ChevronLeft className="w-4 h-4 mr-1" />
+                    Anterior
+                  </Button>
+                  
+                  <div className="flex items-center gap-2">
+                    {[...Array(data.last_page)].map((_, i) => {
+                      const page = i + 1;
+                      if (
+                        page === 1 ||
+                        page === data.last_page ||
+                        (page >= currentPage - 1 && page <= currentPage + 1)
+                      ) {
+                        return (
+                          <Button
+                            key={page}
+                            variant={currentPage === page ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setCurrentPage(page)}
+                            data-testid={`button-page-${page}`}
+                          >
+                            {page}
+                          </Button>
+                        );
+                      } else if (page === currentPage - 2 || page === currentPage + 2) {
+                        return <span key={page} className="text-muted-foreground">...</span>;
+                      }
+                      return null;
+                    })}
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage(p => Math.min(data.last_page, p + 1))}
+                    disabled={currentPage === data.last_page}
+                    data-testid="button-next-page"
+                  >
+                    Próxima
+                    <ChevronRight className="w-4 h-4 ml-1" />
+                  </Button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
