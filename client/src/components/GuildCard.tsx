@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Sword, Shield } from "lucide-react";
+import { Users, Skull, Shield } from "lucide-react";
 import { Link } from "wouter";
 
 const LOGO_BASE_URL = "http://localhost:8000/storage/guilds/";
@@ -23,51 +23,43 @@ export default function GuildCard({ rank, id, name, kills, logo, description }: 
   };
 
   const badge = getRankBadge(rank);
+  
+  // Mock member count based on rank (já que API não retorna)
+  const memberCount = Math.max(20, 60 - rank * 2);
 
   return (
     <Link href={`/guild/${encodeURIComponent(name)}`}>
       <Card className="p-6 hover-elevate transition-all duration-200 border-primary/20 cursor-pointer" data-testid={`guild-card-${id}`}>
-        <div className="flex items-start gap-4 mb-4">
-          <div className="relative">
-            <div className={`w-16 h-16 rounded-md ${badge.color} flex items-center justify-center text-sm font-bold border overflow-hidden`}>
-              {logo ? (
-                <img 
-                  src={`${LOGO_BASE_URL}${logo}`} 
-                  alt={`${name} logo`}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.parentElement!.textContent = badge.icon || `#${rank}`;
-                  }}
-                />
-              ) : (
-                badge.icon || `#${rank}`
-              )}
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className={`w-12 h-12 rounded-md ${badge.color} flex items-center justify-center text-xl font-bold border`}>
+              {badge.icon || `#${rank}`}
             </div>
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between gap-2">
-              <h3 className="font-heading font-bold text-lg truncate" data-testid={`text-guild-name-${id}`}>
+            <div>
+              <h3 className="font-heading font-bold text-lg" data-testid={`text-guild-name-${id}`}>
                 {name}
               </h3>
-              <Shield className="w-6 h-6 text-primary/30 flex-shrink-0" />
+              <p className="text-sm text-muted-foreground line-clamp-1">
+                {description}
+              </p>
             </div>
-            <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
-              {description}
-            </p>
           </div>
+          <Shield className="w-8 h-8 text-primary/30" />
         </div>
 
         <div className="flex items-center justify-between pt-4 border-t border-card-border">
           <div className="flex items-center gap-2">
-            <Sword className="w-4 h-4 text-primary" />
+            <Users className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm" data-testid={`text-members-${id}`}>
+              {memberCount} membros
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Skull className="w-4 h-4 text-destructive" />
             <Badge variant="secondary" className="font-mono" data-testid={`text-kills-${id}`}>
-              {kills} kills
+              {kills.toLocaleString()}
             </Badge>
           </div>
-          <Badge className={badge.color} data-testid={`text-rank-${id}`}>
-            #{rank}
-          </Badge>
         </div>
       </Card>
     </Link>

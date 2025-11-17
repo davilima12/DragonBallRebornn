@@ -71,11 +71,11 @@ export default function Home() {
                 <span>Top 5 Guilds</span>
               </h2>
               <div className="space-y-4">
-                <GuildCard rank={1} id={1} name="Z Fighters" kills={150} logo="" description="A guild poderosa dos melhores guerreiros" />
-                <GuildCard rank={2} id={2} name="Dragon Force" kills={140} logo="" description="Unidos pela força do dragão" />
-                <GuildCard rank={3} id={3} name="Gods Army" kills={130} logo="" description="O exército dos deuses guerreiros" />
-                <GuildCard rank={4} id={4} name="Elite Warriors" kills={120} logo="" description="Elite entre os guerreiros mais fortes" />
-                <GuildCard rank={5} id={5} name="Phoenix Squad" kills={110} logo="" description="Renascidos das cinzas com mais poder" />
+                <GuildCard rank={1} id={1} name="Z Fighters" kills={45000} logo="" description="A guild poderosa dos melhores guerreiros" />
+                <GuildCard rank={2} id={2} name="Dragon Force" kills={42000} logo="" description="Unidos pela força do dragão" />
+                <GuildCard rank={3} id={3} name="Gods Army" kills={39000} logo="" description="O exército dos deuses guerreiros" />
+                <GuildCard rank={4} id={4} name="Elite Warriors" kills={36000} logo="" description="Elite entre os guerreiros mais fortes" />
+                <GuildCard rank={5} id={5} name="Phoenix Squad" kills={33000} logo="" description="Renascidos das cinzas com mais poder" />
               </div>
             </div>
           </div>
