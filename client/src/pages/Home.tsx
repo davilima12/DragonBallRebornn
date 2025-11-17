@@ -108,6 +108,7 @@ export default function Home() {
                   rank: index + 1,
                   name: player.name,
                   level: player.level,
+                  maglevel: player.maglevel,
                   power: player.experience,
                   guild: player.guild?.name,
                   vocation: player.vocation

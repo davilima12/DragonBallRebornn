@@ -7,6 +7,7 @@ interface Player {
   rank: number;
   name: string;
   level: number;
+  maglevel?: number;
   power: number;
   guild?: string;
   id?: string;
@@ -16,9 +17,10 @@ interface Player {
 interface PlayerLeaderboardProps {
   players: Player[];
   title?: string;
+  showMagLevel?: boolean;
 }
 
-export default function PlayerLeaderboard({ players, title = "Top 10 Jogadores" }: PlayerLeaderboardProps) {
+export default function PlayerLeaderboard({ players, title = "Top 10 Jogadores", showMagLevel = false }: PlayerLeaderboardProps) {
   const getRankColor = (rank: number) => {
     if (rank === 1) return "text-yellow-500";
     if (rank === 2) return "text-gray-400";
@@ -61,16 +63,18 @@ export default function PlayerLeaderboard({ players, title = "Top 10 Jogadores" 
 
               <div className="flex items-center gap-4 text-sm">
                 <Badge variant="secondary" className="font-mono">
-                  Nv. {player.level}
+                  {showMagLevel ? `ML. ${player.maglevel || 0}` : `Nv. ${player.level}`}
                 </Badge>
-                <div className="flex items-center gap-1 text-primary font-semibold">
-                  <Zap className="w-4 h-4" />
-                  <span data-testid={`text-power-${player.rank}`}>{player.power.toLocaleString()}</span>
-                </div>
+                {!showMagLevel && (
+                  <div className="flex items-center gap-1 text-primary font-semibold">
+                    <Zap className="w-4 h-4" />
+                    <span data-testid={`text-power-${player.rank}`}>{player.power.toLocaleString()}</span>
+                  </div>
+                )}
                 {player.vocation && (
                   <div className="flex-shrink-0">
                     <img
-                      src={`/vocations/${player.vocation}.gif`}
+                      src={`/vocations/${typeof player.vocation === 'number' ? 'Goku' : player.vocation}.gif`}
                       alt={`${player.vocation}`}
                       width={32}
                       height={32}

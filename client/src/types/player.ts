@@ -2,6 +2,7 @@ export interface Player {
   id: number;
   name: string;
   level: number;
+  maglevel: number;
   vocation: string | number;
   health: number;
   healthmax: number;

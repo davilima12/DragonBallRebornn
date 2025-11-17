@@ -115,11 +115,13 @@ export default function Ranking() {
                   rank: (playersPage - 1) * 15 + index + 1,
                   name: player.name,
                   level: player.level,
+                  maglevel: player.maglevel,
                   power: player.experience,
                   guild: player.guild?.name,
                   vocation: player.vocation
                 })) || []} 
-                title="Top Jogadores Mais Fortes" 
+                title="Top Jogadores Mais Fortes"
+                showMagLevel={playersOrderBy === 'maglevel'}
               />
               
               {playersData && playersData.last_page > 1 && (
