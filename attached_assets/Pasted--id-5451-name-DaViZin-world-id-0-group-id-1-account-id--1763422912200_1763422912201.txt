@@ -1,0 +1,444 @@
+{
+    "id": 5451,
+    "name": "DaViZin",
+    "world_id": 0,
+    "group_id": 1,
+    "account_id": 3228,
+    "level": 5391,
+    "is_sample": false,
+    "vocation": "Majin Boo",
+    "initial_vocation": 111,
+    "health": 1906690,
+    "healthmax": 1906690,
+    "experience": 2608553170309,
+    "lookbody": 0,
+    "lookfeet": 0,
+    "lookhead": 0,
+    "looklegs": 0,
+    "looktype": 574,
+    "lookaddons": 0,
+    "maglevel": 117,
+    "mana": 1322110,
+    "manamax": 1667610,
+    "manaspent": 13125939,
+    "soul": 200,
+    "town_id": 1,
+    "posx": 490,
+    "posy": 116,
+    "posz": 11,
+    "cap": 898550,
+    "sex": 1,
+    "lastlogin": 1763087772,
+    "lastip": 16777343,
+    "save": 1,
+    "skull": 0,
+    "skulltime": 0,
+    "rank_id": 235,
+    "guildnick": "",
+    "lastlogout": 1763088084,
+    "blessings": 0,
+    "pvp_blessing": 0,
+    "balance": 0,
+    "stamina": 151119000,
+    "direction": 2,
+    "loss_experience": 70,
+    "loss_mana": 100,
+    "loss_skills": 100,
+    "loss_containers": 100,
+    "loss_items": 100,
+    "premend": 0,
+    "online": 0,
+    "marriage": 0,
+    "marrystatus": 0,
+    "promotion": 0,
+    "deleted": 0,
+    "description": "",
+    "created": 0,
+    "nick_verify": 0,
+    "old_name": "",
+    "hide_char": 0,
+    "worldtransfer": 0,
+    "comment": "",
+    "show_outfit": 1,
+    "show_eq": 1,
+    "show_bars": 1,
+    "show_skills": 1,
+    "show_quests": 1,
+    "exphist_lastexp": 0,
+    "exphist1": 0,
+    "exphist2": 0,
+    "exphist3": 0,
+    "exphist4": 0,
+    "exphist5": 0,
+    "exphist6": 0,
+    "exphist7": 0,
+    "onlinetimetoday": 0,
+    "onlinetime1": 0,
+    "onlinetime2": 0,
+    "onlinetime3": 0,
+    "onlinetime4": 0,
+    "onlinetime5": 0,
+    "onlinetime6": 0,
+    "onlinetime7": 0,
+    "onlinetimeall": 0,
+    "ip": "0",
+    "offlinetraining_time": 43200,
+    "offlinetraining_skill": -1,
+    "broadcasting": 0,
+    "viewers": 0,
+    "cast": 0,
+    "castViewers": 0,
+    "castDescription": "",
+    "sbw_points": 0,
+    "player_death": [
+        {
+            "id": 17450,
+            "player_id": 5451,
+            "date": 1714664397,
+            "level": 6000,
+            "killer": {
+                "id": 40032,
+                "death_id": 17450,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [
+                    {
+                        "kill_id": 40032,
+                        "player_id": 5430,
+                        "players": [
+                            {
+                                "name": "VsAll",
+                                "id": 5430
+                            }
+                        ]
+                    }
+                ],
+                "environment_killer": []
+            }
+        },
+        {
+            "id": 17451,
+            "player_id": 5451,
+            "date": 1714668313,
+            "level": 5957,
+            "killer": {
+                "id": 40033,
+                "death_id": 17451,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40033,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17452,
+            "player_id": 5451,
+            "date": 1714676561,
+            "level": 5915,
+            "killer": {
+                "id": 40034,
+                "death_id": 17452,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40034,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17453,
+            "player_id": 5451,
+            "date": 1714682838,
+            "level": 5872,
+            "killer": {
+                "id": 40035,
+                "death_id": 17453,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40035,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17454,
+            "player_id": 5451,
+            "date": 1714690072,
+            "level": 5831,
+            "killer": {
+                "id": 40036,
+                "death_id": 17454,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40036,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17456,
+            "player_id": 5451,
+            "date": 1714696876,
+            "level": 5789,
+            "killer": {
+                "id": 40038,
+                "death_id": 17456,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40038,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17457,
+            "player_id": 5451,
+            "date": 1714696987,
+            "level": 5748,
+            "killer": {
+                "id": 40039,
+                "death_id": 17457,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40039,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17458,
+            "player_id": 5451,
+            "date": 1714697143,
+            "level": 5707,
+            "killer": {
+                "id": 40040,
+                "death_id": 17458,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40040,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17459,
+            "player_id": 5451,
+            "date": 1714697360,
+            "level": 5667,
+            "killer": {
+                "id": 40041,
+                "death_id": 17459,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40041,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17460,
+            "player_id": 5451,
+            "date": 1714697619,
+            "level": 5626,
+            "killer": {
+                "id": 40042,
+                "death_id": 17460,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40042,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17461,
+            "player_id": 5451,
+            "date": 1714698974,
+            "level": 5547,
+            "killer": {
+                "id": 40043,
+                "death_id": 17461,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40043,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17462,
+            "player_id": 5451,
+            "date": 1714699873,
+            "level": 5507,
+            "killer": {
+                "id": 40044,
+                "death_id": 17462,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40044,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17463,
+            "player_id": 5451,
+            "date": 1714699940,
+            "level": 5468,
+            "killer": {
+                "id": 40045,
+                "death_id": 17463,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40045,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17464,
+            "player_id": 5451,
+            "date": 1714699967,
+            "level": 5429,
+            "killer": {
+                "id": 40046,
+                "death_id": 17464,
+                "final_hit": 1,
+                "unjustified": 0,
+                "war": 0,
+                "player_killers": [],
+                "environment_killer": [
+                    {
+                        "kill_id": 40046,
+                        "name": "an Shenlong EVENTO"
+                    }
+                ]
+            }
+        }
+    ],
+    "guild": {
+        "id": 108,
+        "world_id": 0,
+        "name": "DavizeRaa",
+        "ownerid": 5451,
+        "creationdata": 1694779095,
+        "checkdata": 0,
+        "motd": "New guild. Leader must edit this text :)",
+        "balance": 0,
+        "description": "This is the guildboard for the great DavizeRaa guild!",
+        "logo_gfx_name": "650446d7b581d.webp",
+        "invited_to": 0,
+        "invited_by": 0,
+        "in_war_with": 0,
+        "kills": 0,
+        "show": 0,
+        "war_time": 0,
+        "castle_war": 0
+    },
+    "player_skills": [
+        {
+            "player_id": 5451,
+            "skillid": 0,
+            "value": 51,
+            "count": 1497
+        },
+        {
+            "player_id": 5451,
+            "skillid": 1,
+            "value": 10,
+            "count": 0
+        },
+        {
+            "player_id": 5451,
+            "skillid": 2,
+            "value": 10,
+            "count": 0
+        },
+        {
+            "player_id": 5451,
+            "skillid": 3,
+            "value": 46,
+            "count": 997
+        },
+        {
+            "player_id": 5451,
+            "skillid": 4,
+            "value": 10,
+            "count": 0
+        },
+        {
+            "player_id": 5451,
+            "skillid": 5,
+            "value": 12,
+            "count": 1
+        },
+        {
+            "player_id": 5451,
+            "skillid": 6,
+            "value": 10,
+            "count": 0
+        }
+    ]
+}
