@@ -312,10 +312,6 @@ export default function PlayerProfile() {
                     <p className="text-base font-semibold">{formatDate(player.lastlogout)}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Capacidade</p>
-                    <p className="text-base font-semibold">{player.cap.toLocaleString()}</p>
-                  </div>
-                  <div>
                     <p className="text-sm text-muted-foreground">Status</p>
                     <div className="mt-1">
                       <Badge variant={player.online === 1 ? "default" : "secondary"}>
