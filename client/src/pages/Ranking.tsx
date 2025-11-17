@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import PlayerLeaderboard from "@/components/PlayerLeaderboard";
 import GuildCard from "@/components/GuildCard";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Trophy, Users } from "lucide-react";
+import { Trophy, Users, Zap } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { GuildsPaginatedResponse } from "@/types/guild";
 import { PlayersPaginatedResponse } from "@/types/player";
@@ -15,12 +15,13 @@ import { useState } from "react";
 export default function Ranking() {
   const [guildsPage, setGuildsPage] = useState(1);
   const [playersPage, setPlayersPage] = useState(1);
+  const [playersOrderBy, setPlayersOrderBy] = useState<'level' | 'maglevel'>('level');
 
   const { data: playersData, isLoading: isLoadingPlayers } = useQuery<PlayersPaginatedResponse>({
-    queryKey: ['/api/players/ranking', playersPage],
+    queryKey: ['/api/players/ranking', playersPage, playersOrderBy],
     queryFn: async () => {
       const offset = (playersPage - 1) * 15;
-      const response = await fetch(`${PLAYERS_API_URL}?limit=15&offset=${offset}&orderBy=level`);
+      const response = await fetch(`${PLAYERS_API_URL}?limit=15&offset=${offset}&orderBy=${playersOrderBy}`);
       
       if (!response.ok) {
         return { data: [], current_page: 1, total: 0, per_page: 15, last_page: 1 };
@@ -81,6 +82,33 @@ export default function Ranking() {
             </TabsList>
 
             <TabsContent value="players">
+              <div className="flex justify-center gap-2 mb-6">
+                <Button
+                  variant={playersOrderBy === 'level' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => {
+                    setPlayersOrderBy('level');
+                    setPlayersPage(1);
+                  }}
+                  data-testid="filter-level"
+                >
+                  <Trophy className="w-4 h-4 mr-2" />
+                  Level
+                </Button>
+                <Button
+                  variant={playersOrderBy === 'maglevel' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => {
+                    setPlayersOrderBy('maglevel');
+                    setPlayersPage(1);
+                  }}
+                  data-testid="filter-maglevel"
+                >
+                  <Zap className="w-4 h-4 mr-2" />
+                  Magic Level
+                </Button>
+              </div>
+
               {isLoadingPlayers ? (
                 <div className="space-y-4">
                   {[...Array(15)].map((_, i) => (
