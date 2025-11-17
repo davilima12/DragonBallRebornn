@@ -109,7 +109,8 @@ export default function Home() {
                   name: player.name,
                   level: player.level,
                   power: player.experience,
-                  guild: player.guild?.name
+                  guild: player.guild?.name,
+                  vocation: player.vocation
                 })) || []} 
               />
             )}

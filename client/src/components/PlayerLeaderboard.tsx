@@ -10,6 +10,7 @@ interface Player {
   power: number;
   guild?: string;
   id?: string;
+  vocation?: string | number;
 }
 
 interface PlayerLeaderboardProps {
@@ -66,6 +67,18 @@ export default function PlayerLeaderboard({ players, title = "Top 10 Jogadores" 
                   <Zap className="w-4 h-4" />
                   <span data-testid={`text-power-${player.rank}`}>{player.power.toLocaleString()}</span>
                 </div>
+                {player.vocation && (
+                  <div className="flex-shrink-0">
+                    <img
+                      src={`/vocations/${player.vocation}.gif`}
+                      alt={`${player.vocation}`}
+                      width={32}
+                      height={32}
+                      className="pixelated"
+                      data-testid={`img-vocation-${player.rank}`}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </Link>

@@ -87,7 +87,8 @@ export default function Ranking() {
                   name: player.name,
                   level: player.level,
                   power: player.experience,
-                  guild: player.guild?.name
+                  guild: player.guild?.name,
+                  vocation: player.vocation
                 })) || []} 
                 title="Top Jogadores Mais Fortes" 
               />
