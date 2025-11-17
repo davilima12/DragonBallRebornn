@@ -1,0 +1,2321 @@
+{
+    "current_page": 1,
+    "data": [
+        {
+            "id": 5425,
+            "name": "ADM",
+            "world_id": 0,
+            "group_id": 6,
+            "account_id": 2402,
+            "level": 10000,
+            "is_sample": false,
+            "vocation": 755,
+            "initial_vocation": null,
+            "health": 2889980,
+            "healthmax": 2889980,
+            "experience": 16656669499800,
+            "lookbody": 0,
+            "lookfeet": 0,
+            "lookhead": 0,
+            "looklegs": 0,
+            "looktype": 447,
+            "lookaddons": 0,
+            "maglevel": 0,
+            "mana": 2590020,
+            "manamax": 2490020,
+            "manaspent": 0,
+            "soul": 100,
+            "town_id": 1,
+            "posx": 95,
+            "posy": 188,
+            "posz": 7,
+            "cap": 1485000,
+            "sex": 1,
+            "lastlogin": 1763090768,
+            "lastip": 16777343,
+            "save": 1,
+            "skull": 0,
+            "skulltime": 0,
+            "rank_id": 199,
+            "guildnick": "",
+            "lastlogout": 1763092800,
+            "blessings": 0,
+            "pvp_blessing": 0,
+            "balance": 0,
+            "stamina": 151200000,
+            "direction": 2,
+            "loss_experience": 70,
+            "loss_mana": 100,
+            "loss_skills": 100,
+            "loss_containers": 100,
+            "loss_items": 10,
+            "premend": 0,
+            "online": 0,
+            "marriage": 0,
+            "marrystatus": 0,
+            "promotion": 0,
+            "deleted": 0,
+            "description": "",
+            "created": 1577044720,
+            "nick_verify": 0,
+            "old_name": "",
+            "hide_char": 0,
+            "worldtransfer": 0,
+            "comment": "",
+            "show_outfit": 1,
+            "show_eq": 1,
+            "show_bars": 1,
+            "show_skills": 1,
+            "show_quests": 1,
+            "exphist_lastexp": 0,
+            "exphist1": 0,
+            "exphist2": 0,
+            "exphist3": 0,
+            "exphist4": 0,
+            "exphist5": 0,
+            "exphist6": 0,
+            "exphist7": 0,
+            "onlinetimetoday": 0,
+            "onlinetime1": 0,
+            "onlinetime2": 0,
+            "onlinetime3": 0,
+            "onlinetime4": 0,
+            "onlinetime5": 0,
+            "onlinetime6": 0,
+            "onlinetime7": 0,
+            "onlinetimeall": 0,
+            "ip": "0",
+            "offlinetraining_time": 43200,
+            "offlinetraining_skill": -1,
+            "broadcasting": 0,
+            "viewers": 0,
+            "cast": 0,
+            "castViewers": 0,
+            "castDescription": "",
+            "sbw_points": 0,
+            "status": "Offline",
+            "rank": 1,
+            "player_death": [],
+            "guild": null,
+            "player_skills": [
+                {
+                    "player_id": 5425,
+                    "skillid": 0,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5425,
+                    "skillid": 1,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5425,
+                    "skillid": 2,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5425,
+                    "skillid": 3,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5425,
+                    "skillid": 4,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5425,
+                    "skillid": 5,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5425,
+                    "skillid": 6,
+                    "value": 10,
+                    "count": 0
+                }
+            ]
+        },
+        {
+            "id": 5451,
+            "name": "DaViZin",
+            "world_id": 0,
+            "group_id": 1,
+            "account_id": 3228,
+            "level": 5391,
+            "is_sample": false,
+            "vocation": "Majin Boo",
+            "initial_vocation": 111,
+            "health": 1906690,
+            "healthmax": 1906690,
+            "experience": 2608553170309,
+            "lookbody": 0,
+            "lookfeet": 0,
+            "lookhead": 0,
+            "looklegs": 0,
+            "looktype": 574,
+            "lookaddons": 0,
+            "maglevel": 117,
+            "mana": 1322110,
+            "manamax": 1667610,
+            "manaspent": 13125939,
+            "soul": 200,
+            "town_id": 1,
+            "posx": 490,
+            "posy": 116,
+            "posz": 11,
+            "cap": 898550,
+            "sex": 1,
+            "lastlogin": 1763087772,
+            "lastip": 16777343,
+            "save": 1,
+            "skull": 0,
+            "skulltime": 0,
+            "rank_id": 235,
+            "guildnick": "",
+            "lastlogout": 1763088084,
+            "blessings": 0,
+            "pvp_blessing": 0,
+            "balance": 0,
+            "stamina": 151119000,
+            "direction": 2,
+            "loss_experience": 70,
+            "loss_mana": 100,
+            "loss_skills": 100,
+            "loss_containers": 100,
+            "loss_items": 100,
+            "premend": 0,
+            "online": 0,
+            "marriage": 0,
+            "marrystatus": 0,
+            "promotion": 0,
+            "deleted": 0,
+            "description": "",
+            "created": 0,
+            "nick_verify": 0,
+            "old_name": "",
+            "hide_char": 0,
+            "worldtransfer": 0,
+            "comment": "",
+            "show_outfit": 1,
+            "show_eq": 1,
+            "show_bars": 1,
+            "show_skills": 1,
+            "show_quests": 1,
+            "exphist_lastexp": 0,
+            "exphist1": 0,
+            "exphist2": 0,
+            "exphist3": 0,
+            "exphist4": 0,
+            "exphist5": 0,
+            "exphist6": 0,
+            "exphist7": 0,
+            "onlinetimetoday": 0,
+            "onlinetime1": 0,
+            "onlinetime2": 0,
+            "onlinetime3": 0,
+            "onlinetime4": 0,
+            "onlinetime5": 0,
+            "onlinetime6": 0,
+            "onlinetime7": 0,
+            "onlinetimeall": 0,
+            "ip": "0",
+            "offlinetraining_time": 43200,
+            "offlinetraining_skill": -1,
+            "broadcasting": 0,
+            "viewers": 0,
+            "cast": 0,
+            "castViewers": 0,
+            "castDescription": "",
+            "sbw_points": 0,
+            "status": "Offline",
+            "rank": 2,
+            "player_death": [
+                {
+                    "id": 17450,
+                    "player_id": 5451,
+                    "date": 1714664397,
+                    "level": 6000,
+                    "killer": {
+                        "id": 40032,
+                        "death_id": 17450,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [
+                            {
+                                "kill_id": 40032,
+                                "player_id": 5430,
+                                "players": [
+                                    {
+                                        "name": "VsAll",
+                                        "id": 5430
+                                    }
+                                ]
+                            }
+                        ],
+                        "environment_killer": []
+                    }
+                },
+                {
+                    "id": 17451,
+                    "player_id": 5451,
+                    "date": 1714668313,
+                    "level": 5957,
+                    "killer": {
+                        "id": 40033,
+                        "death_id": 17451,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40033,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17452,
+                    "player_id": 5451,
+                    "date": 1714676561,
+                    "level": 5915,
+                    "killer": {
+                        "id": 40034,
+                        "death_id": 17452,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40034,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17453,
+                    "player_id": 5451,
+                    "date": 1714682838,
+                    "level": 5872,
+                    "killer": {
+                        "id": 40035,
+                        "death_id": 17453,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40035,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17454,
+                    "player_id": 5451,
+                    "date": 1714690072,
+                    "level": 5831,
+                    "killer": {
+                        "id": 40036,
+                        "death_id": 17454,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40036,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17456,
+                    "player_id": 5451,
+                    "date": 1714696876,
+                    "level": 5789,
+                    "killer": {
+                        "id": 40038,
+                        "death_id": 17456,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40038,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17457,
+                    "player_id": 5451,
+                    "date": 1714696987,
+                    "level": 5748,
+                    "killer": {
+                        "id": 40039,
+                        "death_id": 17457,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40039,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17458,
+                    "player_id": 5451,
+                    "date": 1714697143,
+                    "level": 5707,
+                    "killer": {
+                        "id": 40040,
+                        "death_id": 17458,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40040,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17459,
+                    "player_id": 5451,
+                    "date": 1714697360,
+                    "level": 5667,
+                    "killer": {
+                        "id": 40041,
+                        "death_id": 17459,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40041,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17460,
+                    "player_id": 5451,
+                    "date": 1714697619,
+                    "level": 5626,
+                    "killer": {
+                        "id": 40042,
+                        "death_id": 17460,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40042,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17461,
+                    "player_id": 5451,
+                    "date": 1714698974,
+                    "level": 5547,
+                    "killer": {
+                        "id": 40043,
+                        "death_id": 17461,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40043,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17462,
+                    "player_id": 5451,
+                    "date": 1714699873,
+                    "level": 5507,
+                    "killer": {
+                        "id": 40044,
+                        "death_id": 17462,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40044,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17463,
+                    "player_id": 5451,
+                    "date": 1714699940,
+                    "level": 5468,
+                    "killer": {
+                        "id": 40045,
+                        "death_id": 17463,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40045,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17464,
+                    "player_id": 5451,
+                    "date": 1714699967,
+                    "level": 5429,
+                    "killer": {
+                        "id": 40046,
+                        "death_id": 17464,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40046,
+                                "name": "an Shenlong EVENTO"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "guild": {
+                "id": 108,
+                "world_id": 0,
+                "name": "DavizeRaa",
+                "ownerid": 5451,
+                "creationdata": 1694779095,
+                "checkdata": 0,
+                "motd": "New guild. Leader must edit this text :)",
+                "balance": 0,
+                "description": "This is the guildboard for the great DavizeRaa guild!",
+                "logo_gfx_name": "650446d7b581d.webp",
+                "invited_to": 0,
+                "invited_by": 0,
+                "in_war_with": 0,
+                "kills": 0,
+                "show": 0,
+                "war_time": 0,
+                "castle_war": 0
+            },
+            "player_skills": [
+                {
+                    "player_id": 5451,
+                    "skillid": 0,
+                    "value": 51,
+                    "count": 1497
+                },
+                {
+                    "player_id": 5451,
+                    "skillid": 1,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5451,
+                    "skillid": 2,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5451,
+                    "skillid": 3,
+                    "value": 46,
+                    "count": 997
+                },
+                {
+                    "player_id": 5451,
+                    "skillid": 4,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5451,
+                    "skillid": 5,
+                    "value": 12,
+                    "count": 1
+                },
+                {
+                    "player_id": 5451,
+                    "skillid": 6,
+                    "value": 10,
+                    "count": 0
+                }
+            ]
+        },
+        {
+            "id": 5430,
+            "name": "VsAll",
+            "world_id": 0,
+            "group_id": 1,
+            "account_id": 3203,
+            "level": 3971,
+            "is_sample": false,
+            "vocation": 768,
+            "initial_vocation": null,
+            "health": 1351550,
+            "healthmax": 1351550,
+            "experience": 1042416138460,
+            "lookbody": 0,
+            "lookfeet": 0,
+            "lookhead": 0,
+            "looklegs": 0,
+            "looktype": 736,
+            "lookaddons": 0,
+            "maglevel": 87,
+            "mana": 1168790,
+            "manamax": 1168790,
+            "manaspent": 4790058,
+            "soul": 200,
+            "town_id": 1,
+            "posx": 655,
+            "posy": 399,
+            "posz": 7,
+            "cap": 625850,
+            "sex": 1,
+            "lastlogin": 1714696461,
+            "lastip": 16777343,
+            "save": 1,
+            "skull": 0,
+            "skulltime": 0,
+            "rank_id": 196,
+            "guildnick": "",
+            "lastlogout": 1714696488,
+            "blessings": 0,
+            "pvp_blessing": 0,
+            "balance": 0,
+            "stamina": 151200000,
+            "direction": 2,
+            "loss_experience": 70,
+            "loss_mana": 100,
+            "loss_skills": 100,
+            "loss_containers": 100,
+            "loss_items": 10,
+            "premend": 0,
+            "online": 0,
+            "marriage": 0,
+            "marrystatus": 0,
+            "promotion": 0,
+            "deleted": 0,
+            "description": "",
+            "created": 0,
+            "nick_verify": 0,
+            "old_name": "",
+            "hide_char": 0,
+            "worldtransfer": 0,
+            "comment": "",
+            "show_outfit": 1,
+            "show_eq": 1,
+            "show_bars": 1,
+            "show_skills": 1,
+            "show_quests": 1,
+            "exphist_lastexp": 0,
+            "exphist1": 0,
+            "exphist2": 0,
+            "exphist3": 0,
+            "exphist4": 0,
+            "exphist5": 0,
+            "exphist6": 0,
+            "exphist7": 0,
+            "onlinetimetoday": 0,
+            "onlinetime1": 0,
+            "onlinetime2": 0,
+            "onlinetime3": 0,
+            "onlinetime4": 0,
+            "onlinetime5": 0,
+            "onlinetime6": 0,
+            "onlinetime7": 0,
+            "onlinetimeall": 0,
+            "ip": "0",
+            "offlinetraining_time": 43200,
+            "offlinetraining_skill": -1,
+            "broadcasting": 0,
+            "viewers": 0,
+            "cast": 0,
+            "castViewers": 0,
+            "castDescription": "",
+            "sbw_points": 0,
+            "status": "Offline",
+            "rank": 3,
+            "player_death": [
+                {
+                    "id": 17428,
+                    "player_id": 5430,
+                    "date": 1690734557,
+                    "level": 21,
+                    "killer": {
+                        "id": 40010,
+                        "death_id": 17428,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40010,
+                                "name": "an Ancient Dinosaur"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17429,
+                    "player_id": 5430,
+                    "date": 1690734735,
+                    "level": 37,
+                    "killer": {
+                        "id": 40011,
+                        "death_id": 17429,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40011,
+                                "name": "an Cell"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17430,
+                    "player_id": 5430,
+                    "date": 1690744978,
+                    "level": 37,
+                    "killer": {
+                        "id": 40012,
+                        "death_id": 17430,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40012,
+                                "name": "an Bojack"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17431,
+                    "player_id": 5430,
+                    "date": 1690745218,
+                    "level": 50,
+                    "killer": {
+                        "id": 40013,
+                        "death_id": 17431,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40013,
+                                "name": "an C19"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17432,
+                    "player_id": 5430,
+                    "date": 1690746605,
+                    "level": 114,
+                    "killer": {
+                        "id": 40014,
+                        "death_id": 17432,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40014,
+                                "name": "an goku ssj4 boss"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17433,
+                    "player_id": 5430,
+                    "date": 1690746960,
+                    "level": 120,
+                    "killer": {
+                        "id": 40015,
+                        "death_id": 17433,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40015,
+                                "name": "an goku ssj4 boss"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17455,
+                    "player_id": 5430,
+                    "date": 1714696488,
+                    "level": 4000,
+                    "killer": {
+                        "id": 40037,
+                        "death_id": 17455,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [
+                            {
+                                "kill_id": 40037,
+                                "player_id": 5451,
+                                "players": [
+                                    {
+                                        "name": "DaViZin",
+                                        "id": 5451
+                                    }
+                                ]
+                            }
+                        ],
+                        "environment_killer": []
+                    }
+                }
+            ],
+            "guild": null,
+            "player_skills": [
+                {
+                    "player_id": 5430,
+                    "skillid": 0,
+                    "value": 61,
+                    "count": 3839
+                },
+                {
+                    "player_id": 5430,
+                    "skillid": 1,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5430,
+                    "skillid": 2,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5430,
+                    "skillid": 3,
+                    "value": 34,
+                    "count": 254
+                },
+                {
+                    "player_id": 5430,
+                    "skillid": 4,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5430,
+                    "skillid": 5,
+                    "value": 10,
+                    "count": 9
+                },
+                {
+                    "player_id": 5430,
+                    "skillid": 6,
+                    "value": 10,
+                    "count": 0
+                }
+            ]
+        },
+        {
+            "id": 5428,
+            "name": "Goku teste",
+            "world_id": 0,
+            "group_id": 1,
+            "account_id": 3202,
+            "level": 978,
+            "is_sample": false,
+            "vocation": 909,
+            "initial_vocation": null,
+            "health": 476020,
+            "healthmax": 476020,
+            "experience": 15541170893,
+            "lookbody": 0,
+            "lookfeet": 0,
+            "lookhead": 0,
+            "looklegs": 0,
+            "looktype": 566,
+            "lookaddons": 0,
+            "maglevel": 57,
+            "mana": 412980,
+            "manamax": 412980,
+            "manaspent": 149387,
+            "soul": 100,
+            "town_id": 1,
+            "posx": 655,
+            "posy": 392,
+            "posz": 7,
+            "cap": 158000,
+            "sex": 1,
+            "lastlogin": 1695065452,
+            "lastip": 16777343,
+            "save": 1,
+            "skull": 0,
+            "skulltime": 0,
+            "rank_id": 0,
+            "guildnick": "",
+            "lastlogout": 1695065464,
+            "blessings": 0,
+            "pvp_blessing": 0,
+            "balance": 0,
+            "stamina": 151200000,
+            "direction": 2,
+            "loss_experience": 70,
+            "loss_mana": 100,
+            "loss_skills": 100,
+            "loss_containers": 100,
+            "loss_items": 10,
+            "premend": 0,
+            "online": 0,
+            "marriage": 0,
+            "marrystatus": 0,
+            "promotion": 0,
+            "deleted": 0,
+            "description": "",
+            "created": 0,
+            "nick_verify": 0,
+            "old_name": "",
+            "hide_char": 0,
+            "worldtransfer": 0,
+            "comment": "",
+            "show_outfit": 1,
+            "show_eq": 1,
+            "show_bars": 1,
+            "show_skills": 1,
+            "show_quests": 1,
+            "exphist_lastexp": 0,
+            "exphist1": 0,
+            "exphist2": 0,
+            "exphist3": 0,
+            "exphist4": 0,
+            "exphist5": 0,
+            "exphist6": 0,
+            "exphist7": 0,
+            "onlinetimetoday": 0,
+            "onlinetime1": 0,
+            "onlinetime2": 0,
+            "onlinetime3": 0,
+            "onlinetime4": 0,
+            "onlinetime5": 0,
+            "onlinetime6": 0,
+            "onlinetime7": 0,
+            "onlinetimeall": 0,
+            "ip": "0",
+            "offlinetraining_time": 43200,
+            "offlinetraining_skill": -1,
+            "broadcasting": 0,
+            "viewers": 0,
+            "cast": 0,
+            "castViewers": 0,
+            "castDescription": "",
+            "sbw_points": 0,
+            "status": "Offline",
+            "rank": 4,
+            "player_death": [
+                {
+                    "id": 17434,
+                    "player_id": 5428,
+                    "date": 1690844001,
+                    "level": 1001,
+                    "killer": {
+                        "id": 40016,
+                        "death_id": 17434,
+                        "final_hit": 1,
+                        "unjustified": 1,
+                        "war": 0,
+                        "player_killers": [
+                            {
+                                "kill_id": 40016,
+                                "player_id": 5429,
+                                "players": [
+                                    {
+                                        "name": "Janemba Teste",
+                                        "id": 5429
+                                    }
+                                ]
+                            }
+                        ],
+                        "environment_killer": []
+                    }
+                },
+                {
+                    "id": 17439,
+                    "player_id": 5428,
+                    "date": 1691244022,
+                    "level": 993,
+                    "killer": {
+                        "id": 40021,
+                        "death_id": 17439,
+                        "final_hit": 1,
+                        "unjustified": 1,
+                        "war": 0,
+                        "player_killers": [
+                            {
+                                "kill_id": 40021,
+                                "player_id": 5429,
+                                "players": [
+                                    {
+                                        "name": "Janemba Teste",
+                                        "id": 5429
+                                    }
+                                ]
+                            }
+                        ],
+                        "environment_killer": []
+                    }
+                },
+                {
+                    "id": 17444,
+                    "player_id": 5428,
+                    "date": 1694783271,
+                    "level": 986,
+                    "killer": {
+                        "id": 40026,
+                        "death_id": 17444,
+                        "final_hit": 1,
+                        "unjustified": 1,
+                        "war": 0,
+                        "player_killers": [
+                            {
+                                "kill_id": 40026,
+                                "player_id": 5452,
+                                "players": [
+                                    {
+                                        "name": "Will",
+                                        "id": 5452
+                                    }
+                                ]
+                            }
+                        ],
+                        "environment_killer": []
+                    }
+                }
+            ],
+            "guild": null,
+            "player_skills": [
+                {
+                    "player_id": 5428,
+                    "skillid": 0,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5428,
+                    "skillid": 1,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5428,
+                    "skillid": 2,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5428,
+                    "skillid": 3,
+                    "value": 39,
+                    "count": 703
+                },
+                {
+                    "player_id": 5428,
+                    "skillid": 4,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5428,
+                    "skillid": 5,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5428,
+                    "skillid": 6,
+                    "value": 10,
+                    "count": 0
+                }
+            ]
+        },
+        {
+            "id": 5429,
+            "name": "Janemba Teste",
+            "world_id": 0,
+            "group_id": 1,
+            "account_id": 3202,
+            "level": 949,
+            "is_sample": false,
+            "vocation": 845,
+            "initial_vocation": null,
+            "health": 468190,
+            "healthmax": 468190,
+            "experience": 14171783274,
+            "lookbody": 0,
+            "lookfeet": 0,
+            "lookhead": 0,
+            "looklegs": 0,
+            "looktype": 590,
+            "lookaddons": 0,
+            "maglevel": 101,
+            "mana": 406310,
+            "manamax": 406310,
+            "manaspent": 4753345,
+            "soul": 100,
+            "town_id": 1,
+            "posx": 655,
+            "posy": 399,
+            "posz": 7,
+            "cap": 155100,
+            "sex": 1,
+            "lastlogin": 1695065068,
+            "lastip": 16777343,
+            "save": 1,
+            "skull": 0,
+            "skulltime": 0,
+            "rank_id": 220,
+            "guildnick": "",
+            "lastlogout": 1695065069,
+            "blessings": 0,
+            "pvp_blessing": 0,
+            "balance": 0,
+            "stamina": 151200000,
+            "direction": 2,
+            "loss_experience": 70,
+            "loss_mana": 100,
+            "loss_skills": 100,
+            "loss_containers": 100,
+            "loss_items": 100,
+            "premend": 0,
+            "online": 0,
+            "marriage": 0,
+            "marrystatus": 0,
+            "promotion": 0,
+            "deleted": 0,
+            "description": "",
+            "created": 0,
+            "nick_verify": 0,
+            "old_name": "",
+            "hide_char": 0,
+            "worldtransfer": 0,
+            "comment": "",
+            "show_outfit": 1,
+            "show_eq": 1,
+            "show_bars": 1,
+            "show_skills": 1,
+            "show_quests": 1,
+            "exphist_lastexp": 0,
+            "exphist1": 0,
+            "exphist2": 0,
+            "exphist3": 0,
+            "exphist4": 0,
+            "exphist5": 0,
+            "exphist6": 0,
+            "exphist7": 0,
+            "onlinetimetoday": 0,
+            "onlinetime1": 0,
+            "onlinetime2": 0,
+            "onlinetime3": 0,
+            "onlinetime4": 0,
+            "onlinetime5": 0,
+            "onlinetime6": 0,
+            "onlinetime7": 0,
+            "onlinetimeall": 0,
+            "ip": "0",
+            "offlinetraining_time": 43200,
+            "offlinetraining_skill": -1,
+            "broadcasting": 0,
+            "viewers": 0,
+            "cast": 0,
+            "castViewers": 0,
+            "castDescription": "",
+            "sbw_points": 0,
+            "status": "Offline",
+            "rank": 5,
+            "player_death": [
+                {
+                    "id": 17435,
+                    "player_id": 5429,
+                    "date": 1691240040,
+                    "level": 1000,
+                    "killer": {
+                        "id": 40017,
+                        "death_id": 17435,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40017,
+                                "name": "an Saiyan"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17436,
+                    "player_id": 5429,
+                    "date": 1691240196,
+                    "level": 992,
+                    "killer": {
+                        "id": 40018,
+                        "death_id": 17436,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40018,
+                                "name": "an Hell Janemba Teach"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17437,
+                    "player_id": 5429,
+                    "date": 1691240306,
+                    "level": 985,
+                    "killer": {
+                        "id": 40019,
+                        "death_id": 17437,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40019,
+                                "name": "an Li Shenron Max Quest"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17438,
+                    "player_id": 5429,
+                    "date": 1691241105,
+                    "level": 977,
+                    "killer": {
+                        "id": 40020,
+                        "death_id": 17438,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40020,
+                                "name": "an Hell Janemba Teach"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17440,
+                    "player_id": 5429,
+                    "date": 1691251619,
+                    "level": 970,
+                    "killer": {
+                        "id": 40022,
+                        "death_id": 17440,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40022,
+                                "name": "an Hell Janemba Teach"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17441,
+                    "player_id": 5429,
+                    "date": 1691256187,
+                    "level": 963,
+                    "killer": {
+                        "id": 40023,
+                        "death_id": 17441,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40023,
+                                "name": "an Saiyan"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17442,
+                    "player_id": 5429,
+                    "date": 1691787615,
+                    "level": 956,
+                    "killer": {
+                        "id": 40024,
+                        "death_id": 17442,
+                        "final_hit": 1,
+                        "unjustified": 1,
+                        "war": 0,
+                        "player_killers": [
+                            {
+                                "kill_id": 40024,
+                                "player_id": 5428,
+                                "players": [
+                                    {
+                                        "name": "Goku teste",
+                                        "id": 5428
+                                    }
+                                ]
+                            }
+                        ],
+                        "environment_killer": []
+                    }
+                }
+            ],
+            "guild": {
+                "id": 103,
+                "world_id": 0,
+                "name": "adminssssdaaa",
+                "ownerid": 5429,
+                "creationdata": 1690843902,
+                "checkdata": 0,
+                "motd": "New guild. Leader must edit this text :)",
+                "balance": 0,
+                "description": "This is the guildboard for the great adminssssdaaa guild!",
+                "logo_gfx_name": "64c83afee1c6e.jpg",
+                "invited_to": 0,
+                "invited_by": 0,
+                "in_war_with": 0,
+                "kills": 0,
+                "show": 0,
+                "war_time": 0,
+                "castle_war": 0
+            },
+            "player_skills": [
+                {
+                    "player_id": 5429,
+                    "skillid": 0,
+                    "value": 63,
+                    "count": 306
+                },
+                {
+                    "player_id": 5429,
+                    "skillid": 1,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5429,
+                    "skillid": 2,
+                    "value": 59,
+                    "count": 1927
+                },
+                {
+                    "player_id": 5429,
+                    "skillid": 3,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5429,
+                    "skillid": 4,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5429,
+                    "skillid": 5,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5429,
+                    "skillid": 6,
+                    "value": 10,
+                    "count": 0
+                }
+            ]
+        },
+        {
+            "id": 5450,
+            "name": "teste1",
+            "world_id": 0,
+            "group_id": 1,
+            "account_id": 3227,
+            "level": 919,
+            "is_sample": false,
+            "vocation": "Goku",
+            "initial_vocation": 1,
+            "health": 248110,
+            "healthmax": 248110,
+            "experience": 12885507307,
+            "lookbody": 0,
+            "lookfeet": 0,
+            "lookhead": 0,
+            "looklegs": 0,
+            "looktype": 768,
+            "lookaddons": 0,
+            "maglevel": 52,
+            "mana": 211390,
+            "manamax": 211390,
+            "manaspent": 9087,
+            "soul": 136,
+            "town_id": 1,
+            "posx": 99,
+            "posy": 192,
+            "posz": 7,
+            "cap": 92200,
+            "sex": 1,
+            "lastlogin": 1694371873,
+            "lastip": 16777343,
+            "save": 1,
+            "skull": 0,
+            "skulltime": 0,
+            "rank_id": 174,
+            "guildnick": "",
+            "lastlogout": 1694367025,
+            "blessings": 0,
+            "pvp_blessing": 0,
+            "balance": 0,
+            "stamina": 151143000,
+            "direction": 2,
+            "loss_experience": 70,
+            "loss_mana": 100,
+            "loss_skills": 100,
+            "loss_containers": 100,
+            "loss_items": 10,
+            "premend": 0,
+            "online": 0,
+            "marriage": 0,
+            "marrystatus": 0,
+            "promotion": 0,
+            "deleted": 0,
+            "description": "",
+            "created": 0,
+            "nick_verify": 0,
+            "old_name": "",
+            "hide_char": 0,
+            "worldtransfer": 0,
+            "comment": "",
+            "show_outfit": 1,
+            "show_eq": 1,
+            "show_bars": 1,
+            "show_skills": 1,
+            "show_quests": 1,
+            "exphist_lastexp": 0,
+            "exphist1": 0,
+            "exphist2": 0,
+            "exphist3": 0,
+            "exphist4": 0,
+            "exphist5": 0,
+            "exphist6": 0,
+            "exphist7": 0,
+            "onlinetimetoday": 0,
+            "onlinetime1": 0,
+            "onlinetime2": 0,
+            "onlinetime3": 0,
+            "onlinetime4": 0,
+            "onlinetime5": 0,
+            "onlinetime6": 0,
+            "onlinetime7": 0,
+            "onlinetimeall": 0,
+            "ip": "0",
+            "offlinetraining_time": 43200,
+            "offlinetraining_skill": -1,
+            "broadcasting": 0,
+            "viewers": 0,
+            "cast": 0,
+            "castViewers": 0,
+            "castDescription": "",
+            "sbw_points": 0,
+            "status": "Online",
+            "rank": 6,
+            "player_death": [
+                {
+                    "id": 17443,
+                    "player_id": 5450,
+                    "date": 1694358595,
+                    "level": 35,
+                    "killer": {
+                        "id": 40025,
+                        "death_id": 17443,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40025,
+                                "name": "an Cell"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "guild": null,
+            "player_skills": [
+                {
+                    "player_id": 5450,
+                    "skillid": 0,
+                    "value": 50,
+                    "count": 1540
+                },
+                {
+                    "player_id": 5450,
+                    "skillid": 1,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5450,
+                    "skillid": 2,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5450,
+                    "skillid": 3,
+                    "value": 17,
+                    "count": 54
+                },
+                {
+                    "player_id": 5450,
+                    "skillid": 4,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5450,
+                    "skillid": 5,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5450,
+                    "skillid": 6,
+                    "value": 10,
+                    "count": 0
+                }
+            ]
+        },
+        {
+            "id": 5452,
+            "name": "Will",
+            "world_id": 0,
+            "group_id": 1,
+            "account_id": 3229,
+            "level": 919,
+            "is_sample": false,
+            "vocation": "Cell",
+            "initial_vocation": 83,
+            "health": 248110,
+            "healthmax": 248110,
+            "experience": 12884901882,
+            "lookbody": 0,
+            "lookfeet": 0,
+            "lookhead": 0,
+            "looklegs": 0,
+            "looktype": 85,
+            "lookaddons": 0,
+            "maglevel": 46,
+            "mana": 183850,
+            "manamax": 183850,
+            "manaspent": 46735,
+            "soul": 113,
+            "town_id": 1,
+            "posx": 240,
+            "posy": 1813,
+            "posz": 7,
+            "cap": 92200,
+            "sex": 1,
+            "lastlogin": 1695478286,
+            "lastip": 16777343,
+            "save": 1,
+            "skull": 0,
+            "skulltime": 0,
+            "rank_id": 238,
+            "guildnick": "",
+            "lastlogout": 1695478753,
+            "blessings": 0,
+            "pvp_blessing": 0,
+            "balance": 0,
+            "stamina": 151200000,
+            "direction": 2,
+            "loss_experience": 70,
+            "loss_mana": 100,
+            "loss_skills": 100,
+            "loss_containers": 100,
+            "loss_items": 10,
+            "premend": 0,
+            "online": 0,
+            "marriage": 0,
+            "marrystatus": 0,
+            "promotion": 0,
+            "deleted": 0,
+            "description": "",
+            "created": 0,
+            "nick_verify": 0,
+            "old_name": "",
+            "hide_char": 0,
+            "worldtransfer": 0,
+            "comment": "",
+            "show_outfit": 1,
+            "show_eq": 1,
+            "show_bars": 1,
+            "show_skills": 1,
+            "show_quests": 1,
+            "exphist_lastexp": 0,
+            "exphist1": 0,
+            "exphist2": 0,
+            "exphist3": 0,
+            "exphist4": 0,
+            "exphist5": 0,
+            "exphist6": 0,
+            "exphist7": 0,
+            "onlinetimetoday": 0,
+            "onlinetime1": 0,
+            "onlinetime2": 0,
+            "onlinetime3": 0,
+            "onlinetime4": 0,
+            "onlinetime5": 0,
+            "onlinetime6": 0,
+            "onlinetime7": 0,
+            "onlinetimeall": 0,
+            "ip": "0",
+            "offlinetraining_time": 43200,
+            "offlinetraining_skill": -1,
+            "broadcasting": 0,
+            "viewers": 0,
+            "cast": 0,
+            "castViewers": 0,
+            "castDescription": "",
+            "sbw_points": 0,
+            "status": "Offline",
+            "rank": 7,
+            "player_death": [],
+            "guild": {
+                "id": 109,
+                "world_id": 0,
+                "name": "Will Mata Tudo",
+                "ownerid": 5452,
+                "creationdata": 1694782907,
+                "checkdata": 0,
+                "motd": "New guild. Leader must edit this text :)",
+                "balance": 0,
+                "description": "This is the guildboard for the great Will Mata Tudo guild!",
+                "logo_gfx_name": "650455bb8267f.gif",
+                "invited_to": 0,
+                "invited_by": 0,
+                "in_war_with": 0,
+                "kills": 0,
+                "show": 0,
+                "war_time": 0,
+                "castle_war": 0
+            },
+            "player_skills": [
+                {
+                    "player_id": 5452,
+                    "skillid": 0,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5452,
+                    "skillid": 1,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5452,
+                    "skillid": 2,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5452,
+                    "skillid": 3,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5452,
+                    "skillid": 4,
+                    "value": 22,
+                    "count": 0
+                },
+                {
+                    "player_id": 5452,
+                    "skillid": 5,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5452,
+                    "skillid": 6,
+                    "value": 10,
+                    "count": 0
+                }
+            ]
+        },
+        {
+            "id": 3762,
+            "name": "Others",
+            "world_id": 0,
+            "group_id": 1,
+            "account_id": 2402,
+            "level": 590,
+            "is_sample": true,
+            "vocation": 518,
+            "initial_vocation": null,
+            "health": 333310,
+            "healthmax": 333310,
+            "experience": 3403699137,
+            "lookbody": 0,
+            "lookfeet": 0,
+            "lookhead": 0,
+            "looklegs": 0,
+            "looktype": 621,
+            "lookaddons": 0,
+            "maglevel": 119,
+            "mana": 285790,
+            "manamax": 285790,
+            "manaspent": 36030165,
+            "soul": 128,
+            "town_id": 1,
+            "posx": 97,
+            "posy": 189,
+            "posz": 7,
+            "cap": 117400,
+            "sex": 1,
+            "lastlogin": 1763088104,
+            "lastip": 16777343,
+            "save": 1,
+            "skull": 0,
+            "skulltime": 0,
+            "rank_id": 199,
+            "guildnick": "",
+            "lastlogout": 1763088151,
+            "blessings": 0,
+            "pvp_blessing": 0,
+            "balance": 0,
+            "stamina": 151200000,
+            "direction": 2,
+            "loss_experience": 70,
+            "loss_mana": 100,
+            "loss_skills": 100,
+            "loss_containers": 100,
+            "loss_items": 10,
+            "premend": 0,
+            "online": 0,
+            "marriage": 0,
+            "marrystatus": 0,
+            "promotion": 0,
+            "deleted": 0,
+            "description": "",
+            "created": 1577044720,
+            "nick_verify": 0,
+            "old_name": "",
+            "hide_char": 0,
+            "worldtransfer": 0,
+            "comment": "",
+            "show_outfit": 1,
+            "show_eq": 1,
+            "show_bars": 1,
+            "show_skills": 1,
+            "show_quests": 1,
+            "exphist_lastexp": 0,
+            "exphist1": 0,
+            "exphist2": 0,
+            "exphist3": 0,
+            "exphist4": 0,
+            "exphist5": 0,
+            "exphist6": 0,
+            "exphist7": 0,
+            "onlinetimetoday": 0,
+            "onlinetime1": 0,
+            "onlinetime2": 0,
+            "onlinetime3": 0,
+            "onlinetime4": 0,
+            "onlinetime5": 0,
+            "onlinetime6": 0,
+            "onlinetime7": 0,
+            "onlinetimeall": 0,
+            "ip": "0",
+            "offlinetraining_time": 43200,
+            "offlinetraining_skill": -1,
+            "broadcasting": 0,
+            "viewers": 0,
+            "cast": 0,
+            "castViewers": 0,
+            "castDescription": "",
+            "sbw_points": 0,
+            "status": "Offline",
+            "rank": 8,
+            "player_death": [
+                {
+                    "id": 17445,
+                    "player_id": 3762,
+                    "date": 1714426506,
+                    "level": 5000,
+                    "killer": {
+                        "id": 40027,
+                        "death_id": 17445,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40027,
+                                "name": "an Hell Janemba"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17448,
+                    "player_id": 3762,
+                    "date": 1714663769,
+                    "level": 600,
+                    "killer": {
+                        "id": 40030,
+                        "death_id": 17448,
+                        "final_hit": 1,
+                        "unjustified": 1,
+                        "war": 0,
+                        "player_killers": [
+                            {
+                                "kill_id": 40030,
+                                "player_id": 5451,
+                                "players": [
+                                    {
+                                        "name": "DaViZin",
+                                        "id": 5451
+                                    }
+                                ]
+                            }
+                        ],
+                        "environment_killer": []
+                    }
+                },
+                {
+                    "id": 17449,
+                    "player_id": 3762,
+                    "date": 1714663825,
+                    "level": 595,
+                    "killer": {
+                        "id": 40031,
+                        "death_id": 17449,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [
+                            {
+                                "kill_id": 40031,
+                                "player_id": 5451,
+                                "players": [
+                                    {
+                                        "name": "DaViZin",
+                                        "id": 5451
+                                    }
+                                ]
+                            }
+                        ],
+                        "environment_killer": []
+                    }
+                }
+            ],
+            "guild": null,
+            "player_skills": [
+                {
+                    "player_id": 3762,
+                    "skillid": 0,
+                    "value": 119,
+                    "count": 459099
+                },
+                {
+                    "player_id": 3762,
+                    "skillid": 1,
+                    "value": 119,
+                    "count": 458961
+                },
+                {
+                    "player_id": 3762,
+                    "skillid": 2,
+                    "value": 119,
+                    "count": 458961
+                },
+                {
+                    "player_id": 3762,
+                    "skillid": 3,
+                    "value": 119,
+                    "count": 461735
+                },
+                {
+                    "player_id": 3762,
+                    "skillid": 4,
+                    "value": 119,
+                    "count": 279239
+                },
+                {
+                    "player_id": 3762,
+                    "skillid": 5,
+                    "value": 119,
+                    "count": 917040
+                },
+                {
+                    "player_id": 3762,
+                    "skillid": 6,
+                    "value": 112,
+                    "count": 15
+                }
+            ]
+        },
+        {
+            "id": 5461,
+            "name": "Testa Up",
+            "world_id": 0,
+            "group_id": 1,
+            "account_id": 2402,
+            "level": 287,
+            "is_sample": false,
+            "vocation": "Majin Boo",
+            "initial_vocation": 111,
+            "health": 110560,
+            "healthmax": 110560,
+            "experience": 389540030,
+            "lookbody": 0,
+            "lookfeet": 0,
+            "lookhead": 0,
+            "looklegs": 0,
+            "looktype": 104,
+            "lookaddons": 0,
+            "maglevel": 120,
+            "mana": 133440,
+            "manamax": 133440,
+            "manaspent": 33203534,
+            "soul": 200,
+            "town_id": 1,
+            "posx": 655,
+            "posy": 399,
+            "posz": 7,
+            "cap": 29000,
+            "sex": 1,
+            "lastlogin": 1763088101,
+            "lastip": 16777343,
+            "save": 1,
+            "skull": 0,
+            "skulltime": 0,
+            "rank_id": 0,
+            "guildnick": "",
+            "lastlogout": 1763088103,
+            "blessings": 0,
+            "pvp_blessing": 0,
+            "balance": 0,
+            "stamina": 151198000,
+            "direction": 2,
+            "loss_experience": 70,
+            "loss_mana": 100,
+            "loss_skills": 100,
+            "loss_containers": 100,
+            "loss_items": 100,
+            "premend": 1,
+            "online": 0,
+            "marriage": 0,
+            "marrystatus": 0,
+            "promotion": 0,
+            "deleted": 0,
+            "description": "",
+            "created": 0,
+            "nick_verify": 0,
+            "old_name": "",
+            "hide_char": 0,
+            "worldtransfer": 0,
+            "comment": "",
+            "show_outfit": 1,
+            "show_eq": 1,
+            "show_bars": 1,
+            "show_skills": 1,
+            "show_quests": 1,
+            "exphist_lastexp": 0,
+            "exphist1": 0,
+            "exphist2": 0,
+            "exphist3": 0,
+            "exphist4": 0,
+            "exphist5": 0,
+            "exphist6": 0,
+            "exphist7": 0,
+            "onlinetimetoday": 0,
+            "onlinetime1": 0,
+            "onlinetime2": 0,
+            "onlinetime3": 0,
+            "onlinetime4": 0,
+            "onlinetime5": 0,
+            "onlinetime6": 0,
+            "onlinetime7": 0,
+            "onlinetimeall": 0,
+            "ip": "0",
+            "offlinetraining_time": 43200,
+            "offlinetraining_skill": -1,
+            "broadcasting": 0,
+            "viewers": 0,
+            "cast": 0,
+            "castViewers": 0,
+            "castDescription": "",
+            "sbw_points": 0,
+            "status": "Offline",
+            "rank": 9,
+            "player_death": [
+                {
+                    "id": 17446,
+                    "player_id": 5461,
+                    "date": 1714441197,
+                    "level": 33,
+                    "killer": {
+                        "id": 40028,
+                        "death_id": 17446,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40028,
+                                "name": "an Swampper"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 17447,
+                    "player_id": 5461,
+                    "date": 1714444746,
+                    "level": 164,
+                    "killer": {
+                        "id": 40029,
+                        "death_id": 17447,
+                        "final_hit": 1,
+                        "unjustified": 0,
+                        "war": 0,
+                        "player_killers": [],
+                        "environment_killer": [
+                            {
+                                "kill_id": 40029,
+                                "name": "an Super Paikuhan"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "guild": null,
+            "player_skills": [
+                {
+                    "player_id": 5461,
+                    "skillid": 0,
+                    "value": 59,
+                    "count": 3746
+                },
+                {
+                    "player_id": 5461,
+                    "skillid": 1,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5461,
+                    "skillid": 2,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5461,
+                    "skillid": 3,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5461,
+                    "skillid": 4,
+                    "value": 66,
+                    "count": 4215
+                },
+                {
+                    "player_id": 5461,
+                    "skillid": 5,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5461,
+                    "skillid": 6,
+                    "value": 10,
+                    "count": 0
+                }
+            ]
+        },
+        {
+            "id": 5449,
+            "name": "asda",
+            "world_id": 0,
+            "group_id": 1,
+            "account_id": 3226,
+            "level": 18,
+            "is_sample": false,
+            "vocation": "Bulma",
+            "initial_vocation": 364,
+            "health": 4804,
+            "healthmax": 4840,
+            "experience": 69900,
+            "lookbody": 68,
+            "lookfeet": 76,
+            "lookhead": 78,
+            "looklegs": 39,
+            "looktype": 292,
+            "lookaddons": 0,
+            "maglevel": 10,
+            "mana": 4160,
+            "manamax": 4160,
+            "manaspent": 505,
+            "soul": 109,
+            "town_id": 1,
+            "posx": 99,
+            "posy": 190,
+            "posz": 7,
+            "cap": 2100,
+            "sex": 1,
+            "lastlogin": 1694364010,
+            "lastip": 16777343,
+            "save": 1,
+            "skull": 0,
+            "skulltime": 0,
+            "rank_id": 0,
+            "guildnick": "",
+            "lastlogout": 1694364048,
+            "blessings": 0,
+            "pvp_blessing": 0,
+            "balance": 0,
+            "stamina": 151166000,
+            "direction": 2,
+            "loss_experience": 70,
+            "loss_mana": 100,
+            "loss_skills": 100,
+            "loss_containers": 100,
+            "loss_items": 10,
+            "premend": 0,
+            "online": 0,
+            "marriage": 0,
+            "marrystatus": 0,
+            "promotion": 0,
+            "deleted": 0,
+            "description": "",
+            "created": 0,
+            "nick_verify": 0,
+            "old_name": "",
+            "hide_char": 0,
+            "worldtransfer": 0,
+            "comment": "",
+            "show_outfit": 1,
+            "show_eq": 1,
+            "show_bars": 1,
+            "show_skills": 1,
+            "show_quests": 1,
+            "exphist_lastexp": 0,
+            "exphist1": 0,
+            "exphist2": 0,
+            "exphist3": 0,
+            "exphist4": 0,
+            "exphist5": 0,
+            "exphist6": 0,
+            "exphist7": 0,
+            "onlinetimetoday": 0,
+            "onlinetime1": 0,
+            "onlinetime2": 0,
+            "onlinetime3": 0,
+            "onlinetime4": 0,
+            "onlinetime5": 0,
+            "onlinetime6": 0,
+            "onlinetime7": 0,
+            "onlinetimeall": 0,
+            "ip": "0",
+            "offlinetraining_time": 43200,
+            "offlinetraining_skill": -1,
+            "broadcasting": 0,
+            "viewers": 0,
+            "cast": 0,
+            "castViewers": 0,
+            "castDescription": "",
+            "sbw_points": 0,
+            "status": "Offline",
+            "rank": 10,
+            "player_death": [],
+            "guild": null,
+            "player_skills": [
+                {
+                    "player_id": 5449,
+                    "skillid": 0,
+                    "value": 14,
+                    "count": 0
+                },
+                {
+                    "player_id": 5449,
+                    "skillid": 1,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5449,
+                    "skillid": 2,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5449,
+                    "skillid": 3,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5449,
+                    "skillid": 4,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5449,
+                    "skillid": 5,
+                    "value": 10,
+                    "count": 0
+                },
+                {
+                    "player_id": 5449,
+                    "skillid": 6,
+                    "value": 10,
+                    "count": 0
+                }
+            ]
+        }
+    ],
+    "first_page_url": "http://localhost:8000/api/players?limit=10&offset=1&orderBy=level&page=1",
+    "from": 1,
+    "last_page": 7,
+    "last_page_url": "http://localhost:8000/api/players?limit=10&offset=1&orderBy=level&page=7",
+    "links": [
+        {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+        },
+        {
+            "url": "http://localhost:8000/api/players?limit=10&offset=1&orderBy=level&page=1",
+            "label": "1",
+            "active": true
+        },
+        {
+            "url": "http://localhost:8000/api/players?limit=10&offset=1&orderBy=level&page=2",
+            "label": "2",
+            "active": false
+        },
+        {
+            "url": "http://localhost:8000/api/players?limit=10&offset=1&orderBy=level&page=3",
+            "label": "3",
+            "active": false
+        },
+        {
+            "url": "http://localhost:8000/api/players?limit=10&offset=1&orderBy=level&page=4",
+            "label": "4",
+            "active": false
+        },
+        {
+            "url": "http://localhost:8000/api/players?limit=10&offset=1&orderBy=level&page=5",
+            "label": "5",
+            "active": false
+        },
+        {
+            "url": "http://localhost:8000/api/players?limit=10&offset=1&orderBy=level&page=6",
+            "label": "6",
+            "active": false
+        },
+        {
+            "url": "http://localhost:8000/api/players?limit=10&offset=1&orderBy=level&page=7",
+            "label": "7",
+            "active": false
+        },
+        {
+            "url": "http://localhost:8000/api/players?limit=10&offset=1&orderBy=level&page=2",
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "next_page_url": "http://localhost:8000/api/players?limit=10&offset=1&orderBy=level&page=2",
+    "path": "http://localhost:8000/api/players",
+    "per_page": 10,
+    "prev_page_url": null,
+    "to": 10,
+    "total": 62
+}

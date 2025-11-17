@@ -90,14 +90,6 @@ export default function Guilds() {
                 <Skeleton key={i} className="h-48 w-full" />
               ))}
             </div>
-          ) : data?.data.length === 0 ? (
-            <div className="text-center py-12">
-              <Shield className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">Aguardando dados do servidor...</p>
-              <p className="text-sm text-muted-foreground mt-2">
-                Backend externo (localhost:8000) não está disponível
-              </p>
-            </div>
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

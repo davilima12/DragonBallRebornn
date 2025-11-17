@@ -7,22 +7,29 @@ import { Card } from "@/components/ui/card";
 import { Trophy, Users, Shield, Zap } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { GuildsPaginatedResponse } from "@/types/guild";
+import { PlayersPaginatedResponse } from "@/types/player";
 import { Skeleton } from "@/components/ui/skeleton";
-import { GUILDS_API_URL } from "@/lib/api";
+import { GUILDS_API_URL, PLAYERS_API_URL } from "@/lib/api";
 
 export default function Home() {
-  const topPlayers = [
-    { id: "player1", rank: 1, name: "SuperSaiyan99", level: 150, power: 999999, guild: "Z Fighters" },
-    { id: "player2", rank: 2, name: "KameHameHa", level: 145, power: 887654, guild: "Dragon Force" },
-    { id: "player3", rank: 3, name: "UltraInstinct", level: 142, power: 776543, guild: "Gods Army" },
-    { id: "player4", rank: 4, name: "FusionWarrior", level: 138, power: 665432 },
-    { id: "player5", rank: 5, name: "EnergyBlast", level: 135, power: 554321, guild: "Elite Squad" },
-    { id: "player6", rank: 6, name: "PowerUpKing", level: 132, power: 443210 },
-    { id: "player7", rank: 7, name: "MysticWarrior", level: 128, power: 332109, guild: "Shadow Clan" },
-    { id: "player8", rank: 8, name: "ThunderStrike", level: 125, power: 221098 },
-    { id: "player9", rank: 9, name: "PhoenixRise", level: 122, power: 110987, guild: "Phoenix Squad" },
-    { id: "player10", rank: 10, name: "DragonFist", level: 120, power: 99876 },
-  ];
+  const { data: playersData, isLoading: isLoadingPlayers } = useQuery<PlayersPaginatedResponse>({
+    queryKey: ['/api/players/top10'],
+    queryFn: async () => {
+      const response = await fetch(`${PLAYERS_API_URL}?limit=10&offset=0&orderBy=level`);
+      
+      if (!response.ok) {
+        return { data: [], current_page: 1, total: 0, per_page: 10, last_page: 1 };
+      }
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        return { data: [], current_page: 1, total: 0, per_page: 10, last_page: 1 };
+      }
+      
+      return response.json();
+    },
+    retry: false,
+  });
 
   const { data: guildsData, isLoading: isLoadingGuilds, error: guildsError } = useQuery<GuildsPaginatedResponse>({
     queryKey: ['/api/guilds/top5'],
@@ -88,7 +95,24 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <PlayerLeaderboard players={topPlayers} />
+            {isLoadingPlayers ? (
+              <div className="space-y-4">
+                {[...Array(10)].map((_, i) => (
+                  <Skeleton key={i} className="h-20 w-full" />
+                ))}
+              </div>
+            ) : (
+              <PlayerLeaderboard 
+                players={playersData?.data.map((player, index) => ({
+                  id: player.id.toString(),
+                  rank: index + 1,
+                  name: player.name,
+                  level: player.level,
+                  power: player.experience,
+                  guild: player.guild?.name
+                })) || []} 
+              />
+            )}
             
             <div>
               <h2 className="text-2xl font-heading font-bold mb-6 flex items-center gap-2">
@@ -100,15 +124,6 @@ export default function Home() {
                     <Skeleton key={i} className="h-32 w-full" />
                   ))}
                 </div>
-              ) : guildsData?.data.length === 0 ? (
-                <Card className="p-8 text-center">
-                  <p className="text-muted-foreground">
-                    Aguardando dados do servidor...
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Backend externo (localhost:8000) não está disponível
-                  </p>
-                </Card>
               ) : (
                 <div className="space-y-4">
                   {guildsData?.data.slice(0, 5).map((guild, index) => (

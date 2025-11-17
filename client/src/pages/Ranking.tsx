@@ -5,31 +5,36 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Trophy, Users } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { GuildsPaginatedResponse } from "@/types/guild";
+import { PlayersPaginatedResponse } from "@/types/player";
 import { Skeleton } from "@/components/ui/skeleton";
-import { GUILDS_API_URL } from "@/lib/api";
+import { GUILDS_API_URL, PLAYERS_API_URL } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
 export default function Ranking() {
   const [guildsPage, setGuildsPage] = useState(1);
-  const topPlayers = [
-    { id: "player1", rank: 1, name: "SuperSaiyan99", level: 150, power: 999999, guild: "Z Fighters" },
-    { id: "player2", rank: 2, name: "KameHameHa", level: 145, power: 887654, guild: "Dragon Force" },
-    { id: "player3", rank: 3, name: "UltraInstinct", level: 142, power: 776543, guild: "Gods Army" },
-    { id: "player4", rank: 4, name: "FusionWarrior", level: 138, power: 665432 },
-    { id: "player5", rank: 5, name: "EnergyBlast", level: 135, power: 554321, guild: "Elite Squad" },
-    { id: "player6", rank: 6, name: "PowerUpKing", level: 132, power: 443210 },
-    { id: "player7", rank: 7, name: "MysticWarrior", level: 128, power: 332109, guild: "Shadow Clan" },
-    { id: "player8", rank: 8, name: "ThunderStrike", level: 125, power: 221098 },
-    { id: "player9", rank: 9, name: "PhoenixRise", level: 122, power: 110987, guild: "Phoenix Squad" },
-    { id: "player10", rank: 10, name: "DragonFist", level: 120, power: 99876 },
-    { id: "player11", rank: 11, name: "SpiritBomb", level: 118, power: 88765 },
-    { id: "player12", rank: 12, name: "FinalFlash", level: 115, power: 77654 },
-    { id: "player13", rank: 13, name: "GalickGun", level: 112, power: 66543 },
-    { id: "player14", rank: 14, name: "SpecialBeam", level: 110, power: 55432 },
-    { id: "player15", rank: 15, name: "DestructoDisk", level: 108, power: 44321 },
-  ];
+  const [playersPage, setPlayersPage] = useState(1);
+
+  const { data: playersData, isLoading: isLoadingPlayers } = useQuery<PlayersPaginatedResponse>({
+    queryKey: ['/api/players/ranking', playersPage],
+    queryFn: async () => {
+      const offset = (playersPage - 1) * 15;
+      const response = await fetch(`${PLAYERS_API_URL}?limit=15&offset=${offset}&orderBy=level`);
+      
+      if (!response.ok) {
+        return { data: [], current_page: 1, total: 0, per_page: 15, last_page: 1 };
+      }
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        return { data: [], current_page: 1, total: 0, per_page: 15, last_page: 1 };
+      }
+      
+      return response.json();
+    },
+    retry: false,
+  });
 
   const { data: guildsData, isLoading: isLoadingGuilds } = useQuery<GuildsPaginatedResponse>({
     queryKey: ['/api/guilds/ranking', guildsPage],
@@ -76,7 +81,55 @@ export default function Ranking() {
             </TabsList>
 
             <TabsContent value="players">
-              <PlayerLeaderboard players={topPlayers} title="Top 15 Jogadores Mais Fortes" />
+              {isLoadingPlayers ? (
+                <div className="space-y-4">
+                  {[...Array(15)].map((_, i) => (
+                    <Skeleton key={i} className="h-20 w-full" />
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <PlayerLeaderboard 
+                    players={playersData?.data.map((player, index) => ({
+                      id: player.id.toString(),
+                      rank: (playersPage - 1) * 15 + index + 1,
+                      name: player.name,
+                      level: player.level,
+                      power: player.experience,
+                      guild: player.guild?.name
+                    })) || []} 
+                    title="Top Jogadores Mais Fortes" 
+                  />
+                  
+                  {playersData && playersData.last_page > 1 && (
+                    <div className="flex items-center justify-center gap-2 mt-8">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setPlayersPage(p => Math.max(1, p - 1))}
+                        disabled={playersPage === 1}
+                        data-testid="button-prev-page-players"
+                      >
+                        <ChevronLeft className="w-4 h-4 mr-1" />
+                        Anterior
+                      </Button>
+                      <span className="text-sm text-muted-foreground px-4">
+                        Página {playersPage} de {playersData.last_page}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setPlayersPage(p => Math.min(playersData.last_page, p + 1))}
+                        disabled={playersPage === playersData.last_page}
+                        data-testid="button-next-page-players"
+                      >
+                        Próxima
+                        <ChevronRight className="w-4 h-4 ml-1" />
+                      </Button>
+                    </div>
+                  )}
+                </>
+              )}
             </TabsContent>
 
             <TabsContent value="guilds">
@@ -91,16 +144,6 @@ export default function Ranking() {
                     {[...Array(6)].map((_, i) => (
                       <Skeleton key={i} className="h-40 w-full" />
                     ))}
-                  </div>
-                ) : guildsData?.data.length === 0 ? (
-                  <div className="text-center py-12">
-                    <Users className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                    <p className="text-muted-foreground">
-                      Aguardando dados do servidor...
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      Backend externo (localhost:8000) não está disponível
-                    </p>
                   </div>
                 ) : (
                   <>
