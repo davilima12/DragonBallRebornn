@@ -9,13 +9,15 @@ import { useQuery } from "@tanstack/react-query";
 import { GuildsPaginatedResponse } from "@/types/guild";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GUILDS_API_URL } from "@/lib/api";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export default function Guilds() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const { data, isLoading } = useQuery<GuildsPaginatedResponse>({
-    queryKey: ['/api/guilds', currentPage, searchTerm],
+    queryKey: ['/api/guilds', currentPage, debouncedSearchTerm],
     queryFn: async () => {
       const offset = (currentPage - 1) * 10;
       const params = new URLSearchParams({
@@ -23,8 +25,8 @@ export default function Guilds() {
         offset: offset.toString(),
       });
       
-      if (searchTerm.trim()) {
-        params.append('name', searchTerm.trim());
+      if (debouncedSearchTerm.trim()) {
+        params.append('name', debouncedSearchTerm.trim());
       }
       
       const response = await fetch(`${GUILDS_API_URL}?${params}`);
