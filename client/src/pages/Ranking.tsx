@@ -34,8 +34,7 @@ export default function Ranking() {
   const { data: guildsData, isLoading: isLoadingGuilds } = useQuery<GuildsPaginatedResponse>({
     queryKey: ['/api/guilds/ranking', guildsPage],
     queryFn: async () => {
-      const offset = (guildsPage - 1) * 10;
-      const response = await fetch(`${GUILDS_API_URL}?limit=10&offset=${offset}`);
+      const response = await fetch(`${GUILDS_API_URL}?limit=10&page=${guildsPage}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch guilds');

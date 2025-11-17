@@ -27,7 +27,7 @@ export default function Home() {
   const { data: guildsData, isLoading: isLoadingGuilds, error: guildsError } = useQuery<GuildsPaginatedResponse>({
     queryKey: ['/api/guilds/top5'],
     queryFn: async () => {
-      const response = await fetch(`${GUILDS_API_URL}?limit=5&offset=0`);
+      const response = await fetch(`${GUILDS_API_URL}?limit=5&page=1`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch guilds');

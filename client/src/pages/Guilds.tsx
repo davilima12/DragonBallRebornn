@@ -19,10 +19,9 @@ export default function Guilds() {
   const { data, isLoading } = useQuery<GuildsPaginatedResponse>({
     queryKey: ['/api/guilds', currentPage, debouncedSearchTerm],
     queryFn: async () => {
-      const offset = (currentPage - 1) * 10;
       const params = new URLSearchParams({
         limit: '10',
-        offset: offset.toString(),
+        page: currentPage.toString(),
       });
       
       if (debouncedSearchTerm.trim()) {
