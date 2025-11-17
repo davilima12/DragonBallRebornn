@@ -1,19 +1,15 @@
 import Navbar from "@/components/Navbar";
 import PlayerLeaderboard from "@/components/PlayerLeaderboard";
-import GuildCard from "@/components/GuildCard";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Trophy, Users, Zap } from "lucide-react";
+import { Trophy, Zap } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { GuildsPaginatedResponse } from "@/types/guild";
 import { PlayersPaginatedResponse } from "@/types/player";
 import { Skeleton } from "@/components/ui/skeleton";
-import { GUILDS_API_URL, PLAYERS_API_URL } from "@/lib/api";
+import { PLAYERS_API_URL } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
 export default function Ranking() {
-  const [guildsPage, setGuildsPage] = useState(1);
   const [playersPage, setPlayersPage] = useState(1);
   const [playersOrderBy, setPlayersOrderBy] = useState<'level' | 'maglevel'>('level');
 
@@ -37,26 +33,6 @@ export default function Ranking() {
     retry: false,
   });
 
-  const { data: guildsData, isLoading: isLoadingGuilds } = useQuery<GuildsPaginatedResponse>({
-    queryKey: ['/api/guilds/ranking', guildsPage],
-    queryFn: async () => {
-      const response = await fetch(`${GUILDS_API_URL}?limit=10&page=${guildsPage}`);
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch guilds');
-      }
-      
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        console.warn('API retornou HTML ao invés de JSON - backend externo pode não estar rodando');
-        return { data: [], current_page: 1, total: 0, per_page: 10, last_page: 1 };
-      }
-      
-      return response.json();
-    },
-    retry: false,
-  });
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -64,159 +40,87 @@ export default function Ranking() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-display font-bold mb-4 bg-gradient-to-r from-primary to-yellow-500 bg-clip-text text-transparent">
-              RANKING
+              RANKING DE JOGADORES
             </h1>
-            <p className="text-muted-foreground">Veja os melhores jogadores e guilds do servidor</p>
+            <p className="text-muted-foreground">Veja os melhores jogadores do servidor</p>
           </div>
 
-          <Tabs defaultValue="players" className="space-y-8">
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
-              <TabsTrigger value="players" data-testid="tab-players">
-                <Trophy className="w-4 h-4 mr-2" />
-                Jogadores
-              </TabsTrigger>
-              <TabsTrigger value="guilds" data-testid="tab-guilds">
-                <Users className="w-4 h-4 mr-2" />
-                Guilds
-              </TabsTrigger>
-            </TabsList>
+          <div className="flex justify-center gap-2 mb-8">
+            <Button
+              variant={playersOrderBy === 'level' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => {
+                setPlayersOrderBy('level');
+                setPlayersPage(1);
+              }}
+              data-testid="filter-level"
+            >
+              <Trophy className="w-4 h-4 mr-2" />
+              Level
+            </Button>
+            <Button
+              variant={playersOrderBy === 'maglevel' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => {
+                setPlayersOrderBy('maglevel');
+                setPlayersPage(1);
+              }}
+              data-testid="filter-maglevel"
+            >
+              <Zap className="w-4 h-4 mr-2" />
+              Magic Level
+            </Button>
+          </div>
 
-            <TabsContent value="players">
-              <div className="flex justify-center gap-2 mb-6">
-                <Button
-                  variant={playersOrderBy === 'level' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => {
-                    setPlayersOrderBy('level');
-                    setPlayersPage(1);
-                  }}
-                  data-testid="filter-level"
-                >
-                  <Trophy className="w-4 h-4 mr-2" />
-                  Level
-                </Button>
-                <Button
-                  variant={playersOrderBy === 'maglevel' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => {
-                    setPlayersOrderBy('maglevel');
-                    setPlayersPage(1);
-                  }}
-                  data-testid="filter-maglevel"
-                >
-                  <Zap className="w-4 h-4 mr-2" />
-                  Magic Level
-                </Button>
-              </div>
-
-              {isLoadingPlayers ? (
-                <div className="space-y-4">
-                  {[...Array(15)].map((_, i) => (
-                    <Skeleton key={i} className="h-20 w-full" />
-                  ))}
+          {isLoadingPlayers ? (
+            <div className="space-y-4">
+              {[...Array(15)].map((_, i) => (
+                <Skeleton key={i} className="h-20 w-full" />
+              ))}
+            </div>
+          ) : (
+            <>
+              <PlayerLeaderboard 
+                players={playersData?.data.map((player, index) => ({
+                  id: player.id.toString(),
+                  rank: (playersPage - 1) * 15 + index + 1,
+                  name: player.name,
+                  level: player.level,
+                  power: player.experience,
+                  guild: player.guild?.name
+                })) || []} 
+                title="Top Jogadores Mais Fortes" 
+              />
+              
+              {playersData && playersData.last_page > 1 && (
+                <div className="flex items-center justify-center gap-2 mt-8">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPlayersPage(p => Math.max(1, p - 1))}
+                    disabled={playersPage === 1}
+                    data-testid="button-prev-page-players"
+                  >
+                    <ChevronLeft className="w-4 h-4 mr-1" />
+                    Anterior
+                  </Button>
+                  <span className="text-sm text-muted-foreground px-4">
+                    Página {playersPage} de {playersData.last_page}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPlayersPage(p => Math.min(playersData.last_page, p + 1))}
+                    disabled={playersPage === playersData.last_page}
+                    data-testid="button-next-page-players"
+                  >
+                    Próxima
+                    <ChevronRight className="w-4 h-4 ml-1" />
+                  </Button>
                 </div>
-              ) : (
-                <>
-                  <PlayerLeaderboard 
-                    players={playersData?.data.map((player, index) => ({
-                      id: player.id.toString(),
-                      rank: (playersPage - 1) * 15 + index + 1,
-                      name: player.name,
-                      level: player.level,
-                      power: player.experience,
-                      guild: player.guild?.name
-                    })) || []} 
-                    title="Top Jogadores Mais Fortes" 
-                  />
-                  
-                  {playersData && playersData.last_page > 1 && (
-                    <div className="flex items-center justify-center gap-2 mt-8">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setPlayersPage(p => Math.max(1, p - 1))}
-                        disabled={playersPage === 1}
-                        data-testid="button-prev-page-players"
-                      >
-                        <ChevronLeft className="w-4 h-4 mr-1" />
-                        Anterior
-                      </Button>
-                      <span className="text-sm text-muted-foreground px-4">
-                        Página {playersPage} de {playersData.last_page}
-                      </span>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setPlayersPage(p => Math.min(playersData.last_page, p + 1))}
-                        disabled={playersPage === playersData.last_page}
-                        data-testid="button-next-page-players"
-                      >
-                        Próxima
-                        <ChevronRight className="w-4 h-4 ml-1" />
-                      </Button>
-                    </div>
-                  )}
-                </>
               )}
-            </TabsContent>
-
-            <TabsContent value="guilds">
-              <div>
-                <div className="flex items-center gap-2 mb-6">
-                  <Users className="w-5 h-5 text-primary" />
-                  <h2 className="text-2xl font-heading font-bold">Top 10 Guilds</h2>
-                </div>
-
-                {isLoadingGuilds ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {[...Array(6)].map((_, i) => (
-                      <Skeleton key={i} className="h-40 w-full" />
-                    ))}
-                  </div>
-                ) : (
-                  <>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {guildsData?.data.map((guild, index) => (
-                        <GuildCard
-                          key={guild.id}
-                          rank={(guildsPage - 1) * 10 + index + 1}
-                          {...guild}
-                        />
-                      ))}
-                    </div>
-
-                    {guildsData && guildsData.last_page > 1 && (
-                      <div className="flex items-center justify-center gap-2 mt-8">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setGuildsPage(p => Math.max(1, p - 1))}
-                          disabled={guildsPage === 1}
-                          data-testid="button-prev-page-guilds"
-                        >
-                          <ChevronLeft className="w-4 h-4 mr-1" />
-                          Anterior
-                        </Button>
-                        <span className="text-sm text-muted-foreground px-4">
-                          Página {guildsPage} de {guildsData.last_page}
-                        </span>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setGuildsPage(p => Math.min(guildsData.last_page, p + 1))}
-                          disabled={guildsPage === guildsData.last_page}
-                          data-testid="button-next-page-guilds"
-                        >
-                          Próxima
-                          <ChevronRight className="w-4 h-4 ml-1" />
-                        </Button>
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            </TabsContent>
-          </Tabs>
+            </>
+          )}
         </div>
       </div>
     </div>
