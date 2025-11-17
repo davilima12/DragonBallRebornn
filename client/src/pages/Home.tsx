@@ -15,7 +15,7 @@ export default function Home() {
   const { data: playersData, isLoading: isLoadingPlayers } = useQuery<PlayersPaginatedResponse>({
     queryKey: ['/api/players/top10'],
     queryFn: async () => {
-      const response = await fetch(`${PLAYERS_API_URL}?limit=10&offset=0&orderBy=level`);
+      const response = await fetch(`${PLAYERS_API_URL}?limit=10&page=1&orderBy=level`);
       
       if (!response.ok) {
         return { data: [], current_page: 1, total: 0, per_page: 10, last_page: 1 };

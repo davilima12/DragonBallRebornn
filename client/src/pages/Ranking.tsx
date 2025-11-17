@@ -1,23 +1,35 @@
 import Navbar from "@/components/Navbar";
 import PlayerLeaderboard from "@/components/PlayerLeaderboard";
-import { Trophy, Zap } from "lucide-react";
+import { Trophy, Zap, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { PlayersPaginatedResponse } from "@/types/player";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PLAYERS_API_URL } from "@/lib/api";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export default function Ranking() {
   const [playersPage, setPlayersPage] = useState(1);
   const [playersOrderBy, setPlayersOrderBy] = useState<'level' | 'maglevel'>('level');
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const { data: playersData, isLoading: isLoadingPlayers } = useQuery<PlayersPaginatedResponse>({
-    queryKey: ['/api/players/ranking', playersPage, playersOrderBy],
+    queryKey: ['/api/players/ranking', playersPage, playersOrderBy, debouncedSearchTerm],
     queryFn: async () => {
-      const offset = (playersPage - 1) * 15;
-      const response = await fetch(`${PLAYERS_API_URL}?limit=15&offset=${offset}&orderBy=${playersOrderBy}`);
+      const params = new URLSearchParams({
+        limit: '15',
+        page: playersPage.toString(),
+        orderBy: playersOrderBy,
+      });
+      
+      if (debouncedSearchTerm.trim()) {
+        params.append('name', debouncedSearchTerm.trim());
+      }
+      
+      const response = await fetch(`${PLAYERS_API_URL}?${params}`);
       
       if (!response.ok) {
         return { data: [], current_page: 1, total: 0, per_page: 15, last_page: 1 };
@@ -45,31 +57,48 @@ export default function Ranking() {
             <p className="text-muted-foreground">Veja os melhores jogadores do servidor</p>
           </div>
 
-          <div className="flex justify-center gap-2 mb-8">
-            <Button
-              variant={playersOrderBy === 'level' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => {
-                setPlayersOrderBy('level');
-                setPlayersPage(1);
-              }}
-              data-testid="filter-level"
-            >
-              <Trophy className="w-4 h-4 mr-2" />
-              Level
-            </Button>
-            <Button
-              variant={playersOrderBy === 'maglevel' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => {
-                setPlayersOrderBy('maglevel');
-                setPlayersPage(1);
-              }}
-              data-testid="filter-maglevel"
-            >
-              <Zap className="w-4 h-4 mr-2" />
-              Magic Level
-            </Button>
+          <div className="space-y-4 mb-8">
+            <div className="flex justify-center gap-2">
+              <Button
+                variant={playersOrderBy === 'level' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => {
+                  setPlayersOrderBy('level');
+                  setPlayersPage(1);
+                }}
+                data-testid="filter-level"
+              >
+                <Trophy className="w-4 h-4 mr-2" />
+                Level
+              </Button>
+              <Button
+                variant={playersOrderBy === 'maglevel' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => {
+                  setPlayersOrderBy('maglevel');
+                  setPlayersPage(1);
+                }}
+                data-testid="filter-maglevel"
+              >
+                <Zap className="w-4 h-4 mr-2" />
+                Magic Level
+              </Button>
+            </div>
+            
+            <div className="max-w-md mx-auto relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Input
+                type="text"
+                placeholder="Buscar jogador por nome..."
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setPlayersPage(1);
+                }}
+                className="pl-10"
+                data-testid="input-search-player"
+              />
+            </div>
           </div>
 
           {isLoadingPlayers ? (
