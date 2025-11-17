@@ -5,6 +5,10 @@ import PlayerLeaderboard from "@/components/PlayerLeaderboard";
 import GuildCard from "@/components/GuildCard";
 import { Card } from "@/components/ui/card";
 import { Trophy, Users, Shield, Zap } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { GuildsPaginatedResponse } from "@/types/guild";
+import { Skeleton } from "@/components/ui/skeleton";
+import { GUILDS_API_URL } from "@/lib/api";
 
 export default function Home() {
   const topPlayers = [
@@ -19,6 +23,17 @@ export default function Home() {
     { id: "player9", rank: 9, name: "PhoenixRise", level: 122, power: 110987, guild: "Phoenix Squad" },
     { id: "player10", rank: 10, name: "DragonFist", level: 120, power: 99876 },
   ];
+
+  const { data: guildsData, isLoading: isLoadingGuilds } = useQuery<GuildsPaginatedResponse>({
+    queryKey: ['/api/guilds/top5'],
+    queryFn: async () => {
+      const response = await fetch(`${GUILDS_API_URL}?per_page=5`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch guilds');
+      }
+      return response.json();
+    },
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -70,13 +85,23 @@ export default function Home() {
               <h2 className="text-2xl font-heading font-bold mb-6 flex items-center gap-2">
                 <span>Top 5 Guilds</span>
               </h2>
-              <div className="space-y-4">
-                <GuildCard rank={1} id={1} name="Z Fighters" kills={45000} logo="" description="A guild poderosa dos melhores guerreiros" />
-                <GuildCard rank={2} id={2} name="Dragon Force" kills={42000} logo="" description="Unidos pela força do dragão" />
-                <GuildCard rank={3} id={3} name="Gods Army" kills={39000} logo="" description="O exército dos deuses guerreiros" />
-                <GuildCard rank={4} id={4} name="Elite Warriors" kills={36000} logo="" description="Elite entre os guerreiros mais fortes" />
-                <GuildCard rank={5} id={5} name="Phoenix Squad" kills={33000} logo="" description="Renascidos das cinzas com mais poder" />
-              </div>
+              {isLoadingGuilds ? (
+                <div className="space-y-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Skeleton key={i} className="h-32 w-full" />
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {guildsData?.data.slice(0, 5).map((guild, index) => (
+                    <GuildCard
+                      key={guild.id}
+                      rank={index + 1}
+                      {...guild}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -8,8 +8,7 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { GuildsPaginatedResponse } from "@/types/guild";
 import { Skeleton } from "@/components/ui/skeleton";
-
-const GUILDS_API_URL = "http://localhost:8000/api/guilds";
+import { GUILDS_API_URL } from "@/lib/api";
 
 export default function Guilds() {
   const [searchTerm, setSearchTerm] = useState("");

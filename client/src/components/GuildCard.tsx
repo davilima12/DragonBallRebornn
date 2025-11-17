@@ -2,19 +2,21 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, Skull, Shield } from "lucide-react";
 import { Link } from "wouter";
+import { API_BASE_URL } from "@/lib/api";
 
-const LOGO_BASE_URL = "http://localhost:8000/storage/guilds/";
+const LOGO_BASE_URL = `${API_BASE_URL}/storage/guilds/`;
 
 interface GuildCardProps {
   rank: number;
   id: number;
   name: string;
   kills: number;
+  total_players: number;
   logo: string;
   description: string;
 }
 
-export default function GuildCard({ rank, id, name, kills, logo, description }: GuildCardProps) {
+export default function GuildCard({ rank, id, name, kills, total_players, logo, description }: GuildCardProps) {
   const getRankBadge = (rank: number) => {
     if (rank === 1) return { color: "bg-yellow-500/20 text-yellow-500 border-yellow-500/30", icon: "👑" };
     if (rank === 2) return { color: "bg-gray-400/20 text-gray-400 border-gray-400/30", icon: "🥈" };
@@ -23,9 +25,6 @@ export default function GuildCard({ rank, id, name, kills, logo, description }: 
   };
 
   const badge = getRankBadge(rank);
-  
-  // Mock member count based on rank (já que API não retorna)
-  const memberCount = Math.max(20, 60 - rank * 2);
 
   return (
     <Link href={`/guild/${encodeURIComponent(name)}`}>
@@ -51,7 +50,7 @@ export default function GuildCard({ rank, id, name, kills, logo, description }: 
           <div className="flex items-center gap-2">
             <Users className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm" data-testid={`text-members-${id}`}>
-              {memberCount} membros
+              {total_players} membros
             </span>
           </div>
           <div className="flex items-center gap-2">

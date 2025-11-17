@@ -2,6 +2,7 @@ export interface Guild {
   id: number;
   name: string;
   kills: number;
+  total_players: number;
   logo: string;
   description: string;
 }

@@ -1,8 +1,12 @@
 import Navbar from "@/components/Navbar";
 import PlayerLeaderboard from "@/components/PlayerLeaderboard";
+import GuildCard from "@/components/GuildCard";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Card } from "@/components/ui/card";
-import { Trophy, Users, Zap } from "lucide-react";
+import { Trophy, Users } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { GuildsPaginatedResponse } from "@/types/guild";
+import { Skeleton } from "@/components/ui/skeleton";
+import { GUILDS_API_URL } from "@/lib/api";
 
 export default function Ranking() {
   const topPlayers = [
@@ -23,18 +27,16 @@ export default function Ranking() {
     { id: "player15", rank: 15, name: "DestructoDisk", level: 108, power: 44321 },
   ];
 
-  const topGuilds = [
-    { rank: 1, name: "Z Fighters", leader: "Goku Master", members: 50, power: 45000000 },
-    { rank: 2, name: "Dragon Force", leader: "Vegeta Pro", members: 48, power: 42000000 },
-    { rank: 3, name: "Gods Army", leader: "Divine Warrior", members: 45, power: 39000000 },
-    { rank: 4, name: "Elite Warriors", leader: "Piccolo King", members: 42, power: 36000000 },
-    { rank: 5, name: "Phoenix Squad", leader: "Gohan Hero", members: 40, power: 33000000 },
-    { rank: 6, name: "Shadow Clan", leader: "Dark Master", members: 38, power: 30000000 },
-    { rank: 7, name: "Thunder Legion", leader: "Storm King", members: 35, power: 27000000 },
-    { rank: 8, name: "Fire Dragons", leader: "Blaze Lord", members: 32, power: 24000000 },
-    { rank: 9, name: "Ice Warriors", leader: "Frost Queen", members: 30, power: 21000000 },
-    { rank: 10, name: "Wind Riders", leader: "Tempest", members: 28, power: 18000000 },
-  ];
+  const { data: guildsData, isLoading: isLoadingGuilds } = useQuery<GuildsPaginatedResponse>({
+    queryKey: ['/api/guilds/ranking'],
+    queryFn: async () => {
+      const response = await fetch(`${GUILDS_API_URL}?per_page=10`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch guilds');
+      }
+      return response.json();
+    },
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -65,51 +67,30 @@ export default function Ranking() {
             </TabsContent>
 
             <TabsContent value="guilds">
-              <Card className="p-6">
+              <div>
                 <div className="flex items-center gap-2 mb-6">
                   <Users className="w-5 h-5 text-primary" />
                   <h2 className="text-2xl font-heading font-bold">Top 10 Guilds</h2>
                 </div>
 
-                <div className="space-y-3">
-                  {topGuilds.map((guild) => (
-                    <div
-                      key={guild.rank}
-                      className="flex items-center gap-4 p-4 rounded-md hover-elevate border border-card-border"
-                      data-testid={`guild-row-${guild.rank}`}
-                    >
-                      <div className={`w-12 text-center font-display font-bold text-lg ${
-                        guild.rank === 1 ? 'text-yellow-500' :
-                        guild.rank === 2 ? 'text-gray-400' :
-                        guild.rank === 3 ? 'text-amber-700' :
-                        'text-muted-foreground'
-                      }`}>
-                        {guild.rank === 1 ? '👑' : `#${guild.rank}`}
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="font-heading font-bold text-lg" data-testid={`text-guild-name-${guild.rank}`}>
-                          {guild.name}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          Líder: <span className="text-foreground">{guild.leader}</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-6 text-sm">
-                        <div className="flex items-center gap-2">
-                          <Users className="w-4 h-4 text-muted-foreground" />
-                          <span data-testid={`text-members-${guild.rank}`}>{guild.members}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-primary font-semibold">
-                          <Zap className="w-4 h-4" />
-                          <span data-testid={`text-power-${guild.rank}`}>{guild.power.toLocaleString()}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Card>
+                {isLoadingGuilds ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[...Array(6)].map((_, i) => (
+                      <Skeleton key={i} className="h-40 w-full" />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {guildsData?.data.map((guild, index) => (
+                      <GuildCard
+                        key={guild.id}
+                        rank={index + 1}
+                        {...guild}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
             </TabsContent>
           </Tabs>
         </div>
