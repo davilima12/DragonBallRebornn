@@ -22,7 +22,7 @@ export default function Home() {
       }
       
       const data = await response.json();
-      return typeof data === 'number' ? data : (data.count || 0);
+      return typeof data === 'number' ? data : (data.qtd_online || data.count || 0);
     },
     retry: false,
     refetchInterval: 30000,

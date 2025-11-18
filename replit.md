@@ -118,6 +118,13 @@ The application uses an interface-based storage pattern (IStorage) allowing easy
     - Accept endpoint: POST to `http://localhost:8000/api/guild/accept-invite-player`
     - Accept request body: { player_id: number, guild_id: number }
     - After acceptance, player moves from guild_invite to guild_rank members
+- **Online Players Count:**
+  - External API endpoint at `http://localhost:8080/api/qtd_online`
+  - Returns real-time count of online players: `{ "qtd_online": <number> }`
+  - Displayed on home page ServerStatus component
+  - Auto-refreshes every 30 seconds via TanStack Query
+  - Fallback to 0 if API is unavailable
+  - Direct fetch to external server (port 8080) for game server statistics
 
 ### Data Storage Solutions
 
