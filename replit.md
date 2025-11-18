@@ -91,6 +91,9 @@ The application uses an interface-based storage pattern (IStorage) allowing easy
 - `GET /api/account/players`: Returns all players/characters belonging to authenticated user's account
   - Header: Authorization: Bearer {token}
   - Response: Array of player objects
+- `POST /api/player`: Creates a new player/character for authenticated user
+  - Header: Authorization: Bearer {token}
+  - Request body: { playerName, vocationId }
 - `GET /api/players`: Paginated list of players with filtering
 - `GET /api/player/:id`: Detailed player information
 - `GET /api/guilds`: Paginated list of guilds

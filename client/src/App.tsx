@@ -15,6 +15,7 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import Dashboard from "@/pages/Dashboard";
 import AccountSettings from "@/pages/AccountSettings";
 import Characters from "@/pages/Characters";
+import CreateCharacter from "@/pages/CreateCharacter";
 import CharacterDetail from "@/pages/CharacterDetail";
 import PlayerProfile from "@/pages/PlayerProfile";
 import Shop from "@/pages/Shop";
@@ -41,6 +42,7 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/account-settings" component={AccountSettings} />
       <Route path="/characters" component={Characters} />
+      <Route path="/characters/create" component={CreateCharacter} />
       <Route path="/character/:id" component={CharacterDetail} />
       <Route path="/player/:id" component={PlayerProfile} />
       <Route path="/shop" component={Shop} />
