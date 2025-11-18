@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Trophy, Swords } from "lucide-react";
+import { Trophy } from "lucide-react";
 import { Link } from "wouter";
 
 interface Player {
@@ -54,37 +54,30 @@ export default function PlayerLeaderboard({ players, title = "Top 10 Jogadores",
                 <div className="font-heading font-semibold text-foreground" data-testid={`text-player-name-${player.rank}`}>
                   {player.name}
                 </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
-                  {player.guild && (
-                    <span data-testid={`text-guild-${player.rank}`}>
-                      [{player.guild}]
-                    </span>
-                  )}
-                  {player.vocation && typeof player.vocation === 'string' && (
-                    <span className="flex items-center gap-1">
-                      <Swords className="w-3 h-3" />
-                      {player.vocation}
-                    </span>
-                  )}
-                </div>
+                {player.guild && (
+                  <div className="text-xs text-muted-foreground" data-testid={`text-guild-${player.rank}`}>
+                    [{player.guild}]
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center gap-4 text-sm">
                 <Badge variant="secondary" className="font-mono">
                   {showMagLevel ? `ML. ${player.maglevel || 0}` : `Nv. ${player.level}`}
                 </Badge>
-                {player.vocation && (
-                  <div className="flex-shrink-0">
-                    <img
-                      src={`/vocations/${typeof player.vocation === 'number' ? 'Goku' : player.vocation}.gif`}
-                      alt={`${player.vocation}`}
-                      width={32}
-                      height={32}
-                      className="pixelated"
-                      data-testid={`img-vocation-${player.rank}`}
-                    />
-                  </div>
-                )}
+                <div className="flex flex-col items-center gap-1 flex-shrink-0">
+                  <img
+                    src={`/vocations/${typeof player.vocation === 'number' ? 'Goku' : player.vocation || 'Goku'}.gif`}
+                    alt={`${player.vocation || 'Goku'}`}
+                    width={32}
+                    height={32}
+                    className="pixelated"
+                    data-testid={`img-vocation-${player.rank}`}
+                  />
+                  <span className="text-xs text-muted-foreground font-medium">
+                    {typeof player.vocation === 'string' ? player.vocation : 'Goku'}
+                  </span>
+                </div>
               </div>
             </div>
           </Link>
