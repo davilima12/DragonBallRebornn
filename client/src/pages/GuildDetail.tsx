@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Users, Shield, Crown, Swords } from "lucide-react";
+import { ArrowLeft, Users, Shield, Crown } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { GUILD_DETAIL_API_URL } from "@/lib/api";
 import { GuildDetail as GuildDetailType } from "@/types/guild";
@@ -217,28 +217,18 @@ export default function GuildDetail() {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {getAllMembers().map((member) => (
+                    {getAllMembers().map((member, index) => (
                       <Link
                         key={member.id}
                         href={`/player/${member.id}`}
                       >
                         <div
-                          className="flex items-center gap-4 p-4 rounded-md border border-card-border hover-elevate active-elevate-2 cursor-pointer transition-all"
+                          className="flex items-center gap-4 p-3 rounded-md border border-card-border hover-elevate active-elevate-2 cursor-pointer transition-all"
                           data-testid={`member-row-${member.id}`}
                         >
-                          <div className="w-12 h-12 flex-shrink-0">
-                            <img 
-                              src={`/vocations/${typeof member.vocation === 'number' ? 'Goku' : member.vocation}.gif`}
-                              alt={`${member.vocation}`}
-                              width={48}
-                              height={48}
-                              className="pixelated"
-                            />
-                          </div>
-
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1 flex-wrap">
-                              <span className="font-heading font-bold" data-testid={`text-member-name-${member.id}`}>
+                              <span className="font-heading font-semibold" data-testid={`text-member-name-${member.id}`}>
                                 {member.name}
                               </span>
                               {member.online === 1 && (
@@ -246,15 +236,27 @@ export default function GuildDetail() {
                               )}
                               {getRankBadge(member.rankLevel)}
                             </div>
-                            <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
-                              {typeof member.vocation === 'string' && (
-                                <span className="flex items-center gap-1">
-                                  <Swords className="w-3 h-3" />
-                                  {member.vocation}
-                                </span>
-                              )}
-                              <span>Nv. {member.level}</span>
-                              <span>ML. {member.maglevel}</span>
+                            <div className="text-xs text-muted-foreground">
+                              {guild.name && `[${guild.name}]`}
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-4 text-sm">
+                            <Badge variant="secondary" className="font-mono">
+                              Nv. {member.level}
+                            </Badge>
+                            <div className="flex flex-col items-center gap-1 flex-shrink-0">
+                              <img
+                                src={`/vocations/${typeof member.vocation === 'number' ? 'Goku' : member.vocation || 'Goku'}.gif`}
+                                alt={`${member.vocation || 'Goku'}`}
+                                width={32}
+                                height={32}
+                                className="pixelated"
+                                data-testid={`img-vocation-${member.id}`}
+                              />
+                              <span className="text-xs text-muted-foreground font-medium">
+                                {typeof member.vocation === 'string' ? member.vocation : 'Goku'}
+                              </span>
                             </div>
                           </div>
                         </div>
