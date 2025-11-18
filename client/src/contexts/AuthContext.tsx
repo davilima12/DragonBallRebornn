@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 import { LOGIN_API_URL, VALIDATE_TOKEN_API_URL, ACCOUNT_API_URL, LOGOUT_API_URL } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { Account } from "@/types/account";
+import { queryClient } from "@/lib/queryClient";
 
 interface User {
   id: string;
@@ -191,6 +192,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.removeItem("authToken");
       localStorage.removeItem("user");
       localStorage.removeItem("account");
+      
+      queryClient.removeQueries({ 
+        predicate: (query) => {
+          const key = query.queryKey[0];
+          return typeof key === 'string' && (
+            key.includes('/api/account') || 
+            key.includes('/api/player')
+          );
+        }
+      });
+      
       toast({
         title: "Até logo!",
         description: "Você saiu da sua conta.",

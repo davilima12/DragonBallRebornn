@@ -1,5 +1,5 @@
 import { useRoute, Link } from "wouter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +11,7 @@ import { GUILD_DETAIL_API_URL, GUILD_INVITE_PLAYER_API_URL } from "@/lib/api";
 import { GuildDetail as GuildDetailType } from "@/types/guild";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { getAuthToken } from "@/contexts/AuthContext";
+import { getAuthToken, useAuth } from "@/contexts/AuthContext";
 import { PlayerSearchSelect } from "@/components/PlayerSearchSelect";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
@@ -21,10 +21,17 @@ import { useAccountPlayers } from "@/hooks/useAccountPlayers";
 export default function GuildDetail() {
   const [, params] = useRoute("/guild/:name");
   const guildName = params?.name;
+  const { isAuthenticated } = useAuth();
   const { data: accountPlayers, isLoading: isLoadingPlayers } = useAccountPlayers();
   const { toast } = useToast();
   const { showLoading } = useLoading();
   const [selectedPlayerId, setSelectedPlayerId] = useState<number | undefined>();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setSelectedPlayerId(undefined);
+    }
+  }, [isAuthenticated]);
 
   const { data: guild, isLoading } = useQuery<GuildDetailType>({
     queryKey: ['/api/guild', guildName],
@@ -298,7 +305,7 @@ export default function GuildDetail() {
                 </div>
               </Card>
 
-              {!isLoadingPlayers && accountPlayers && getCurrentUserGuildRole() === null && (
+              {isAuthenticated && !isLoadingPlayers && accountPlayers && getCurrentUserGuildRole() === null && (
                 <Card className="p-6">
                   <div className="text-center py-8">
                     <Users className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
@@ -310,7 +317,7 @@ export default function GuildDetail() {
                 </Card>
               )}
 
-              {!isLoadingPlayers && getCurrentUserGuildRole()?.isAdmin && (
+              {isAuthenticated && !isLoadingPlayers && getCurrentUserGuildRole()?.isAdmin && (
                 <Card className="p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <UserPlus className="w-6 h-6 text-primary" />

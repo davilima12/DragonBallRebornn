@@ -104,6 +104,11 @@ The application uses an interface-based storage pattern (IStorage) allowing easy
   - Header: Authorization: Bearer {token}
   - Request body: { name, ownerId }
   - Response: Created guild object
+- **Guild Invitation System:**
+  - Frontend sends invite requests directly to `http://localhost:8000/api/guild/join-player`
+  - Only guild leaders (rank level 3) and vice-leaders (rank level 2) can invite players
+  - Request body: { player_id: number, guild_id: number, guild_player_admin: number }
+  - Authentication handled via Bearer token in Authorization header
 
 ### Data Storage Solutions
 
@@ -160,6 +165,13 @@ Current schema includes a users table with:
 - Automatic logout on invalid/expired tokens
 - Password fields in schema (ready for hashing implementation)
 - Environment variable protection for DATABASE_URL
+
+**Logout and Cache Management:**
+- On logout, TanStack Query cache is selectively cleared to remove user-specific data
+- Removes queries matching `/api/account` and `/api/player` endpoints
+- Components using `useAuth()` automatically re-render when authentication state changes
+- Guild invite UI is gated by `isAuthenticated` check to prevent showing after logout
+- Local component state (like selected player) is reset via useEffect when user logs out
 
 ### External Dependencies
 
