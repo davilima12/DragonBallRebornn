@@ -30,9 +30,9 @@ const SKILL_NAMES: Record<number, { name: string; icon: any }> = {
   1: { name: "Club Fighting", icon: Swords },
   2: { name: "Sword Fighting", icon: Swords },
   3: { name: "Axe Fighting", icon: Swords },
-  4: { name: "Axe Fighting", icon: Swords },
-  5: { name: "Distance Fighting", icon: Swords },
-  6: { name: "Shielding", icon: Shield },
+  4: { name: "Distance Fighting", icon: Swords },
+  5: { name: "Shielding", icon: Shield },
+  6: { name: "Fishing", icon: Activity },
 };
 
 export default function PlayerProfile() {

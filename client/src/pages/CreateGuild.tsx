@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Shield, User } from "lucide-react";
+import { ArrowLeft, Shield, User, Upload } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CreateGuild() {
@@ -24,22 +24,30 @@ export default function CreateGuild() {
   
   const [name, setName] = useState("");
   const [selectedOwnerId, setSelectedOwnerId] = useState<string>("");
+  const [logoFile, setLogoFile] = useState<File | null>(null);
 
   const createGuildMutation = useMutation({
-    mutationFn: async (data: { name: string; ownerId: number }) => {
+    mutationFn: async (data: { name: string; ownerId: number; logo_gfx_name: File | null }) => {
       const token = getAuthToken();
       
       if (!token) {
         throw new Error("Token não encontrado");
       }
 
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('ownerId', data.ownerId.toString());
+      
+      if (data.logo_gfx_name) {
+        formData.append('logo_gfx_name', data.logo_gfx_name);
+      }
+
       const response = await fetch(CREATE_GUILD_API_URL, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(data)
+        body: formData
       });
 
       if (!response.ok) {
@@ -72,6 +80,21 @@ export default function CreateGuild() {
     }
   });
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "Arquivo muito grande",
+          description: "A logo deve ter no máximo 5MB.",
+          variant: "destructive",
+        });
+        return;
+      }
+      setLogoFile(file);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -98,7 +121,8 @@ export default function CreateGuild() {
     createGuildMutation.mutate(
       {
         name: name.trim(),
-        ownerId: parseInt(selectedOwnerId)
+        ownerId: parseInt(selectedOwnerId),
+        logo_gfx_name: logoFile
       },
       {
         onSettled: () => {
@@ -226,6 +250,43 @@ export default function CreateGuild() {
                 />
                 <p className="text-xs text-muted-foreground">
                   Mínimo 3 caracteres, máximo 30 caracteres
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="logo">
+                  <Upload className="w-4 h-4 inline mr-2" />
+                  Logo da Guild (Opcional)
+                </Label>
+                <div className="flex items-center gap-4">
+                  <Input
+                    id="logo"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    data-testid="input-logo"
+                    disabled={createGuildMutation.isPending}
+                    className="flex-1"
+                  />
+                  {logoFile && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground truncate max-w-[200px]">
+                        {logoFile.name}
+                      </span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setLogoFile(null)}
+                        data-testid="button-remove-logo"
+                      >
+                        Remover
+                      </Button>
+                    </div>
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Formatos aceitos: PNG, JPG, GIF. Tamanho máximo: 5MB
                 </p>
               </div>
 
