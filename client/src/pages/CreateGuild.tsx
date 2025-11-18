@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "@/contexts/AuthContext";
+import { getAuthToken } from "@/contexts/AuthContext";
+import { useLoading } from "@/contexts/LoadingContext";
 import { useAccountPlayers } from "@/hooks/useAccountPlayers";
-import { apiRequest } from "@/lib/queryClient";
+import { queryClient } from "@/lib/queryClient";
 import { CREATE_GUILD_API_URL } from "@/lib/api";
 import Navbar from "@/components/Navbar";
 import { Card } from "@/components/ui/card";
@@ -18,7 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function CreateGuild() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
-  const { token } = useAuth();
+  const { showLoading } = useLoading();
   const { data: players, isLoading: playersLoading } = useAccountPlayers();
   
   const [name, setName] = useState("");
@@ -26,9 +27,13 @@ export default function CreateGuild() {
 
   const createGuildMutation = useMutation({
     mutationFn: async (data: { name: string; ownerId: number }) => {
-      if (!token) throw new Error("Token não encontrado");
+      const token = getAuthToken();
       
-      return await apiRequest(CREATE_GUILD_API_URL, {
+      if (!token) {
+        throw new Error("Token não encontrado");
+      }
+
+      const response = await fetch(CREATE_GUILD_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,18 +41,32 @@ export default function CreateGuild() {
         },
         body: JSON.stringify(data)
       });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Erro ao criar guild');
+      }
+
+      return response.json();
     },
     onSuccess: () => {
       toast({
         title: "Guild criada com sucesso!",
         description: "Sua guild foi criada e você é o líder.",
       });
+      
+      queryClient.invalidateQueries({
+        predicate: (query) => 
+          Array.isArray(query.queryKey) && 
+          query.queryKey[0]?.toString().startsWith('/api/guilds')
+      });
+      
       navigate("/guilds");
     },
     onError: (error: any) => {
       toast({
         title: "Erro ao criar guild",
-        description: error.message || "Ocorreu um erro ao criar a guild. Tente novamente.",
+        description: error instanceof Error ? error.message : "Ocorreu um erro ao criar a guild. Tente novamente.",
         variant: "destructive",
       });
     }
@@ -74,11 +93,22 @@ export default function CreateGuild() {
       return;
     }
 
-    createGuildMutation.mutate({
-      name: name.trim(),
-      ownerId: parseInt(selectedOwnerId)
-    });
+    const hideLoadingFn = showLoading("Criando guild...");
+    
+    createGuildMutation.mutate(
+      {
+        name: name.trim(),
+        ownerId: parseInt(selectedOwnerId)
+      },
+      {
+        onSettled: () => {
+          hideLoadingFn();
+        }
+      }
+    );
   };
+
+  const token = getAuthToken();
 
   if (!token) {
     return (
