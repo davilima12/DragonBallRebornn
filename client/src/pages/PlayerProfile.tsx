@@ -119,12 +119,16 @@ export default function PlayerProfile() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent h-64" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <Link href="/ranking">
-            <Button variant="ghost" size="sm" className="mb-4" data-testid="button-back">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Voltar
-            </Button>
-          </Link>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="mb-4" 
+            onClick={() => window.history.back()}
+            data-testid="button-back"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Voltar
+          </Button>
 
           {isLoading ? (
             <div className="space-y-6">
@@ -391,12 +395,10 @@ export default function PlayerProfile() {
                 <p className="text-muted-foreground mb-6">
                   Não foi possível encontrar informações sobre este jogador.
                 </p>
-                <Link href="/ranking">
-                  <Button>
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Voltar para Ranking
-                  </Button>
-                </Link>
+                <Button onClick={() => window.history.back()}>
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Voltar
+                </Button>
               </div>
             </Card>
           )}
