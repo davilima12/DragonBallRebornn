@@ -119,4 +119,8 @@ export interface Player {
   castDescription: string;
   sbw_points: number;
   status: string;
+  guild?: {
+    id: number;
+    name: string;
+  } | null;
 }

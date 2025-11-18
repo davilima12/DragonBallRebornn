@@ -1,10 +1,12 @@
-import { useState } from "react";
 import Navbar from "@/components/Navbar";
-import CharacterCard from "@/components/CharacterCard";
+import PlayerLeaderboard from "@/components/PlayerLeaderboard";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, Users } from "lucide-react";
+import { Link } from "wouter";
+import { useAccountPlayers } from "@/hooks/useAccountPlayers";
 
 export default function Characters() {
   return (
@@ -15,12 +17,7 @@ export default function Characters() {
 }
 
 function CharactersPage() {
-  const [characters] = useState([
-    { id: "char1", name: "SuperWarrior", level: 150, power: 999999, classType: "Guerreiro Sayajin", guild: "Z Fighters", isOnline: true },
-    { id: "char2", name: "MysticMage", level: 135, power: 654321, classType: "Mago Místico", guild: "Dragon Force", isOnline: false },
-    { id: "char3", name: "ShadowNinja", level: 142, power: 777888, classType: "Ninja das Sombras", isOnline: false },
-  ]);
-
+  const { data: players, isLoading } = useAccountPlayers();
   const maxCharacters = 5;
 
   return (
@@ -38,11 +35,13 @@ function CharactersPage() {
               </p>
             </div>
 
-            {characters.length < maxCharacters && (
-              <Button data-testid="button-create-character">
-                <Plus className="w-4 h-4 mr-2" />
-                Criar Personagem
-              </Button>
+            {!isLoading && (players?.length ?? 0) < maxCharacters && (
+              <Link href="/characters/create">
+                <Button data-testid="button-create-character">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Criar Personagem
+                </Button>
+              </Link>
             )}
           </div>
 
@@ -51,7 +50,9 @@ function CharactersPage() {
               <Users className="w-5 h-5 text-primary" />
               <div>
                 <p className="text-sm font-medium">
-                  Slots de Personagens: <span className="text-primary font-bold">{characters.length}/{maxCharacters}</span>
+                  Slots de Personagens: <span className="text-primary font-bold">
+                    {isLoading ? '-' : `${players?.length ?? 0}/${maxCharacters}`}
+                  </span>
                 </p>
                 <p className="text-xs text-muted-foreground">
                   Você pode ter até {maxCharacters} personagens ativos
@@ -60,28 +61,44 @@ function CharactersPage() {
             </div>
           </Card>
 
-          {characters.length === 0 ? (
+          {isLoading ? (
+            <div className="space-y-4">
+              {[...Array(3)].map((_, i) => (
+                <Skeleton key={i} className="h-20 w-full" />
+              ))}
+            </div>
+          ) : (players?.length ?? 0) === 0 ? (
             <Card className="p-12 text-center">
               <Users className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
               <h3 className="text-xl font-heading font-bold mb-2">Nenhum Personagem</h3>
               <p className="text-muted-foreground mb-6">
                 Você ainda não criou nenhum personagem. Crie seu primeiro personagem agora!
               </p>
-              <Button data-testid="button-create-first-character">
-                <Plus className="w-4 h-4 mr-2" />
-                Criar Primeiro Personagem
-              </Button>
+              <Link href="/characters/create">
+                <Button data-testid="button-create-first-character">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Criar Primeiro Personagem
+                </Button>
+              </Link>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {characters.map((character) => (
-                <CharacterCard key={character.id} {...character} />
-              ))}
-            </div>
+            <PlayerLeaderboard 
+              players={players?.map((player, index) => ({
+                id: player.id.toString(),
+                rank: index + 1,
+                name: player.name,
+                level: player.level,
+                maglevel: player.maglevel,
+                power: player.experience,
+                guild: player.guild?.name,
+                vocation: player.vocation
+              })) || []} 
+              title="Seus Personagens"
+              showMagLevel={false}
+            />
           )}
         </div>
       </div>
     </div>
   );
 }
-
