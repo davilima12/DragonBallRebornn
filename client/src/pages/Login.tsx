@@ -9,7 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useLoading } from "@/contexts/LoadingContext";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [loginInput, setLoginInput] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
   const { showLoading } = useLoading();
@@ -19,8 +19,10 @@ export default function Login() {
     e.preventDefault();
     const hideLoadingFn = showLoading("Entrando...");
     try {
-      await login(email, password);
-      setLocation("/dashboard");
+      await login(loginInput, password);
+      setLocation("/");
+    } catch (error) {
+      // Error is already handled in AuthContext with toast
     } finally {
       hideLoadingFn();
     }
@@ -38,14 +40,14 @@ export default function Login() {
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email">Email ou Username</Label>
+              <Label htmlFor="login">Email ou Username</Label>
               <Input
-                id="email"
+                id="login"
                 type="text"
-                placeholder="seu@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                data-testid="input-email"
+                placeholder="seu@email.com ou username"
+                value={loginInput}
+                onChange={(e) => setLoginInput(e.target.value)}
+                data-testid="input-login"
                 required
               />
             </div>

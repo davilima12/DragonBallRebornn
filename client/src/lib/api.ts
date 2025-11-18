@@ -7,3 +7,5 @@ export const PLAYER_DETAIL_API_URL = (id: string | number) => `${API_BASE_URL}/a
 export const GUILD_DETAIL_API_URL = (id: string | number) => `${API_BASE_URL}/api/guild/${id}`;
 export const VOCATIONS_API_URL = `${API_BASE_URL}/api/vocations`;
 export const ACCOUNT_API_URL = `${API_BASE_URL}/api/account`;
+export const LOGIN_API_URL = `${API_BASE_URL}/api/login`;
+export const VALIDATE_TOKEN_API_URL = `${API_BASE_URL}/api/account/validate-auth-token`;

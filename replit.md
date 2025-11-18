@@ -78,6 +78,11 @@ The application uses an interface-based storage pattern (IStorage) allowing easy
 - `GET /api/vocations`: Returns list of available character vocations
 - `POST /api/account`: Creates new user account with player character
   - Request body: { name, email, password, nickname, playerName, vocationId }
+- `POST /api/login`: Authenticates user and returns JWT token
+  - Request body: { login, password }
+  - Response: { token }
+- `GET /api/account/validate-auth-token`: Validates JWT token and returns user data
+  - Header: Authorization: Bearer {token}
 - `GET /api/players`: Paginated list of players with filtering
 - `GET /api/player/:id`: Detailed player information
 - `GET /api/guilds`: Paginated list of guilds
@@ -110,20 +115,33 @@ Current schema includes a users table with:
 ### Authentication and Authorization
 
 **Current Implementation:**
-- Context-based authentication (AuthContext) with localStorage persistence
-- Mock authentication for development (simulated login flow)
+- JWT token-based authentication via AuthContext
+- Token stored in localStorage with automatic validation on app load
+- Login endpoint validates credentials and returns JWT token
+- Token validation endpoint returns user data for authenticated requests
 - Protected route wrapper component preventing unauthorized access
-- User session data stored in localStorage
+- Automatic token validation on app initialization
 
-**Production-Ready Preparation:**
-- Session store configured for PostgreSQL (connect-pg-simple)
-- Express session middleware ready for implementation
-- Credentials included in fetch requests for cookie-based sessions
+**Authentication Flow:**
+1. User submits login credentials (username/email + password)
+2. Backend validates and returns JWT token
+3. Frontend stores token in localStorage
+4. Frontend validates token and fetches user data
+5. User data stored in AuthContext and localStorage
+6. Token included in Authorization header for protected API requests
+
+**UI Integration:**
+- Navbar adapts based on authentication status
+- Logged-in users see: account dropdown, points balance, dashboard/characters/settings links, logout
+- Non-authenticated users see: login and register buttons
+- Loading state during token validation prevents UI flicker
 
 **Security Considerations:**
+- JWT token-based authentication with Bearer scheme
+- Token validation on each app load
+- Automatic logout on invalid/expired tokens
 - Password fields in schema (ready for hashing implementation)
 - Environment variable protection for DATABASE_URL
-- CSRF protection via rawBody preservation for webhook verification
 
 ### External Dependencies
 
