@@ -354,7 +354,7 @@ export default function GuildDetail() {
                 </div>
               </Card>
 
-              {isAuthenticated && !isLoadingPlayers && accountPlayers && getCurrentUserGuildRole() === null && (
+              {/* {isAuthenticated && !isLoadingPlayers && accountPlayers && getCurrentUserGuildRole() === null && (
                 <Card className="p-6">
                   <div className="text-center py-8">
                     <Users className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
@@ -364,7 +364,7 @@ export default function GuildDetail() {
                     </p>
                   </div>
                 </Card>
-              )}
+              )} */}
 
               {isAuthenticated && !isLoadingPlayers && getCurrentUserGuildRole()?.isAdmin && (
                 <Card className="p-6">
