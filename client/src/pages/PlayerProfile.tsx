@@ -66,6 +66,14 @@ export default function PlayerProfile() {
     return 'Desconhecido';
   };
 
+  const getKillerId = (death: PlayerDetail['player_death'][0]) => {
+    if (death.killer.player_killers.length > 0) {
+      const killer = death.killer.player_killers[0];
+      return killer.players[0]?.id;
+    }
+    return null;
+  };
+
   const isPlayerKiller = (death: PlayerDetail['player_death'][0]) => {
     return death.killer.player_killers.length > 0;
   };
@@ -279,9 +287,17 @@ export default function PlayerProfile() {
                               {death.level}
                             </Badge>
                             <span>para</span>
-                            <span className={isPlayerKiller(death) ? "font-semibold text-destructive" : "font-semibold text-orange-500"}>
-                              {getKillerName(death)}
-                            </span>
+                            {isPlayerKiller(death) && getKillerId(death) ? (
+                              <Link href={`/player/${getKillerId(death)}`}>
+                                <span className="font-semibold text-destructive hover:underline cursor-pointer">
+                                  {getKillerName(death)}
+                                </span>
+                              </Link>
+                            ) : (
+                              <span className="font-semibold text-orange-500">
+                                {getKillerName(death)}
+                              </span>
+                            )}
                           </div>
                           <div className="flex items-center gap-2 mt-1">
                             <Clock className="w-3 h-3 text-muted-foreground" />
