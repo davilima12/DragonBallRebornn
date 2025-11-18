@@ -256,7 +256,7 @@ export default function CreateGuild() {
               <div className="space-y-2">
                 <Label htmlFor="logo">
                   <Upload className="w-4 h-4 inline mr-2" />
-                  Logo da Guild (Opcional)
+                  Logo da Guild
                 </Label>
                 <div className="flex items-center gap-4">
                   <Input
