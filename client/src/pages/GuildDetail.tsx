@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Users, Zap, Shield, Crown, Swords } from "lucide-react";
+import { ArrowLeft, Users, Shield, Crown, Swords } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { GUILD_DETAIL_API_URL } from "@/lib/api";
 import { GuildDetail as GuildDetailType } from "@/types/guild";
@@ -51,13 +51,6 @@ export default function GuildDetail() {
     return guild.guild_rank.reduce((total, rank) => total + rank.player.length, 0);
   };
 
-  const getTotalPower = () => {
-    if (!guild) return 0;
-    return guild.guild_rank.reduce((total, rank) => {
-      return total + rank.player.reduce((sum, player) => sum + player.experience, 0);
-    }, 0);
-  };
-
   const getAllMembers = () => {
     if (!guild) return [];
     return guild.guild_rank
@@ -69,6 +62,11 @@ export default function GuildDetail() {
         }))
       )
       .sort((a, b) => b.level - a.level);
+  };
+
+  const getTopMember = () => {
+    const members = getAllMembers();
+    return members.length > 0 ? members[0] : null;
   };
 
   const getLeaderName = () => {
@@ -163,24 +161,42 @@ export default function GuildDetail() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                  <div className="p-4 bg-muted rounded-md">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Users className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">Membros</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                  {getTopMember() ? (
+                    <div className="p-4 bg-muted rounded-md">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Users className="w-4 h-4 text-muted-foreground" />
+                        <span className="text-sm text-muted-foreground">Membro de Maior Nível</span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="w-16 h-16 flex-shrink-0">
+                          <img 
+                            src={`/vocations/${typeof getTopMember()!.vocation === 'number' ? 'Goku' : getTopMember()!.vocation}.gif`}
+                            alt={`${getTopMember()!.vocation}`}
+                            width={64}
+                            height={64}
+                            className="pixelated"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-bold text-lg truncate" data-testid="text-top-member-name">
+                            {getTopMember()!.name}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Level {getTopMember()!.level}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-2xl font-bold" data-testid="text-member-count">{getTotalMembers()}</p>
-                  </div>
-
-                  <div className="p-4 bg-muted rounded-md">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Zap className="w-4 h-4 text-primary" />
-                      <span className="text-sm text-muted-foreground">Poder Total</span>
+                  ) : (
+                    <div className="p-4 bg-muted rounded-md">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Users className="w-4 h-4 text-muted-foreground" />
+                        <span className="text-sm text-muted-foreground">Membros</span>
+                      </div>
+                      <p className="text-2xl font-bold" data-testid="text-member-count">0</p>
                     </div>
-                    <p className="text-2xl font-bold text-primary" data-testid="text-total-power">
-                      {getTotalPower().toLocaleString()}
-                    </p>
-                  </div>
+                  )}
 
                   <div className="p-4 bg-muted rounded-md">
                     <div className="flex items-center gap-2 mb-1">
@@ -210,6 +226,16 @@ export default function GuildDetail() {
                           className="flex items-center gap-4 p-4 rounded-md border border-card-border hover-elevate active-elevate-2 cursor-pointer transition-all"
                           data-testid={`member-row-${member.id}`}
                         >
+                          <div className="w-12 h-12 flex-shrink-0">
+                            <img 
+                              src={`/vocations/${typeof member.vocation === 'number' ? 'Goku' : member.vocation}.gif`}
+                              alt={`${member.vocation}`}
+                              width={48}
+                              height={48}
+                              className="pixelated"
+                            />
+                          </div>
+
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1 flex-wrap">
                               <span className="font-heading font-bold" data-testid={`text-member-name-${member.id}`}>
@@ -230,13 +256,6 @@ export default function GuildDetail() {
                               <span>Nv. {member.level}</span>
                               <span>ML. {member.maglevel}</span>
                             </div>
-                          </div>
-
-                          <div className="flex items-center gap-2 text-primary font-semibold">
-                            <Zap className="w-4 h-4" />
-                            <span className="font-mono" data-testid={`text-member-power-${member.id}`}>
-                              {member.experience.toLocaleString()}
-                            </span>
                           </div>
                         </div>
                       </Link>
