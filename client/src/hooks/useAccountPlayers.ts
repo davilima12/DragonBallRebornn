@@ -26,5 +26,7 @@ export function useAccountPlayers() {
       return response.json();
     },
     enabled: !!getAuthToken(),
+    staleTime: 60000,
+    refetchOnWindowFocus: false,
   });
 }

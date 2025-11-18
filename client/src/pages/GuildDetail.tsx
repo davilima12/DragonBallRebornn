@@ -1,19 +1,30 @@
 import { useRoute, Link } from "wouter";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Users, Shield, Crown } from "lucide-react";
+import { ArrowLeft, Users, Shield, Crown, UserPlus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { GUILD_DETAIL_API_URL } from "@/lib/api";
+import { GUILD_DETAIL_API_URL, GUILD_INVITE_PLAYER_API_URL } from "@/lib/api";
 import { GuildDetail as GuildDetailType } from "@/types/guild";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { getAuthToken } from "@/contexts/AuthContext";
+import { PlayerSearchSelect } from "@/components/PlayerSearchSelect";
+import { useToast } from "@/hooks/use-toast";
+import { queryClient } from "@/lib/queryClient";
+import { useLoading } from "@/contexts/LoadingContext";
+import { useAccountPlayers } from "@/hooks/useAccountPlayers";
 
 export default function GuildDetail() {
   const [, params] = useRoute("/guild/:name");
   const guildName = params?.name;
+  const { data: accountPlayers, isLoading: isLoadingPlayers } = useAccountPlayers();
+  const { toast } = useToast();
+  const { showLoading } = useLoading();
+  const [selectedPlayerId, setSelectedPlayerId] = useState<number | undefined>();
 
   const { data: guild, isLoading } = useQuery<GuildDetailType>({
     queryKey: ['/api/guild', guildName],
@@ -79,6 +90,85 @@ export default function GuildDetail() {
     if (!guild) return '-';
     const viceRank = guild.guild_rank.find(r => r.level === 2);
     return viceRank?.player[0]?.name || '-';
+  };
+
+  const getCurrentUserGuildRole = () => {
+    if (!guild || !accountPlayers || accountPlayers.length === 0) return null;
+    
+    const accountPlayerIds = accountPlayers.map((p) => p.id);
+    
+    for (const rank of guild.guild_rank) {
+      for (const player of rank.player) {
+        if (accountPlayerIds.includes(player.id)) {
+          return {
+            playerId: player.id,
+            rankLevel: rank.level,
+            isAdmin: rank.level >= 2
+          };
+        }
+      }
+    }
+    
+    return null;
+  };
+
+  const handleInvitePlayer = async () => {
+    if (!selectedPlayerId || !guild) return;
+    
+    const userRole = getCurrentUserGuildRole();
+    if (!userRole || !userRole.isAdmin) {
+      toast({
+        title: "Acesso Negado",
+        description: "Você precisa ser Líder ou Vice-Líder para convidar jogadores.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const hideLoadingFn = showLoading("Enviando convite...");
+    try {
+      const token = getAuthToken();
+      const response = await fetch(GUILD_INVITE_PLAYER_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          player_id: selectedPlayerId,
+          guild_id: guild.id,
+          guild_player_admin: userRole.playerId,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Falha ao convidar jogador');
+      }
+
+      toast({
+        title: "Convite Enviado!",
+        description: "O jogador foi convidado para a guild com sucesso.",
+      });
+
+      await queryClient.invalidateQueries({ 
+        predicate: (query) => {
+          const key = query.queryKey[0];
+          return typeof key === 'string' && key.startsWith('/api/guild');
+        }
+      });
+
+      setSelectedPlayerId(undefined);
+    } catch (error) {
+      console.error('Error inviting player:', error);
+      toast({
+        title: "Erro ao Convidar",
+        description: error instanceof Error ? error.message : "Não foi possível enviar o convite.",
+        variant: "destructive",
+      });
+    } finally {
+      hideLoadingFn();
+    }
   };
 
   return (
@@ -207,6 +297,47 @@ export default function GuildDetail() {
                   </div>
                 </div>
               </Card>
+
+              {!isLoadingPlayers && accountPlayers && getCurrentUserGuildRole() === null && (
+                <Card className="p-6">
+                  <div className="text-center py-8">
+                    <Users className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                    <h3 className="text-lg font-semibold mb-2">Você não é membro desta guild</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Apenas membros com cargo de Líder ou Vice-Líder podem convidar jogadores.
+                    </p>
+                  </div>
+                </Card>
+              )}
+
+              {!isLoadingPlayers && getCurrentUserGuildRole()?.isAdmin && (
+                <Card className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <UserPlus className="w-6 h-6 text-primary" />
+                    <h2 className="text-2xl font-heading font-bold">Convidar Jogador</h2>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Como {getCurrentUserGuildRole()?.rankLevel === 3 ? 'Líder' : 'Vice-Líder'}, você pode convidar jogadores para entrar na guild.
+                  </p>
+                  <div className="flex gap-3">
+                    <div className="flex-1">
+                      <PlayerSearchSelect
+                        value={selectedPlayerId}
+                        onValueChange={setSelectedPlayerId}
+                        placeholder="Selecione um jogador para convidar..."
+                      />
+                    </div>
+                    <Button
+                      onClick={handleInvitePlayer}
+                      disabled={!selectedPlayerId || isLoadingPlayers}
+                      data-testid="button-send-invite"
+                    >
+                      <UserPlus className="w-4 h-4 mr-2" />
+                      Enviar Convite
+                    </Button>
+                  </div>
+                </Card>
+              )}
 
               <Card className="p-6">
                 <h2 className="text-2xl font-heading font-bold mb-6">Membros da Guild</h2>
