@@ -1,5 +1,6 @@
 import { Users, Shield } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatNumber } from "@/lib/formatNumber";
 
 interface FooterProps {
   onlinePlayers?: number;
@@ -20,7 +21,7 @@ export default function Footer({ onlinePlayers = 0, activeGuilds = 0, isLoading 
                   <Skeleton className="h-8 w-16" />
                 ) : (
                   <span className="text-2xl font-bold text-primary" data-testid="text-footer-online-players">
-                    {onlinePlayers}
+                    {formatNumber(onlinePlayers)}
                   </span>
                 )}
                 <span className="text-sm text-muted-foreground">Jogadores Online</span>
@@ -36,7 +37,7 @@ export default function Footer({ onlinePlayers = 0, activeGuilds = 0, isLoading 
                   <Skeleton className="h-8 w-16" />
                 ) : (
                   <span className="text-2xl font-bold text-primary" data-testid="text-footer-active-guilds">
-                    {activeGuilds}
+                    {formatNumber(activeGuilds)}
                   </span>
                 )}
                 <span className="text-sm text-muted-foreground">Guilds Ativas</span>

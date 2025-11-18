@@ -47,6 +47,18 @@ The application implements a comprehensive design system inspired by modern gami
   - Displays vocation name and animated GIF icon
   - Integrates with vocations API endpoint
   - Provides visual feedback on selected vocation
+- `Hero`: Landing page hero section with dynamic statistics
+  - Displays real-time online player count, total accounts, active guilds, and server uptime
+  - Fetches data from paginated API endpoints
+  - Includes loading skeletons during data fetching
+  - Formats large numbers with "K" suffix (e.g., 5.2K for 5200)
+- `Footer`: Application footer with real-time statistics
+  - Displays online player count and active guilds count
+  - Uses shared formatNumber utility for consistent number formatting
+  - Includes loading skeletons for better UX
+- `formatNumber`: Shared utility function in `lib/formatNumber.ts`
+  - Formats numbers >= 1000 with "K" suffix
+  - Ensures consistent number presentation across Hero and Footer components
 
 ### Backend Architecture
 

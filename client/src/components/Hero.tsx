@@ -1,4 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatNumber } from "@/lib/formatNumber";
 
 interface HeroProps {
   onlinePlayers?: number;
@@ -8,12 +9,6 @@ interface HeroProps {
 }
 
 export default function Hero({ onlinePlayers = 0, totalAccounts = 0, activeGuilds = 0, isLoading = false }: HeroProps) {
-  const formatNumber = (num: number) => {
-    if (num >= 1000) {
-      return `${(num / 1000).toFixed(1)}K`;
-    }
-    return num.toString();
-  };
 
   return (
     <div className="relative py-16 sm:py-20 overflow-hidden">
@@ -26,7 +21,7 @@ export default function Hero({ onlinePlayers = 0, totalAccounts = 0, activeGuild
               <Skeleton className="h-9 w-16 mx-auto mb-1" />
             ) : (
               <div className="text-3xl font-display font-bold text-primary mb-1" data-testid="text-hero-online-players">
-                {onlinePlayers}
+                {formatNumber(onlinePlayers)}
               </div>
             )}
             <div className="text-sm text-muted-foreground">Jogadores Online</div>
@@ -46,7 +41,7 @@ export default function Hero({ onlinePlayers = 0, totalAccounts = 0, activeGuild
               <Skeleton className="h-9 w-16 mx-auto mb-1" />
             ) : (
               <div className="text-3xl font-display font-bold text-primary mb-1" data-testid="text-hero-active-guilds">
-                {activeGuilds}
+                {formatNumber(activeGuilds)}
               </div>
             )}
             <div className="text-sm text-muted-foreground">Guilds Ativas</div>
