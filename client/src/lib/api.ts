@@ -16,4 +16,4 @@ export const GUILD_ACCEPT_INVITE_API_URL = `${API_BASE_URL}/api/guild/accept-inv
 export const LOGIN_API_URL = `${API_BASE_URL}/api/login`;
 export const VALIDATE_TOKEN_API_URL = `${API_BASE_URL}/api/account/validate-auth-token`;
 export const LOGOUT_API_URL = `${API_BASE_URL}/api/account/logout`;
-export const ONLINE_PLAYERS_COUNT_API_URL = 'http://localhost:8080/api/qtd_online';
+export const ONLINE_PLAYERS_COUNT_API_URL = `${API_BASE_URL}/api/qtd_online`;
