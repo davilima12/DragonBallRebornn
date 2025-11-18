@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import PlayerLeaderboard from "@/components/PlayerLeaderboard";
-import { Trophy, Zap, ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { Trophy, ChevronLeft, ChevronRight, Search, Sparkles } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { PlayersPaginatedResponse } from "@/types/player";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -80,7 +80,7 @@ export default function Ranking() {
                 }}
                 data-testid="filter-maglevel"
               >
-                <Zap className="w-4 h-4 mr-2" />
+                <Sparkles className="w-4 h-4 mr-2" />
                 Magic Level
               </Button>
             </div>

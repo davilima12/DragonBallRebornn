@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Trophy, Zap } from "lucide-react";
+import { Trophy, Swords } from "lucide-react";
 import { Link } from "wouter";
 
 interface Player {
@@ -54,23 +54,25 @@ export default function PlayerLeaderboard({ players, title = "Top 10 Jogadores",
                 <div className="font-heading font-semibold text-foreground" data-testid={`text-player-name-${player.rank}`}>
                   {player.name}
                 </div>
-                {player.guild && (
-                  <div className="text-xs text-muted-foreground" data-testid={`text-guild-${player.rank}`}>
-                    [{player.guild}]
-                  </div>
-                )}
+                <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                  {player.guild && (
+                    <span data-testid={`text-guild-${player.rank}`}>
+                      [{player.guild}]
+                    </span>
+                  )}
+                  {player.vocation && typeof player.vocation === 'string' && (
+                    <span className="flex items-center gap-1">
+                      <Swords className="w-3 h-3" />
+                      {player.vocation}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div className="flex items-center gap-4 text-sm">
                 <Badge variant="secondary" className="font-mono">
                   {showMagLevel ? `ML. ${player.maglevel || 0}` : `Nv. ${player.level}`}
                 </Badge>
-                {!showMagLevel && (
-                  <div className="flex items-center gap-1 text-primary font-semibold">
-                    <Zap className="w-4 h-4" />
-                    <span data-testid={`text-power-${player.rank}`}>{player.power.toLocaleString()}</span>
-                  </div>
-                )}
                 {player.vocation && (
                   <div className="flex-shrink-0">
                     <img
