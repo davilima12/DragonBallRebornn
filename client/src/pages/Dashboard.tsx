@@ -109,10 +109,10 @@ function DashboardPage() {
           <Card className="p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-heading font-bold">Meus Personagens</h2>
-              <Link href="/characters">
-                <Button variant="outline" size="sm" data-testid="button-view-all-characters">
+              <Link href="/characters/create">
+                <Button variant="outline" size="sm" data-testid="button-create-character">
                   <Users className="w-4 h-4 mr-2" />
-                  Ver Todos
+                  Criar Personagem
                 </Button>
               </Link>
             </div>
@@ -124,8 +124,8 @@ function DashboardPage() {
             ) : !players || players.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-muted-foreground mb-4">Você ainda não tem personagens</p>
-                <Link href="/characters">
-                  <Button data-testid="button-create-character-dashboard">
+                <Link href="/characters/create">
+                  <Button data-testid="button-create-character-empty">
                     Criar Personagem
                   </Button>
                 </Link>

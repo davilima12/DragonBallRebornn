@@ -20,7 +20,7 @@ export default function Login() {
     const hideLoadingFn = showLoading("Entrando...");
     try {
       await login(loginInput, password);
-      setLocation("/");
+      setLocation("/dashboard");
     } catch (error) {
       // Error is already handled in AuthContext with toast
     } finally {

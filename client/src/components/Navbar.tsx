@@ -23,8 +23,8 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [, setLocation] = useLocation();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     setLocation("/");
   };
 
@@ -158,13 +158,7 @@ export default function Navbar() {
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard" className="w-full cursor-pointer" data-testid="menu-dashboard">
                       <User className="w-4 h-4 mr-2" />
-                      Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/characters" className="w-full cursor-pointer" data-testid="menu-characters">
-                      <UsersIcon className="w-4 h-4 mr-2" />
-                      Personagens
+                      Minha Conta
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
@@ -278,13 +272,7 @@ export default function Navbar() {
                   <Link href="/dashboard" className="block">
                     <Button variant="ghost" className="w-full justify-start" data-testid="mobile-menu-dashboard">
                       <User className="w-4 h-4 mr-2" />
-                      Dashboard
-                    </Button>
-                  </Link>
-                  <Link href="/characters" className="block">
-                    <Button variant="ghost" className="w-full justify-start" data-testid="mobile-menu-characters">
-                      <UsersIcon className="w-4 h-4 mr-2" />
-                      Personagens
+                      Minha Conta
                     </Button>
                   </Link>
                   <Link href="/account-settings" className="block">

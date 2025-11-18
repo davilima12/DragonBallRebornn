@@ -81,6 +81,8 @@ The application uses an interface-based storage pattern (IStorage) allowing easy
 - `POST /api/login`: Authenticates user and returns JWT token
   - Request body: { login, password }
   - Response: { token }
+- `POST /api/account/logout`: Logs out authenticated user
+  - Header: Authorization: Bearer {token}
 - `GET /api/account/validate-auth-token`: Validates JWT token and returns user data
   - Header: Authorization: Bearer {token}
 - `GET /api/account`: Returns complete account information for authenticated user

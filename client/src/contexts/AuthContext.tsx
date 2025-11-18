@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { LOGIN_API_URL, VALIDATE_TOKEN_API_URL, ACCOUNT_API_URL } from "@/lib/api";
+import { LOGIN_API_URL, VALIDATE_TOKEN_API_URL, ACCOUNT_API_URL, LOGOUT_API_URL } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { Account } from "@/types/account";
 
@@ -17,7 +17,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (username: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   refreshAccount: () => Promise<void>;
 }
 
@@ -171,16 +171,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    setAccount(null);
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
-    localStorage.removeItem("account");
-    toast({
-      title: "Até logo!",
-      description: "Você saiu da sua conta.",
-    });
+  const logout = async () => {
+    const token = localStorage.getItem("authToken");
+    
+    try {
+      if (token) {
+        await fetch(LOGOUT_API_URL, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Logout API error:', error);
+    } finally {
+      setUser(null);
+      setAccount(null);
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("user");
+      localStorage.removeItem("account");
+      toast({
+        title: "Até logo!",
+        description: "Você saiu da sua conta.",
+      });
+    }
   };
 
   return (
