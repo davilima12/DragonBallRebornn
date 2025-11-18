@@ -395,7 +395,67 @@ export default function GuildDetail() {
                 </Card>
               )}
 
-              {guild.guild_invite && guild.guild_invite.length > 0 && (
+
+
+              <Card className="p-6">
+                <h2 className="text-2xl font-heading font-bold mb-6">Membros da Guild</h2>
+                
+                {getTotalMembers() === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-muted-foreground">Esta guild ainda não tem membros</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {getAllMembers().map((member, index) => (
+                      <Link
+                        key={member.id}
+                        href={`/player/${member.id}`}
+                      >
+                        <div
+                          className="flex items-center gap-4 p-3 rounded-md border border-card-border hover-elevate active-elevate-2 cursor-pointer transition-all"
+                          data-testid={`member-row-${member.id}`}
+                        >
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <span className="font-heading font-semibold" data-testid={`text-member-name-${member.id}`}>
+                                {member.name}
+                              </span>
+                              {member.online === 1 && (
+                                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                              )}
+                              {getRankBadge(member.rankLevel)}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              {guild.name && `[${guild.name}]`}
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-4 text-sm">
+                            <Badge variant="secondary" className="font-mono">
+                              Nv. {member.level}
+                            </Badge>
+                            <div className="flex flex-col items-center gap-1 flex-shrink-0">
+                              <img
+                                src={`/vocations/${typeof member.vocation === 'number' ? 'Goku' : member.vocation || 'Goku'}.gif`}
+                                alt={`${member.vocation || 'Goku'}`}
+                                width={32}
+                                height={32}
+                                className="pixelated"
+                                data-testid={`img-vocation-${member.id}`}
+                              />
+                              <span className="text-xs text-muted-foreground font-medium">
+                                {typeof member.vocation === 'string' ? member.vocation : 'Goku'}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </Card>
+
+                            {guild.guild_invite && guild.guild_invite.length > 0 && (
                 <Card className="p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <Mail className="w-6 h-6 text-primary" />
@@ -462,64 +522,6 @@ export default function GuildDetail() {
                   </div>
                 </Card>
               )}
-
-              <Card className="p-6">
-                <h2 className="text-2xl font-heading font-bold mb-6">Membros da Guild</h2>
-                
-                {getTotalMembers() === 0 ? (
-                  <div className="text-center py-8">
-                    <p className="text-muted-foreground">Esta guild ainda não tem membros</p>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {getAllMembers().map((member, index) => (
-                      <Link
-                        key={member.id}
-                        href={`/player/${member.id}`}
-                      >
-                        <div
-                          className="flex items-center gap-4 p-3 rounded-md border border-card-border hover-elevate active-elevate-2 cursor-pointer transition-all"
-                          data-testid={`member-row-${member.id}`}
-                        >
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1 flex-wrap">
-                              <span className="font-heading font-semibold" data-testid={`text-member-name-${member.id}`}>
-                                {member.name}
-                              </span>
-                              {member.online === 1 && (
-                                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                              )}
-                              {getRankBadge(member.rankLevel)}
-                            </div>
-                            <div className="text-xs text-muted-foreground">
-                              {guild.name && `[${guild.name}]`}
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-4 text-sm">
-                            <Badge variant="secondary" className="font-mono">
-                              Nv. {member.level}
-                            </Badge>
-                            <div className="flex flex-col items-center gap-1 flex-shrink-0">
-                              <img
-                                src={`/vocations/${typeof member.vocation === 'number' ? 'Goku' : member.vocation || 'Goku'}.gif`}
-                                alt={`${member.vocation || 'Goku'}`}
-                                width={32}
-                                height={32}
-                                className="pixelated"
-                                data-testid={`img-vocation-${member.id}`}
-                              />
-                              <span className="text-xs text-muted-foreground font-medium">
-                                {typeof member.vocation === 'string' ? member.vocation : 'Goku'}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </Card>
             </>
           ) : (
             <Card className="p-12">
