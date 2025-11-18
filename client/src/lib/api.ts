@@ -1,5 +1,5 @@
 
-export const API_BASE_URL =  '';
+export const API_BASE_URL =  'http://localhost:8000';
 
 export const GUILDS_API_URL = `${API_BASE_URL}/api/guilds`;
 export const PLAYERS_API_URL = `${API_BASE_URL}/api/players`;
@@ -11,7 +11,7 @@ export const ACCOUNT_PLAYERS_API_URL = `${API_BASE_URL}/api/account/players`;
 export const CREATE_PLAYER_API_URL = `${API_BASE_URL}/api/player`;
 export const DELETE_PLAYER_API_URL = (id: string | number) => `${API_BASE_URL}/api/player/${id}`;
 export const CREATE_GUILD_API_URL = `${API_BASE_URL}/api/guild`;
-export const GUILD_INVITE_PLAYER_API_URL = `${API_BASE_URL}/api/guild/join-player`;
+export const GUILD_INVITE_PLAYER_API_URL = `/api/guild/join-player`;
 export const LOGIN_API_URL = `${API_BASE_URL}/api/login`;
 export const VALIDATE_TOKEN_API_URL = `${API_BASE_URL}/api/account/validate-auth-token`;
 export const LOGOUT_API_URL = `${API_BASE_URL}/api/account/logout`;
