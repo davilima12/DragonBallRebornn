@@ -336,7 +336,10 @@ export default function PlayerProfile() {
                   </div>
                   
                   <div className="space-y-3">
-                    {player.player_death.slice(0, 10).map((death) => (
+                    {[...player.player_death]
+                      .sort((a, b) => b.date - a.date)
+                      .slice(0, 10)
+                      .map((death) => (
                       <div 
                         key={death.id}
                         className="flex items-start gap-4 p-4 rounded-md bg-card border border-card-border"
