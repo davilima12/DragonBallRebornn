@@ -190,6 +190,21 @@ export default function PlayerProfile() {
                         <p className="text-xl font-bold">{player.experience.toLocaleString()}</p>
                       </div>
                     </div>
+                    
+                    <div className="mt-4">
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-xs text-muted-foreground">Stamina</p>
+                        <p className={`text-xs font-semibold ${getStaminaInfo(player.stamina).textColor}`}>
+                          {getStaminaInfo(player.stamina).formatted} / 42:00h
+                        </p>
+                      </div>
+                      <div className="relative h-2 bg-secondary rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full transition-all ${getStaminaInfo(player.stamina).color}`}
+                          style={{ width: `${getStaminaInfo(player.stamina).percentage}%` }}
+                        />
+                      </div>
+                    </div>
                   </div>
 
                   {player.vocation && (
@@ -251,28 +266,6 @@ export default function PlayerProfile() {
                   </div>
                 </Card>
               </div>
-
-              <Card className="p-6 mb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 rounded-md bg-primary/10">
-                    <Activity className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-sm text-muted-foreground">Stamina</p>
-                      <p className={`text-xl font-bold ${getStaminaInfo(player.stamina).textColor}`}>
-                        {getStaminaInfo(player.stamina).formatted}
-                      </p>
-                    </div>
-                    <div className="relative h-4 bg-secondary rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full transition-all ${getStaminaInfo(player.stamina).color}`}
-                        style={{ width: `${getStaminaInfo(player.stamina).percentage}%` }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </Card>
 
               <Card className="p-6 mb-6">
                 <div className="flex items-center gap-3 mb-6">
