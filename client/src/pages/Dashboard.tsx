@@ -69,6 +69,38 @@ function DashboardPage() {
     return "text-muted-foreground";
   };
 
+  const getStaminaInfo = (staminaMs: number) => {
+    const hours = staminaMs / (1000 * 60 * 60);
+    const maxHours = 42;
+    const percentage = Math.min((hours / maxHours) * 100, 100);
+    
+    let color = 'bg-green-500';
+    let textColor = 'text-green-500';
+    
+    if (hours === 0) {
+      color = 'bg-black';
+      textColor = 'text-black';
+    } else if (hours < 15) {
+      color = 'bg-red-500';
+      textColor = 'text-red-500';
+    } else if (hours < 39.98333) {
+      color = 'bg-orange-600';
+      textColor = 'text-orange-600';
+    }
+    
+    const hoursInt = Math.floor(hours);
+    const minutes = Math.floor((hours - hoursInt) * 60);
+    
+    return {
+      hours: hoursInt,
+      minutes,
+      percentage,
+      color,
+      textColor,
+      formatted: `${hoursInt}:${minutes.toString().padStart(2, '0')}h`
+    };
+  };
+
   const handleDeletePlayer = async () => {
     if (!deletePlayerId) return;
 
@@ -210,9 +242,7 @@ function DashboardPage() {
             ) : (
               <div className="space-y-3">
                 {players.slice(0, 6).map((player, index) => {
-                  const maxStamina = 151200; // 42 horas em segundos
-                  const staminaInMinutes = Math.floor(player.stamina / 60);
-                  const staminaPercentage = (player.stamina / maxStamina) * 100;
+                  const staminaInfo = getStaminaInfo(player.stamina);
                   const isOnline = player.online === 1;
 
                   return (
@@ -274,15 +304,17 @@ function DashboardPage() {
                           <div className="space-y-1">
                             <div className="flex items-center justify-between text-xs">
                               <span className="text-muted-foreground">Stamina</span>
-                              <span className="font-mono text-muted-foreground">
-                                {Math.floor(staminaInMinutes / 60)}h {staminaInMinutes % 60}m / 42h
+                              <span className={`font-mono font-semibold ${staminaInfo.textColor}`}>
+                                {staminaInfo.formatted} / 42:00h
                               </span>
                             </div>
-                            <Progress 
-                              value={staminaPercentage} 
-                              className="h-2"
-                              data-testid={`progress-stamina-${index + 1}`}
-                            />
+                            <div className="relative h-2 bg-secondary rounded-full overflow-hidden">
+                              <div 
+                                className={`h-full transition-all ${staminaInfo.color}`}
+                                style={{ width: `${staminaInfo.percentage}%` }}
+                                data-testid={`progress-stamina-${index + 1}`}
+                              />
+                            </div>
                           </div>
                         </Link>
 
