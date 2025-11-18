@@ -115,7 +115,7 @@ export default function PlayerProfile() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="relative">
+      <div className="relative pt-16">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent h-64" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
