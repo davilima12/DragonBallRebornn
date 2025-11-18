@@ -47,6 +47,21 @@ export interface GuildRank {
   player: GuildMemberPlayer[];
 }
 
+export interface GuildInvitedPlayer {
+  id: number;
+  name: string;
+  level: number;
+  vocation: string | number;
+  online: number;
+  account_id: number;
+}
+
+export interface GuildInvite {
+  player_id: number;
+  guild_id: number;
+  player: GuildInvitedPlayer[];
+}
+
 export interface GuildDetail {
   id: number;
   world_id: number;
@@ -66,4 +81,5 @@ export interface GuildDetail {
   war_time: number;
   castle_war: number;
   guild_rank: GuildRank[];
+  guild_invite: GuildInvite[];
 }
