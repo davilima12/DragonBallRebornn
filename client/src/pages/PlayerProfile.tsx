@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Progress } from "@/components/ui/progress";
 import { 
   ArrowLeft, 
   Users, 
@@ -15,7 +16,8 @@ import {
   Droplet, 
   Swords,
   Skull,
-  Clock
+  Clock,
+  Activity
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { PLAYER_DETAIL_API_URL } from "@/lib/api";
@@ -78,6 +80,38 @@ export default function PlayerProfile() {
     return death.killer.player_killers.length > 0;
   };
 
+  const getStaminaInfo = (staminaMs: number) => {
+    const hours = staminaMs / (1000 * 60 * 60);
+    const maxHours = 42;
+    const percentage = Math.min((hours / maxHours) * 100, 100);
+    
+    let color = 'bg-green-500';
+    let textColor = 'text-green-500';
+    
+    if (hours === 0) {
+      color = 'bg-black';
+      textColor = 'text-black';
+    } else if (hours < 15) {
+      color = 'bg-red-500';
+      textColor = 'text-red-500';
+    } else if (hours < 39.98333) { // Abaixo de 39:59
+      color = 'bg-orange-600';
+      textColor = 'text-orange-600';
+    }
+    
+    const hoursInt = Math.floor(hours);
+    const minutes = Math.floor((hours - hoursInt) * 60);
+    
+    return {
+      hours: hoursInt,
+      minutes,
+      percentage,
+      color,
+      textColor,
+      formatted: `${hoursInt}:${minutes.toString().padStart(2, '0')}h`
+    };
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -138,7 +172,7 @@ export default function PlayerProfile() {
                       )}
                     </div>
                     
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
                       <div>
                         <p className="text-sm text-muted-foreground">Level</p>
                         <p className="text-xl font-bold text-primary" data-testid="text-player-level">
@@ -154,10 +188,6 @@ export default function PlayerProfile() {
                       <div>
                         <p className="text-sm text-muted-foreground">Experiência</p>
                         <p className="text-xl font-bold">{player.experience.toLocaleString()}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Soul</p>
-                        <p className="text-xl font-bold">{player.soul}</p>
                       </div>
                     </div>
                   </div>
@@ -221,6 +251,28 @@ export default function PlayerProfile() {
                   </div>
                 </Card>
               </div>
+
+              <Card className="p-6 mb-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-md bg-primary/10">
+                    <Activity className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm text-muted-foreground">Stamina</p>
+                      <p className={`text-xl font-bold ${getStaminaInfo(player.stamina).textColor}`}>
+                        {getStaminaInfo(player.stamina).formatted}
+                      </p>
+                    </div>
+                    <div className="relative h-4 bg-secondary rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full transition-all ${getStaminaInfo(player.stamina).color}`}
+                        style={{ width: `${getStaminaInfo(player.stamina).percentage}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Card>
 
               <Card className="p-6 mb-6">
                 <div className="flex items-center gap-3 mb-6">

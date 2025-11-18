@@ -88,6 +88,7 @@ export interface PlayerDetail {
   experience: number;
   soul: number;
   cap: number;
+  stamina: number;
   online: number;
   lastlogin: number;
   lastlogout: number;
