@@ -157,7 +157,11 @@ export default function Home() {
           </div>
         </div>
 
-        <Hero />
+        <Hero 
+          onlinePlayers={onlinePlayersCount || 0}
+          totalAccounts={playersData?.total || 0}
+          activeGuilds={guildsData?.total || 0}
+        />
       </div>
     </div>
   );
