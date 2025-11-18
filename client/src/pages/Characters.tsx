@@ -199,7 +199,7 @@ function CharactersPage() {
                 const isOnline = player.online === 1;
 
                 return (
-                  <Card key={player.id} className="p-4 hover-elevate active-elevate-2" data-testid={`player-card-${index + 1}`}>
+                  <Card key={player.id} className="p-4 overflow-visible hover-elevate active-elevate-2" data-testid={`player-card-${index + 1}`}>
                     <div className="flex items-start gap-4">
                       <div className={`w-8 text-center font-display font-bold text-lg flex-shrink-0 ${getRankColor(index + 1)}`}>
                         {index + 1 === 1 && <Trophy className="w-6 h-6 inline" />}
