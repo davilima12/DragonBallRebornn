@@ -56,27 +56,6 @@ export default function CreateGuild() {
       }
 
       return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Guild criada com sucesso!",
-        description: "Sua guild foi criada e você é o líder.",
-      });
-      
-      queryClient.invalidateQueries({
-        predicate: (query) => 
-          Array.isArray(query.queryKey) && 
-          query.queryKey[0]?.toString().startsWith('/api/guilds')
-      });
-      
-      navigate("/guilds");
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Erro ao criar guild",
-        description: error instanceof Error ? error.message : "Ocorreu um erro ao criar a guild. Tente novamente.",
-        variant: "destructive",
-      });
     }
   });
 
@@ -125,8 +104,28 @@ export default function CreateGuild() {
         logo_gfx_name: logoFile
       },
       {
-        onSettled: () => {
+        onSuccess: () => {
           hideLoadingFn();
+          toast({
+            title: "Guild criada com sucesso!",
+            description: "Sua guild foi criada e você é o líder.",
+          });
+          
+          queryClient.invalidateQueries({
+            predicate: (query) => 
+              Array.isArray(query.queryKey) && 
+              query.queryKey[0]?.toString().startsWith('/api/guilds')
+          });
+          
+          navigate("/guilds");
+        },
+        onError: (error: any) => {
+          hideLoadingFn();
+          toast({
+            title: "Erro ao criar guild",
+            description: error instanceof Error ? error.message : "Ocorreu um erro ao criar a guild. Tente novamente.",
+            variant: "destructive",
+          });
         }
       }
     );
