@@ -100,6 +100,10 @@ The application uses an interface-based storage pattern (IStorage) allowing easy
 - `GET /api/player/:id`: Detailed player information
 - `GET /api/guilds`: Paginated list of guilds
 - `GET /api/guild/:id`: Detailed guild information
+- `POST /api/guild`: Creates a new guild with authenticated user's selected character as owner
+  - Header: Authorization: Bearer {token}
+  - Request body: { name, ownerId }
+  - Response: Created guild object
 
 ### Data Storage Solutions
 
