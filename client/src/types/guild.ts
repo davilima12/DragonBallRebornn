@@ -26,3 +26,44 @@ export interface GuildsPaginatedResponse {
   to: number;
   total: number;
 }
+
+export interface GuildMemberPlayer {
+  id: number;
+  name: string;
+  level: number;
+  maglevel: number;
+  vocation: string | number;
+  experience: number;
+  online: number;
+  status: string;
+  rank_id: number;
+}
+
+export interface GuildRank {
+  id: number;
+  guild_id: number;
+  name: string;
+  level: number;
+  player: GuildMemberPlayer[];
+}
+
+export interface GuildDetail {
+  id: number;
+  world_id: number;
+  name: string;
+  ownerid: number;
+  creationdata: number;
+  checkdata: number;
+  motd: string;
+  balance: number;
+  description: string;
+  logo_gfx_name: string;
+  invited_to: number;
+  invited_by: number;
+  in_war_with: number;
+  kills: number;
+  show: number;
+  war_time: number;
+  castle_war: number;
+  guild_rank: GuildRank[];
+}

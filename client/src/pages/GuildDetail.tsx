@@ -3,38 +3,84 @@ import Navbar from "@/components/Navbar";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Users, Zap, Shield, Crown, Swords } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { GUILD_DETAIL_API_URL } from "@/lib/api";
+import { GuildDetail as GuildDetailType } from "@/types/guild";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 export default function GuildDetail() {
   const [, params] = useRoute("/guild/:name");
-  
-  const guild = {
-    name: params?.name || "Z Fighters",
-    leader: "Goku Master",
-    viceLeader: "VegetaPrince",
-    memberCount: 50,
-    totalPower: 45000000,
-    description: "A guild mais poderosa do servidor, formada pelos melhores guerreiros. Nosso objetivo é dominar o ranking e ajudar todos os membros a evoluírem juntos.",
-    level: 15,
-    founded: "01/01/2024",
-    logo: "🛡️",
+  const guildName = params?.name;
+
+  const { data: guild, isLoading } = useQuery<GuildDetailType>({
+    queryKey: ['/api/guild', guildName],
+    queryFn: async () => {
+      const guildsListResponse = await fetch(`http://localhost:8000/api/guilds?limit=1000`);
+      if (!guildsListResponse.ok) throw new Error('Failed to fetch guilds');
+      const guildsData = await guildsListResponse.json();
+      
+      const targetGuild = guildsData.data.find((g: any) => g.name === guildName);
+      if (!targetGuild) throw new Error('Guild not found');
+      
+      const response = await fetch(GUILD_DETAIL_API_URL(targetGuild.id));
+      if (!response.ok) throw new Error('Failed to fetch guild details');
+      return response.json();
+    },
+    enabled: !!guildName,
+  });
+
+  const formatDate = (timestamp: number) => {
+    try {
+      return format(new Date(timestamp * 1000), "dd/MM/yyyy", { locale: ptBR });
+    } catch {
+      return 'Data inválida';
+    }
   };
 
-  const members = [
-    { id: "player1", name: "SuperSaiyan99", level: 150, power: 999999, classType: "Guerreiro Sayajin", role: "leader", isOnline: true },
-    { id: "player2", name: "KameHameHa", level: 148, power: 887654, classType: "Príncipe Guerreiro", role: "vice", isOnline: true },
-    { id: "player3", name: "UltraInstinct", level: 145, power: 776543, classType: "Guerreiro Místico", role: "member", isOnline: false },
-    { id: "player4", name: "FusionWarrior", level: 142, power: 665432, classType: "Namekuseijin", role: "member", isOnline: true },
-    { id: "player5", name: "EnergyBlast", level: 140, power: 554321, classType: "Guerreiro do Futuro", role: "member", isOnline: false },
-    { id: "player6", name: "PowerUpKing", level: 135, power: 443210, classType: "Jovem Guerreiro", role: "member", isOnline: true },
-    { id: "player7", name: "MysticWarrior", level: 130, power: 332109, classType: "Mestre das Artes", role: "member", isOnline: false },
-    { id: "player8", name: "ThunderStrike", level: 128, power: 221098, classType: "Olho Celestial", role: "member", isOnline: true },
-  ];
-
-  const getRoleBadge = (role: string) => {
-    if (role === "leader") return <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/30"><Crown className="w-3 h-3 mr-1" />Líder</Badge>;
-    if (role === "vice") return <Badge className="bg-primary/20 text-primary border-primary/30">Vice-Líder</Badge>;
+  const getRankBadge = (rankLevel: number) => {
+    if (rankLevel === 3) return <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/30"><Crown className="w-3 h-3 mr-1" />Líder</Badge>;
+    if (rankLevel === 2) return <Badge className="bg-primary/20 text-primary border-primary/30">Vice-Líder</Badge>;
     return null;
+  };
+
+  const getTotalMembers = () => {
+    if (!guild) return 0;
+    return guild.guild_rank.reduce((total, rank) => total + rank.player.length, 0);
+  };
+
+  const getTotalPower = () => {
+    if (!guild) return 0;
+    return guild.guild_rank.reduce((total, rank) => {
+      return total + rank.player.reduce((sum, player) => sum + player.experience, 0);
+    }, 0);
+  };
+
+  const getAllMembers = () => {
+    if (!guild) return [];
+    return guild.guild_rank
+      .flatMap(rank => 
+        rank.player.map(player => ({
+          ...player,
+          rankName: rank.name,
+          rankLevel: rank.level
+        }))
+      )
+      .sort((a, b) => b.level - a.level);
+  };
+
+  const getLeaderName = () => {
+    if (!guild) return '-';
+    const leaderRank = guild.guild_rank.find(r => r.level === 3);
+    return leaderRank?.player[0]?.name || '-';
+  };
+
+  const getViceLeaderName = () => {
+    if (!guild) return '-';
+    const viceRank = guild.guild_rank.find(r => r.level === 2);
+    return viceRank?.player[0]?.name || '-';
   };
 
   return (
@@ -51,123 +97,171 @@ export default function GuildDetail() {
             </Link>
           </div>
 
-          <Card className="p-8">
-            <div className="flex items-start justify-between mb-6">
-              <div className="flex-1">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-20 h-20 bg-primary/10 rounded-xl flex items-center justify-center text-4xl border-2 border-primary/30">
-                    {guild.logo}
+          {isLoading ? (
+            <div className="space-y-6">
+              <Card className="p-8">
+                <div className="flex gap-6 mb-6">
+                  <Skeleton className="w-20 h-20 rounded-xl" />
+                  <div className="flex-1 space-y-4">
+                    <Skeleton className="h-10 w-64" />
+                    <Skeleton className="h-4 w-32" />
                   </div>
+                </div>
+                <Skeleton className="h-24 w-full mb-4" />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-20 w-full" />)}
+                </div>
+              </Card>
+            </div>
+          ) : guild ? (
+            <>
+              <Card className="p-8">
+                <div className="flex items-start justify-between mb-6">
                   <div className="flex-1">
-                    <h1 className="text-4xl font-display font-bold mb-1" data-testid="text-guild-name">
-                      {guild.name}
-                    </h1>
-                    <p className="text-muted-foreground">
-                      Fundada em {guild.founded}
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-20 h-20 bg-primary/10 rounded-xl flex items-center justify-center border-2 border-primary/30 overflow-hidden">
+                        {guild.logo_gfx_name ? (
+                          <img 
+                            src={`http://localhost:8000/storage/guilds/${guild.logo_gfx_name}`} 
+                            alt={guild.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <Shield className="w-10 h-10 text-primary" />
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <h1 className="text-4xl font-display font-bold mb-1" data-testid="text-guild-name">
+                          {guild.name}
+                        </h1>
+                        <p className="text-muted-foreground">
+                          Fundada em {formatDate(guild.creationdata)}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {guild.motd && guild.motd !== "New guild. Leader must edit this text :)" && (
+                      <div className="bg-primary/5 border border-primary/20 p-3 rounded-md mb-4">
+                        <p className="text-sm font-semibold text-primary">{guild.motd}</p>
+                      </div>
+                    )}
+                    
+                    <div className="bg-muted p-4 rounded-md mb-4">
+                      <h3 className="font-semibold mb-2">Descrição da Guild</h3>
+                      <p className="text-sm text-muted-foreground">{guild.description}</p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="p-3 bg-muted rounded-md">
+                        <p className="text-xs text-muted-foreground mb-1">Líder</p>
+                        <p className="font-semibold" data-testid="text-leader">{getLeaderName()}</p>
+                      </div>
+                      <div className="p-3 bg-muted rounded-md">
+                        <p className="text-xs text-muted-foreground mb-1">Vice-Líder</p>
+                        <p className="font-semibold" data-testid="text-vice-leader">{getViceLeaderName()}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                  <div className="p-4 bg-muted rounded-md">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Users className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">Membros</span>
+                    </div>
+                    <p className="text-2xl font-bold" data-testid="text-member-count">{getTotalMembers()}</p>
+                  </div>
+
+                  <div className="p-4 bg-muted rounded-md">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Zap className="w-4 h-4 text-primary" />
+                      <span className="text-sm text-muted-foreground">Poder Total</span>
+                    </div>
+                    <p className="text-2xl font-bold text-primary" data-testid="text-total-power">
+                      {getTotalPower().toLocaleString()}
                     </p>
                   </div>
-                </div>
-                <div className="bg-muted p-4 rounded-md mb-4">
-                  <h3 className="font-semibold mb-2">Descrição da Guild</h3>
-                  <p className="text-sm text-muted-foreground">{guild.description}</p>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-3 bg-muted rounded-md">
-                    <p className="text-xs text-muted-foreground mb-1">Líder</p>
-                    <p className="font-semibold" data-testid="text-leader">{guild.leader}</p>
-                  </div>
-                  <div className="p-3 bg-muted rounded-md">
-                    <p className="text-xs text-muted-foreground mb-1">Vice-Líder</p>
-                    <p className="font-semibold" data-testid="text-vice-leader">{guild.viceLeader}</p>
+
+                  <div className="p-4 bg-muted rounded-md">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Crown className="w-4 h-4 text-yellow-500" />
+                      <span className="text-sm text-muted-foreground">Fundação</span>
+                    </div>
+                    <p className="text-lg font-bold">{formatDate(guild.creationdata)}</p>
                   </div>
                 </div>
-              </div>
-            </div>
+              </Card>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <div className="p-4 bg-muted rounded-md">
-                <div className="flex items-center gap-2 mb-1">
-                  <Users className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">Membros</span>
-                </div>
-                <p className="text-2xl font-bold" data-testid="text-member-count">{guild.memberCount}</p>
-              </div>
+              <Card className="p-6">
+                <h2 className="text-2xl font-heading font-bold mb-6">Membros da Guild</h2>
+                
+                {getTotalMembers() === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-muted-foreground">Esta guild ainda não tem membros</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {getAllMembers().map((member) => (
+                      <Link
+                        key={member.id}
+                        href={`/player/${member.id}`}
+                      >
+                        <div
+                          className="flex items-center gap-4 p-4 rounded-md border border-card-border hover-elevate active-elevate-2 cursor-pointer transition-all"
+                          data-testid={`member-row-${member.id}`}
+                        >
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <span className="font-heading font-bold" data-testid={`text-member-name-${member.id}`}>
+                                {member.name}
+                              </span>
+                              {member.online === 1 && (
+                                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                              )}
+                              {getRankBadge(member.rankLevel)}
+                            </div>
+                            <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
+                              {typeof member.vocation === 'string' && (
+                                <span className="flex items-center gap-1">
+                                  <Swords className="w-3 h-3" />
+                                  {member.vocation}
+                                </span>
+                              )}
+                              <span>Nv. {member.level}</span>
+                              <span>ML. {member.maglevel}</span>
+                            </div>
+                          </div>
 
-              <div className="p-4 bg-muted rounded-md">
-                <div className="flex items-center gap-2 mb-1">
-                  <Zap className="w-4 h-4 text-primary" />
-                  <span className="text-sm text-muted-foreground">Poder Total</span>
-                </div>
-                <p className="text-2xl font-bold text-primary" data-testid="text-total-power">
-                  {guild.totalPower.toLocaleString()}
+                          <div className="flex items-center gap-2 text-primary font-semibold">
+                            <Zap className="w-4 h-4" />
+                            <span className="font-mono" data-testid={`text-member-power-${member.id}`}>
+                              {member.experience.toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </Card>
+            </>
+          ) : (
+            <Card className="p-12">
+              <div className="text-center">
+                <Shield className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                <h2 className="text-2xl font-heading font-bold mb-2">Guild Não Encontrada</h2>
+                <p className="text-muted-foreground mb-6">
+                  Não foi possível encontrar informações sobre esta guild.
                 </p>
-              </div>
-
-              <div className="p-4 bg-muted rounded-md">
-                <div className="flex items-center gap-2 mb-1">
-                  <Shield className="w-4 h-4 text-green-500" />
-                  <span className="text-sm text-muted-foreground">Nível da Guild</span>
-                </div>
-                <p className="text-2xl font-bold text-green-500">{guild.level}</p>
-              </div>
-
-              <div className="p-4 bg-muted rounded-md">
-                <div className="flex items-center gap-2 mb-1">
-                  <Crown className="w-4 h-4 text-yellow-500" />
-                  <span className="text-sm text-muted-foreground">Fundação</span>
-                </div>
-                <p className="text-lg font-bold">{guild.founded}</p>
-              </div>
-            </div>
-
-            <Button className="w-full md:w-auto" data-testid="button-join-guild">
-              Solicitar Entrada
-            </Button>
-          </Card>
-
-          <Card className="p-6">
-            <h2 className="text-2xl font-heading font-bold mb-6">Membros da Guild</h2>
-            
-            <div className="space-y-3">
-              {members.map((member) => (
-                <Link
-                  key={member.id}
-                  href={`/player/${member.id}`}
-                >
-                  <div
-                    className="flex items-center gap-4 p-4 rounded-md border border-card-border hover-elevate active-elevate-2 cursor-pointer transition-all"
-                    data-testid={`member-row-${member.id}`}
-                  >
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-heading font-bold" data-testid={`text-member-name-${member.id}`}>
-                          {member.name}
-                        </span>
-                        {member.isOnline && (
-                          <div className="w-2 h-2 rounded-full bg-status-online animate-pulse"></div>
-                        )}
-                        {getRoleBadge(member.role)}
-                      </div>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Swords className="w-3 h-3" />
-                          {member.classType}
-                        </span>
-                        <span>Nv. {member.level}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-primary font-semibold">
-                      <Zap className="w-4 h-4" />
-                      <span className="font-mono" data-testid={`text-member-power-${member.id}`}>
-                        {member.power.toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
+                <Link href="/guilds">
+                  <Button>
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Voltar para Guilds
+                  </Button>
                 </Link>
-              ))}
-            </div>
-          </Card>
+              </div>
+            </Card>
+          )}
         </div>
       </div>
     </div>
