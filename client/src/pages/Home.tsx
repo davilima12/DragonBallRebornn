@@ -162,11 +162,13 @@ export default function Home() {
           onlinePlayers={onlinePlayersCount || 0}
           totalAccounts={playersData?.total || 0}
           activeGuilds={guildsData?.total || 0}
+          isLoading={isLoadingPlayers || isLoadingGuilds}
         />
 
         <Footer
           onlinePlayers={onlinePlayersCount || 0}
           activeGuilds={guildsData?.total || 0}
+          isLoading={isLoadingPlayers || isLoadingGuilds}
         />
       </div>
     </div>

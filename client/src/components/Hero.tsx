@@ -1,10 +1,13 @@
+import { Skeleton } from "@/components/ui/skeleton";
+
 interface HeroProps {
   onlinePlayers?: number;
   totalAccounts?: number;
   activeGuilds?: number;
+  isLoading?: boolean;
 }
 
-export default function Hero({ onlinePlayers = 0, totalAccounts = 0, activeGuilds = 0 }: HeroProps) {
+export default function Hero({ onlinePlayers = 0, totalAccounts = 0, activeGuilds = 0, isLoading = false }: HeroProps) {
   const formatNumber = (num: number) => {
     if (num >= 1000) {
       return `${(num / 1000).toFixed(1)}K`;
@@ -19,21 +22,33 @@ export default function Hero({ onlinePlayers = 0, totalAccounts = 0, activeGuild
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center space-y-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
           <div className="text-center">
-            <div className="text-3xl font-display font-bold text-primary mb-1" data-testid="text-hero-online-players">
-              {onlinePlayers}
-            </div>
+            {isLoading ? (
+              <Skeleton className="h-9 w-16 mx-auto mb-1" />
+            ) : (
+              <div className="text-3xl font-display font-bold text-primary mb-1" data-testid="text-hero-online-players">
+                {onlinePlayers}
+              </div>
+            )}
             <div className="text-sm text-muted-foreground">Jogadores Online</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-display font-bold text-primary mb-1" data-testid="text-hero-total-accounts">
-              {formatNumber(totalAccounts)}
-            </div>
+            {isLoading ? (
+              <Skeleton className="h-9 w-20 mx-auto mb-1" />
+            ) : (
+              <div className="text-3xl font-display font-bold text-primary mb-1" data-testid="text-hero-total-accounts">
+                {formatNumber(totalAccounts)}
+              </div>
+            )}
             <div className="text-sm text-muted-foreground">Contas Ativas</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-display font-bold text-primary mb-1" data-testid="text-hero-active-guilds">
-              {activeGuilds}
-            </div>
+            {isLoading ? (
+              <Skeleton className="h-9 w-16 mx-auto mb-1" />
+            ) : (
+              <div className="text-3xl font-display font-bold text-primary mb-1" data-testid="text-hero-active-guilds">
+                {activeGuilds}
+              </div>
+            )}
             <div className="text-sm text-muted-foreground">Guilds Ativas</div>
           </div>
           <div className="text-center">
