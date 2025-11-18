@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { Plus, Users, ArrowLeft, Trash2, Trophy } from "lucide-react";
 import { Link } from "wouter";
 import { useAccountPlayers } from "@/hooks/useAccountPlayers";
@@ -160,72 +161,97 @@ function CharactersPage() {
               </Link>
             </Card>
           ) : (
-            <Card className="p-6">
-              <div className="flex items-center gap-2 mb-6">
-                <Trophy className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-heading font-bold">Seus Personagens</h2>
-              </div>
+            <div className="space-y-3">
+              {players?.map((player, index) => {
+                const maxStamina = 2520; // 42 horas * 60 minutos
+                const staminaPercentage = (player.stamina / maxStamina) * 100;
+                const isOnline = player.online === 1;
 
-              <div className="space-y-3">
-                {players?.map((player, index) => (
-                  <div
-                    key={player.id}
-                    className="flex items-center gap-4 p-3 rounded-md border border-card-border"
-                    data-testid={`player-row-${index + 1}`}
-                  >
-                    <div className={`w-8 text-center font-display font-bold text-lg ${getRankColor(index + 1)}`}>
-                      {index + 1 === 1 && <Trophy className="w-6 h-6 inline" />}
-                      {index + 1 > 1 && `#${index + 1}`}
-                    </div>
+                return (
+                  <Card key={player.id} className="p-4" data-testid={`player-card-${index + 1}`}>
+                    <div className="flex items-start gap-4">
+                      <div className={`w-8 text-center font-display font-bold text-lg flex-shrink-0 ${getRankColor(index + 1)}`}>
+                        {index + 1 === 1 && <Trophy className="w-6 h-6 inline" />}
+                        {index + 1 > 1 && `#${index + 1}`}
+                      </div>
 
-                    <Link 
-                      href={`/player/${player.id}`}
-                      className="flex-1 min-w-0 flex items-center gap-4 hover-elevate active-elevate-2 rounded-md p-2 -m-2"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <div className="font-heading font-semibold text-foreground" data-testid={`text-player-name-${index + 1}`}>
-                          {player.name}
-                        </div>
-                        {player.guild?.name && (
-                          <div className="text-xs text-muted-foreground" data-testid={`text-guild-${index + 1}`}>
-                            [{player.guild.name}]
+                      <Link 
+                        href={`/player/${player.id}`}
+                        className="flex-1 min-w-0 hover-elevate active-elevate-2 rounded-md p-2 -m-2"
+                      >
+                        <div className="flex items-center justify-between gap-4 mb-3">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="font-heading font-semibold text-lg" data-testid={`text-player-name-${index + 1}`}>
+                                {player.name}
+                              </h3>
+                              <Badge 
+                                variant="secondary" 
+                                className={isOnline 
+                                  ? "bg-green-500/10 text-green-500 border-green-500/20" 
+                                  : "bg-muted text-muted-foreground"
+                                }
+                                data-testid={`badge-status-${index + 1}`}
+                              >
+                                {isOnline ? "Online" : "Offline"}
+                              </Badge>
+                            </div>
+                            {player.guild?.name && (
+                              <div className="text-xs text-muted-foreground" data-testid={`text-guild-${index + 1}`}>
+                                [{player.guild.name}]
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
 
-                      <div className="flex items-center gap-4 text-sm">
-                        <Badge variant="secondary" className="font-mono">
-                          Nv. {player.level}
-                        </Badge>
-                        <div className="flex flex-col items-center gap-1 flex-shrink-0">
-                          <img
-                            src={`/vocations/${typeof player.vocation === 'number' ? 'Goku' : player.vocation || 'Goku'}.gif`}
-                            alt={`${player.vocation || 'Goku'}`}
-                            width={32}
-                            height={32}
-                            className="pixelated"
-                            data-testid={`img-vocation-${index + 1}`}
-                          />
-                          <span className="text-xs text-muted-foreground font-medium">
-                            {typeof player.vocation === 'string' ? player.vocation : 'Goku'}
-                          </span>
+                          <div className="flex items-center gap-4">
+                            <Badge variant="secondary" className="font-mono">
+                              Nv. {player.level}
+                            </Badge>
+                            <div className="flex flex-col items-center gap-1 flex-shrink-0">
+                              <img
+                                src={`/vocations/${typeof player.vocation === 'number' ? 'Goku' : player.vocation || 'Goku'}.gif`}
+                                alt={`${player.vocation || 'Goku'}`}
+                                width={32}
+                                height={32}
+                                className="pixelated"
+                                data-testid={`img-vocation-${index + 1}`}
+                              />
+                              <span className="text-xs text-muted-foreground font-medium">
+                                {typeof player.vocation === 'string' ? player.vocation : 'Goku'}
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
 
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                      onClick={() => setDeletePlayerId(player.id)}
-                      data-testid={`button-delete-${player.id}`}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </Card>
+                        <div className="space-y-1">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Stamina</span>
+                            <span className="font-mono text-muted-foreground">
+                              {Math.floor(player.stamina / 60)}h {player.stamina % 60}m / {Math.floor(maxStamina / 60)}h
+                            </span>
+                          </div>
+                          <Progress 
+                            value={staminaPercentage} 
+                            className="h-2"
+                            data-testid={`progress-stamina-${index + 1}`}
+                          />
+                        </div>
+                      </Link>
+
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10 flex-shrink-0"
+                        onClick={() => setDeletePlayerId(player.id)}
+                        data-testid={`button-delete-${player.id}`}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
           )}
         </div>
       </div>
