@@ -1,24 +1,106 @@
 import { useState } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "@/contexts/AuthContext";
+import { useAccountPlayers } from "@/hooks/useAccountPlayers";
+import { apiRequest } from "@/lib/queryClient";
+import { CREATE_GUILD_API_URL } from "@/lib/api";
 import Navbar from "@/components/Navbar";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Shield } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
+import { ArrowLeft, Shield, User } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CreateGuild() {
+  const [, navigate] = useLocation();
+  const { toast } = useToast();
+  const { token } = useAuth();
+  const { data: players, isLoading: playersLoading } = useAccountPlayers();
+  
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [logo, setLogo] = useState("🛡️");
+  const [selectedOwnerId, setSelectedOwnerId] = useState<string>("");
 
-  const logoOptions = ["🛡️", "⚔️", "🐉", "⚡", "🔥", "💎", "👑", "🌟", "🦅", "🐺", "🦁", "🐯"];
+  const createGuildMutation = useMutation({
+    mutationFn: async (data: { name: string; ownerId: number }) => {
+      if (!token) throw new Error("Token não encontrado");
+      
+      return await apiRequest(CREATE_GUILD_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Guild criada com sucesso!",
+        description: "Sua guild foi criada e você é o líder.",
+      });
+      navigate("/guilds");
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Erro ao criar guild",
+        description: error.message || "Ocorreu um erro ao criar a guild. Tente novamente.",
+        variant: "destructive",
+      });
+    }
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Creating guild:", { name, description, logo });
+    
+    if (!selectedOwnerId) {
+      toast({
+        title: "Selecione um personagem",
+        description: "Você precisa selecionar qual personagem será o líder da guild.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (name.length < 3) {
+      toast({
+        title: "Nome muito curto",
+        description: "O nome da guild deve ter no mínimo 3 caracteres.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    createGuildMutation.mutate({
+      name: name.trim(),
+      ownerId: parseInt(selectedOwnerId)
+    });
   };
+
+  if (!token) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-16">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <Card className="p-8 text-center">
+              <Shield className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h2 className="text-2xl font-bold mb-2">Login Necessário</h2>
+              <p className="text-muted-foreground mb-6">
+                Você precisa estar logado para criar uma guild.
+              </p>
+              <Link href="/login">
+                <Button data-testid="button-login">Fazer Login</Button>
+              </Link>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -39,7 +121,9 @@ export default function CreateGuild() {
               <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Shield className="w-8 h-8 text-primary" />
               </div>
-              <h1 className="text-3xl font-display font-bold text-primary mb-2">Criar Guild</h1>
+              <h1 className="text-3xl font-heading font-bold text-primary mb-2">
+                Criar Guild
+              </h1>
               <p className="text-muted-foreground">
                 Crie sua própria guild e reúna os melhores guerreiros
               </p>
@@ -47,24 +131,53 @@ export default function CreateGuild() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="logo">Logo da Guild</Label>
-                <div className="grid grid-cols-6 gap-3">
-                  {logoOptions.map((emoji) => (
-                    <button
-                      key={emoji}
-                      type="button"
-                      onClick={() => setLogo(emoji)}
-                      className={`p-4 text-3xl rounded-md border-2 transition-all hover-elevate ${
-                        logo === emoji
-                          ? "border-primary bg-primary/10"
-                          : "border-card-border hover:border-primary/50"
-                      }`}
-                      data-testid={`button-logo-${emoji}`}
-                    >
-                      {emoji}
-                    </button>
-                  ))}
-                </div>
+                <Label htmlFor="owner">
+                  <User className="w-4 h-4 inline mr-2" />
+                  Personagem Líder
+                </Label>
+                {playersLoading ? (
+                  <Skeleton className="h-10 w-full" />
+                ) : players && players.length > 0 ? (
+                  <Select
+                    value={selectedOwnerId}
+                    onValueChange={setSelectedOwnerId}
+                    required
+                  >
+                    <SelectTrigger data-testid="select-owner">
+                      <SelectValue placeholder="Selecione o personagem líder" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {players.map((player) => (
+                        <SelectItem 
+                          key={player.id} 
+                          value={player.id.toString()}
+                          data-testid={`option-player-${player.id}`}
+                        >
+                          {player.name} - Level {player.level}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-md">
+                    <p className="text-sm text-destructive">
+                      Você precisa ter pelo menos um personagem para criar uma guild.
+                    </p>
+                    <Link href="/characters/create">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="mt-2"
+                        data-testid="button-create-character"
+                      >
+                        Criar Personagem
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  Este personagem será o líder da guild
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -77,45 +190,33 @@ export default function CreateGuild() {
                   onChange={(e) => setName(e.target.value)}
                   data-testid="input-guild-name"
                   required
+                  minLength={3}
                   maxLength={30}
+                  disabled={createGuildMutation.isPending}
                 />
                 <p className="text-xs text-muted-foreground">
                   Mínimo 3 caracteres, máximo 30 caracteres
                 </p>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="description">Descrição</Label>
-                <Textarea
-                  id="description"
-                  placeholder="Descreva os objetivos e valores da sua guild..."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={5}
-                  data-testid="input-description"
-                  required
-                  maxLength={500}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Máximo 500 caracteres
-                </p>
-              </div>
-
               <div className="p-4 bg-primary/5 border border-primary/20 rounded-md">
                 <h3 className="font-semibold mb-2 flex items-center gap-2">
                   <Shield className="w-4 h-4 text-primary" />
-                  Custo de Criação
+                  Informações
                 </h3>
-                <p className="text-sm text-muted-foreground mb-2">
-                  Criar uma guild custa <strong className="text-primary">10.000 pontos</strong>
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Você será automaticamente o líder da guild
+                <p className="text-sm text-muted-foreground">
+                  O personagem selecionado será automaticamente o líder da guild
                 </p>
               </div>
 
-              <Button type="submit" className="w-full" size="lg" data-testid="button-create-guild">
-                Criar Guild por 10.000 Pontos
+              <Button 
+                type="submit" 
+                className="w-full" 
+                size="lg"
+                disabled={createGuildMutation.isPending || !players || players.length === 0}
+                data-testid="button-create-guild"
+              >
+                {createGuildMutation.isPending ? "Criando..." : "Criar Guild"}
               </Button>
             </form>
           </Card>
