@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import Footer from "@/components/Footer";
 import ServerStatus from "@/components/ServerStatus";
 import PlayerLeaderboard from "@/components/PlayerLeaderboard";
 import GuildCard from "@/components/GuildCard";
@@ -160,6 +161,11 @@ export default function Home() {
         <Hero 
           onlinePlayers={onlinePlayersCount || 0}
           totalAccounts={playersData?.total || 0}
+          activeGuilds={guildsData?.total || 0}
+        />
+
+        <Footer
+          onlinePlayers={onlinePlayersCount || 0}
           activeGuilds={guildsData?.total || 0}
         />
       </div>
