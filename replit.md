@@ -105,10 +105,19 @@ The application uses an interface-based storage pattern (IStorage) allowing easy
   - Request body: { name, ownerId }
   - Response: Created guild object
 - **Guild Invitation System:**
-  - Frontend sends invite requests directly to `http://localhost:8000/api/guild/join-player`
-  - Only guild leaders (rank level 3) and vice-leaders (rank level 2) can invite players
-  - Request body: { player_id: number, guild_id: number, guild_player_admin: number }
-  - Authentication handled via Bearer token in Authorization header
+  - **Sending Invites:**
+    - Frontend sends invite requests directly to `http://localhost:8000/api/guild/join-player`
+    - Only guild leaders (rank level 3) and vice-leaders (rank level 2) can invite players
+    - Request body: { player_id: number, guild_id: number, guild_player_admin: number }
+    - Authentication handled via Bearer token in Authorization header
+  - **Viewing and Accepting Invites:**
+    - Guild detail API returns `guild_invite` array with pending invitations
+    - Each invite includes player data (id, name, level, vocation, online status, account_id)
+    - Frontend displays "Convites Pendentes" section when invites exist
+    - Players can only accept invites for their own characters (verified via account_id match)
+    - Accept endpoint: POST to `http://localhost:8000/api/guild/accept-invite-player`
+    - Accept request body: { player_id: number, guild_id: number }
+    - After acceptance, player moves from guild_invite to guild_rank members
 
 ### Data Storage Solutions
 
