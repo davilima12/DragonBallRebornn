@@ -29,13 +29,24 @@ The application implements a comprehensive design system inspired by modern gami
 - Consistent spacing system using Tailwind's scale (2, 4, 6, 8, 12, 16 units)
 - Card-based layouts with subtle elevation and hover effects for interactivity
 - Status indicators using semantic colors (green for online, red for offline/destructive actions)
+- Consistent player/member card design across ranking and guild pages
+  - Vocation GIF (32x32px) with name displayed below
+  - Level badge and rank indicators
+  - Online status with animated green pulse
+  - Guild name display when applicable
 
 **Component Architecture:**
 - Atomic design pattern with reusable UI components (buttons, cards, badges)
-- Feature-specific components (CharacterCard, GuildCard, ProductCard, etc.)
+- Feature-specific components (CharacterCard, GuildCard, ProductCard, VocationSelect, etc.)
 - Page-level components organized under `/pages` directory
 - Protected routes wrapper for authenticated content
-- Context providers for cross-cutting concerns (authentication)
+- Context providers for cross-cutting concerns (authentication, loading states)
+
+**Key Components:**
+- `VocationSelect`: Custom dropdown component for selecting character vocation with GIF preview
+  - Displays vocation name and animated GIF icon
+  - Integrates with vocations API endpoint
+  - Provides visual feedback on selected vocation
 
 ### Backend Architecture
 
@@ -62,6 +73,15 @@ The application uses an interface-based storage pattern (IStorage) allowing easy
 - Request/response logging with truncation for readability
 - JSON body parsing with raw body preservation for webhooks
 - Session-based authentication preparation (connect-pg-simple for PostgreSQL sessions)
+
+**API Endpoints:**
+- `GET /api/vocations`: Returns list of available character vocations
+- `POST /api/account`: Creates new user account with player character
+  - Request body: { name, email, password, nickname, playerName, vocationId }
+- `GET /api/players`: Paginated list of players with filtering
+- `GET /api/player/:id`: Detailed player information
+- `GET /api/guilds`: Paginated list of guilds
+- `GET /api/guild/:id`: Detailed guild information
 
 ### Data Storage Solutions
 
