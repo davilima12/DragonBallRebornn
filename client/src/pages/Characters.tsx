@@ -163,7 +163,8 @@ function CharactersPage() {
           ) : (
             <div className="space-y-3">
               {players?.map((player, index) => {
-                const maxStamina = 2520; // 42 horas * 60 minutos
+                const maxStamina = 151200; // 42 horas em segundos
+                const staminaInMinutes = Math.floor(player.stamina / 60);
                 const staminaPercentage = (player.stamina / maxStamina) * 100;
                 const isOnline = player.online === 1;
 
@@ -227,7 +228,7 @@ function CharactersPage() {
                           <div className="flex items-center justify-between text-xs">
                             <span className="text-muted-foreground">Stamina</span>
                             <span className="font-mono text-muted-foreground">
-                              {Math.floor(player.stamina / 60)}h {player.stamina % 60}m / {Math.floor(maxStamina / 60)}h
+                              {Math.floor(staminaInMinutes / 60)}h {staminaInMinutes % 60}m / 42h
                             </span>
                           </div>
                           <Progress 

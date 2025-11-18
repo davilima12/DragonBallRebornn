@@ -9,10 +9,26 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
-import { Coins, Crown, ShoppingBag, Zap, Users, Settings, TrendingUp, Mail, Plus, Trophy } from "lucide-react";
+import { Coins, Crown, ShoppingBag, Zap, Users, Settings, TrendingUp, Mail, Plus, Trophy, Trash2 } from "lucide-react";
 import { Link } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAccountPlayers } from "@/hooks/useAccountPlayers";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
+import { DELETE_PLAYER_API_URL } from "@/lib/api";
+import { getAuthToken } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import { queryClient } from "@/lib/queryClient";
+import { useLoading } from "@/contexts/LoadingContext";
 
 export default function Dashboard() {
   return (
@@ -25,6 +41,9 @@ export default function Dashboard() {
 function DashboardPage() {
   const { user, account } = useAuth();
   const { data: players, isLoading: isLoadingPlayers } = useAccountPlayers();
+  const [deletePlayerId, setDeletePlayerId] = useState<number | null>(null);
+  const { toast } = useToast();
+  const { showLoading } = useLoading();
 
   const allTransactions = [
     { id: "tx1", type: "deposit" as const, description: "Depósito via PIX", amount: 50.00, status: "completed" as const, date: "14/11/2025 às 10:30" },
@@ -48,6 +67,49 @@ function DashboardPage() {
     if (rank === 2) return "text-gray-400";
     if (rank === 3) return "text-amber-700";
     return "text-muted-foreground";
+  };
+
+  const handleDeletePlayer = async () => {
+    if (!deletePlayerId) return;
+
+    const hideLoadingFn = showLoading("Deletando personagem...");
+
+    try {
+      const token = getAuthToken();
+      
+      if (!token) {
+        throw new Error('Token não encontrado');
+      }
+
+      const response = await fetch(DELETE_PLAYER_API_URL(deletePlayerId), {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Erro ao deletar personagem');
+      }
+
+      toast({
+        title: "Sucesso!",
+        description: "Personagem deletado com sucesso!",
+      });
+
+      await queryClient.invalidateQueries({ queryKey: ['/api/account/players'] });
+      setDeletePlayerId(null);
+    } catch (error) {
+      console.error('Delete player error:', error);
+      toast({
+        title: "Erro",
+        description: error instanceof Error ? error.message : "Não foi possível deletar o personagem. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      hideLoadingFn();
+    }
   };
 
   return (
@@ -148,22 +210,23 @@ function DashboardPage() {
             ) : (
               <div className="space-y-3">
                 {players.slice(0, 6).map((player, index) => {
-                  const maxStamina = 2520; // 42 horas * 60 minutos
+                  const maxStamina = 151200; // 42 horas em segundos
+                  const staminaInMinutes = Math.floor(player.stamina / 60);
                   const staminaPercentage = (player.stamina / maxStamina) * 100;
                   const isOnline = player.online === 1;
 
                   return (
                     <Card key={player.id} className="p-4" data-testid={`player-card-${index + 1}`}>
-                      <Link 
-                        href={`/player/${player.id}`}
-                        className="flex items-start gap-4 hover-elevate active-elevate-2 rounded-md p-2 -m-2"
-                      >
+                      <div className="flex items-start gap-4">
                         <div className={`w-8 text-center font-display font-bold text-lg flex-shrink-0 ${getRankColor(index + 1)}`}>
                           {index + 1 === 1 && <Trophy className="w-6 h-6 inline" />}
                           {index + 1 > 1 && `#${index + 1}`}
                         </div>
 
-                        <div className="flex-1 min-w-0">
+                        <Link 
+                          href={`/player/${player.id}`}
+                          className="flex-1 min-w-0 hover-elevate active-elevate-2 rounded-md p-2 -m-2"
+                        >
                           <div className="flex items-center justify-between gap-4 mb-3">
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 mb-1">
@@ -212,7 +275,7 @@ function DashboardPage() {
                             <div className="flex items-center justify-between text-xs">
                               <span className="text-muted-foreground">Stamina</span>
                               <span className="font-mono text-muted-foreground">
-                                {Math.floor(player.stamina / 60)}h {player.stamina % 60}m / {Math.floor(maxStamina / 60)}h
+                                {Math.floor(staminaInMinutes / 60)}h {staminaInMinutes % 60}m / 42h
                               </span>
                             </div>
                             <Progress 
@@ -221,8 +284,18 @@ function DashboardPage() {
                               data-testid={`progress-stamina-${index + 1}`}
                             />
                           </div>
-                        </div>
-                      </Link>
+                        </Link>
+
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-destructive hover:text-destructive hover:bg-destructive/10 flex-shrink-0"
+                          onClick={() => setDeletePlayerId(player.id)}
+                          data-testid={`button-delete-${player.id}`}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </Card>
                   );
                 })}
@@ -279,6 +352,27 @@ function DashboardPage() {
           </Card>
         </div>
       </div>
+
+      <AlertDialog open={deletePlayerId !== null} onOpenChange={(open) => !open && setDeletePlayerId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Tem certeza?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta ação não pode ser desfeita. O personagem será permanentemente deletado.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel data-testid="button-cancel-delete">Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeletePlayer}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              data-testid="button-confirm-delete"
+            >
+              Deletar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
