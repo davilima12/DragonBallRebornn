@@ -8,9 +8,10 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Coins, Crown, ShoppingBag, Zap, Users, Settings, TrendingUp, Mail } from "lucide-react";
+import { Coins, Crown, ShoppingBag, Zap, Users, Settings, TrendingUp, Mail, Loader2 } from "lucide-react";
 import { Link } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAccountPlayers } from "@/hooks/useAccountPlayers";
 
 export default function Dashboard() {
   return (
@@ -21,7 +22,8 @@ export default function Dashboard() {
 }
 
 function DashboardPage() {
-  const { user } = useAuth();
+  const { user, account } = useAuth();
+  const { data: players, isLoading: isLoadingPlayers } = useAccountPlayers();
 
   const allTransactions = [
     { id: "tx1", type: "deposit" as const, description: "Depósito via PIX", amount: 50.00, status: "completed" as const, date: "14/11/2025 às 10:30" },
@@ -37,10 +39,8 @@ function DashboardPage() {
   const deposits = allTransactions.filter(t => t.type === "deposit");
   const purchases = allTransactions.filter(t => t.type === "purchase" || t.type === "sale");
 
-  const characters = [
-    { id: "char1", name: "SuperWarrior", level: 150, power: 999999, classType: "Guerreiro Sayajin", guild: "Z Fighters", isOnline: true },
-    { id: "char2", name: "MysticMage", level: 135, power: 654321, classType: "Mago Místico", guild: "Dragon Force", isOnline: false },
-  ];
+  const isVip = account?.vip_time && account.vip_time > Date.now() / 1000;
+  const vipEndDate = account?.vip_time ? new Date(account.vip_time * 1000).toLocaleDateString('pt-BR') : null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -52,15 +52,15 @@ function DashboardPage() {
               <div className="flex items-center gap-4">
                 <Avatar className="w-20 h-20 border-2 border-primary">
                   <AvatarFallback className="bg-primary/20 text-primary text-2xl font-bold">
-                    SW
+                    {account?.nickname?.substring(0, 2).toUpperCase() || user?.username?.substring(0, 2).toUpperCase() || "DW"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1">
                     <h1 className="text-2xl font-heading font-bold" data-testid="text-username">
-                      {user?.username || "SuperWarrior99"}
+                      {account?.nickname || user?.username || "Guerreiro"}
                     </h1>
-                    {user?.isVip && (
+                    {isVip && (
                       <Badge className="bg-primary">
                         <Crown className="w-3 h-3 mr-1" />
                         VIP
@@ -70,7 +70,7 @@ function DashboardPage() {
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Mail className="w-4 h-4" />
-                      {user?.email || "user@example.com"}
+                      {account?.email || user?.email || "user@example.com"}
                     </span>
                   </div>
                 </div>
@@ -86,23 +86,23 @@ function DashboardPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <UserStatsCard
-              title="Saldo de Pontos"
-              value={user?.points.toLocaleString() || "15,450"}
+              title="Pontos Premium"
+              value={account?.premium_points?.toLocaleString() || "0"}
               icon={Coins}
               description="Pontos disponíveis"
               highlight={true}
             />
             <UserStatsCard
               title="Status VIP"
-              value="Ativo"
+              value={isVip ? "Ativo" : "Inativo"}
               icon={Crown}
-              description="Válido até 15/12/2025"
+              description={isVip && vipEndDate ? `Válido até ${vipEndDate}` : "Sem VIP ativo"}
             />
             <UserStatsCard
-              title="Compras Totais"
-              value="R$ 349,70"
-              icon={ShoppingBag}
-              description="Últimos 30 dias"
+              title="Personagens"
+              value={players?.length.toString() || "0"}
+              icon={Users}
+              description={`${players?.filter(p => p.online).length || 0} online`}
             />
           </div>
 
@@ -117,7 +117,11 @@ function DashboardPage() {
               </Link>
             </div>
             
-            {characters.length === 0 ? (
+            {isLoadingPlayers ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              </div>
+            ) : !players || players.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-muted-foreground mb-4">Você ainda não tem personagens</p>
                 <Link href="/characters">
@@ -128,8 +132,42 @@ function DashboardPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {characters.map((character) => (
-                  <CharacterCard key={character.id} {...character} />
+                {players.slice(0, 6).map((player) => (
+                  <Card key={player.id} className="p-4 hover-elevate" data-testid={`card-character-${player.id}`}>
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg mb-1" data-testid={`text-character-name-${player.id}`}>
+                          {player.name}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {player.vocation}
+                        </p>
+                      </div>
+                      {player.online === 1 && (
+                        <Badge variant="secondary" className="bg-green-500/10 text-green-500 border-green-500/20">
+                          Online
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Level:</span>
+                        <span className="font-semibold">{player.level}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Experiência:</span>
+                        <span className="font-semibold">{player.experience.toLocaleString()}</span>
+                      </div>
+                      {player.rank_id > 0 && (
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-muted-foreground">Guild:</span>
+                          <Badge variant="outline" className="text-xs">
+                            Membro
+                          </Badge>
+                        </div>
+                      )}
+                    </div>
+                  </Card>
                 ))}
               </div>
             )}
@@ -187,4 +225,3 @@ function DashboardPage() {
     </div>
   );
 }
-

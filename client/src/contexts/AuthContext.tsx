@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { LOGIN_API_URL, VALIDATE_TOKEN_API_URL } from "@/lib/api";
+import { LOGIN_API_URL, VALIDATE_TOKEN_API_URL, ACCOUNT_API_URL } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
+import { Account } from "@/types/account";
 
 interface User {
   id: string;
@@ -12,18 +13,53 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  account: Account | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
+  refreshAccount: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [account, setAccount] = useState<Account | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+
+  const fetchAccountData = async (token: string) => {
+    try {
+      const response = await fetch(ACCOUNT_API_URL, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        console.error('Failed to fetch account data');
+        return null;
+      }
+
+      const accountData = await response.json();
+      return accountData;
+    } catch (error) {
+      console.error('Error fetching account data:', error);
+      return null;
+    }
+  };
+
+  const refreshAccount = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) return;
+
+    const accountData = await fetchAccountData(token);
+    if (accountData) {
+      setAccount(accountData);
+      localStorage.setItem("account", JSON.stringify(accountData));
+    }
+  };
 
   useEffect(() => {
     async function validateToken() {
@@ -44,18 +80,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!response.ok) {
           localStorage.removeItem("authToken");
           localStorage.removeItem("user");
+          localStorage.removeItem("account");
           setUser(null);
+          setAccount(null);
           setIsLoading(false);
           return;
         }
 
         const userData = await response.json();
         setUser(userData);
+
+        const accountData = await fetchAccountData(token);
+        if (accountData) {
+          setAccount(accountData);
+          localStorage.setItem("account", JSON.stringify(accountData));
+        }
       } catch (error) {
         console.error('Token validation error:', error);
         localStorage.removeItem("authToken");
         localStorage.removeItem("user");
+        localStorage.removeItem("account");
         setUser(null);
+        setAccount(null);
       } finally {
         setIsLoading(false);
       }
@@ -104,9 +150,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(userData);
       localStorage.setItem("user", JSON.stringify(userData));
 
+      const accountData = await fetchAccountData(data.token);
+      if (accountData) {
+        setAccount(accountData);
+        localStorage.setItem("account", JSON.stringify(accountData));
+      }
+
       toast({
         title: "Bem-vindo!",
-        description: `Olá, ${userData.username || 'Guerreiro'}!`,
+        description: `Olá, ${accountData?.nickname || userData.username || 'Guerreiro'}!`,
       });
     } catch (error) {
       console.error('Login error:', error);
@@ -121,8 +173,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     setUser(null);
+    setAccount(null);
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
+    localStorage.removeItem("account");
     toast({
       title: "Até logo!",
       description: "Você saiu da sua conta.",
@@ -130,7 +184,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, account, isAuthenticated: !!user, isLoading, login, logout, refreshAccount }}>
       {children}
     </AuthContext.Provider>
   );

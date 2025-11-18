@@ -83,6 +83,12 @@ The application uses an interface-based storage pattern (IStorage) allowing easy
   - Response: { token }
 - `GET /api/account/validate-auth-token`: Validates JWT token and returns user data
   - Header: Authorization: Bearer {token}
+- `GET /api/account`: Returns complete account information for authenticated user
+  - Header: Authorization: Bearer {token}
+  - Response: Full account object with all fields
+- `GET /api/account/players`: Returns all players/characters belonging to authenticated user's account
+  - Header: Authorization: Bearer {token}
+  - Response: Array of player objects
 - `GET /api/players`: Paginated list of players with filtering
 - `GET /api/player/:id`: Detailed player information
 - `GET /api/guilds`: Paginated list of guilds
@@ -127,8 +133,9 @@ Current schema includes a users table with:
 2. Backend validates and returns JWT token
 3. Frontend stores token in localStorage
 4. Frontend validates token and fetches user data
-5. User data stored in AuthContext and localStorage
-6. Token included in Authorization header for protected API requests
+5. Frontend fetches complete account data using the token
+6. User data and account data stored in AuthContext and localStorage
+7. Token included in Authorization header for all protected API requests
 
 **UI Integration:**
 - Navbar adapts based on authentication status

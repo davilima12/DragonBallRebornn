@@ -128,7 +128,7 @@ export default function Navbar() {
                   <Button variant="ghost" size="sm" className="gap-2" data-testid="button-account">
                     <Avatar className="w-6 h-6 border border-primary">
                       <AvatarFallback className="bg-primary/20 text-primary text-xs font-bold">
-                        {user?.username.substring(0, 2).toUpperCase()}
+                        {user?.username?.substring(0, 2).toUpperCase() || "DW"}
                       </AvatarFallback>
                     </Avatar>
                     <span>Minha Conta</span>
