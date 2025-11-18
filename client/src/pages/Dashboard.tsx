@@ -1,14 +1,15 @@
 import Navbar from "@/components/Navbar";
 import UserStatsCard from "@/components/UserStatsCard";
 import TransactionItem from "@/components/TransactionItem";
-import CharacterCard from "@/components/CharacterCard";
+import PlayerLeaderboard from "@/components/PlayerLeaderboard";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Coins, Crown, ShoppingBag, Zap, Users, Settings, TrendingUp, Mail, Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Coins, Crown, ShoppingBag, Zap, Users, Settings, TrendingUp, Mail, Plus } from "lucide-react";
 import { Link } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAccountPlayers } from "@/hooks/useAccountPlayers";
@@ -106,72 +107,54 @@ function DashboardPage() {
             />
           </div>
 
-          <Card className="p-6">
+          <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-heading font-bold">Meus Personagens</h2>
               <Link href="/characters/create">
                 <Button variant="outline" size="sm" data-testid="button-create-character">
-                  <Users className="w-4 h-4 mr-2" />
+                  <Plus className="w-4 h-4 mr-2" />
                   Criar Personagem
                 </Button>
               </Link>
             </div>
             
             {isLoadingPlayers ? (
-              <div className="flex items-center justify-center py-12">
-                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              <div className="space-y-4">
+                {[...Array(3)].map((_, i) => (
+                  <Skeleton key={i} className="h-20 w-full" />
+                ))}
               </div>
             ) : !players || players.length === 0 ? (
-              <div className="text-center py-8">
-                <p className="text-muted-foreground mb-4">Você ainda não tem personagens</p>
+              <Card className="p-12 text-center">
+                <Users className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                <h3 className="text-xl font-heading font-bold mb-2">Nenhum Personagem</h3>
+                <p className="text-muted-foreground mb-6">
+                  Você ainda não criou nenhum personagem. Crie seu primeiro personagem agora!
+                </p>
                 <Link href="/characters/create">
                   <Button data-testid="button-create-character-empty">
+                    <Plus className="w-4 h-4 mr-2" />
                     Criar Personagem
                   </Button>
                 </Link>
-              </div>
+              </Card>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {players.slice(0, 6).map((player) => (
-                  <Card key={player.id} className="p-4 hover-elevate" data-testid={`card-character-${player.id}`}>
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex-1">
-                        <h3 className="font-bold text-lg mb-1" data-testid={`text-character-name-${player.id}`}>
-                          {player.name}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {player.vocation}
-                        </p>
-                      </div>
-                      {player.online === 1 && (
-                        <Badge variant="secondary" className="bg-green-500/10 text-green-500 border-green-500/20">
-                          Online
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">Level:</span>
-                        <span className="font-semibold">{player.level}</span>
-                      </div>
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">Experiência:</span>
-                        <span className="font-semibold">{player.experience.toLocaleString()}</span>
-                      </div>
-                      {player.rank_id > 0 && (
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">Guild:</span>
-                          <Badge variant="outline" className="text-xs">
-                            Membro
-                          </Badge>
-                        </div>
-                      )}
-                    </div>
-                  </Card>
-                ))}
-              </div>
+              <PlayerLeaderboard 
+                players={players.slice(0, 6).map((player, index) => ({
+                  id: player.id.toString(),
+                  rank: index + 1,
+                  name: player.name,
+                  level: player.level,
+                  maglevel: player.maglevel,
+                  power: player.experience,
+                  guild: player.guild?.name,
+                  vocation: player.vocation
+                }))} 
+                title="Seus Personagens"
+                showMagLevel={false}
+              />
             )}
-          </Card>
+          </div>
 
           <Card className="p-6">
             <h2 className="text-2xl font-heading font-bold mb-6">Histórico Financeiro</h2>
