@@ -237,6 +237,32 @@ export default function PlayerProfile() {
                 )}
               </Card>
 
+              <Card className="p-6 mb-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Clock className="w-6 h-6 text-primary" />
+                  <h2 className="text-2xl font-heading font-bold">Informações Adicionais</h2>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Último Login</p>
+                    <p className="text-base font-semibold">{formatDate(player.lastlogin)}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Último Logout</p>
+                    <p className="text-base font-semibold">{formatDate(player.lastlogout)}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Status</p>
+                    <div className="mt-1">
+                      <Badge variant={player.online === 1 ? "default" : "secondary"}>
+                        {player.online === 1 ? "Online" : "Offline"}
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <Card className="p-6">
                   <div className="flex items-center gap-3 mb-4">
@@ -356,32 +382,6 @@ export default function PlayerProfile() {
                   </div>
                 </Card>
               )}
-
-              <Card className="p-6 mt-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <Clock className="w-6 h-6 text-primary" />
-                  <h2 className="text-2xl font-heading font-bold">Informações Adicionais</h2>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Último Login</p>
-                    <p className="text-base font-semibold">{formatDate(player.lastlogin)}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Último Logout</p>
-                    <p className="text-base font-semibold">{formatDate(player.lastlogout)}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Status</p>
-                    <div className="mt-1">
-                      <Badge variant={player.online === 1 ? "default" : "secondary"}>
-                        {player.online === 1 ? "Online" : "Offline"}
-                      </Badge>
-                    </div>
-                  </div>
-                </div>
-              </Card>
             </>
           ) : (
             <Card className="p-12">
