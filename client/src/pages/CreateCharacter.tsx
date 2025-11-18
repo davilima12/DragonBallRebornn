@@ -12,6 +12,7 @@ import { VocationWithUrl, Vocation } from "@/types/vocation";
 import { VOCATIONS_API_URL, CREATE_PLAYER_API_URL } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { getAuthToken } from "@/contexts/AuthContext";
+import { queryClient } from "@/lib/queryClient";
 import { ArrowLeft } from "lucide-react";
 
 export default function CreateCharacter() {
@@ -113,7 +114,9 @@ function CreateCharacterPage() {
         description: "Personagem criado com sucesso!",
       });
 
-      setLocation('/dashboard');
+      await queryClient.invalidateQueries({ queryKey: ['/api/account/players'] });
+
+      setLocation('/characters');
     } catch (error) {
       console.error('Create character error:', error);
       toast({
