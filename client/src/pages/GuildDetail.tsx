@@ -5,9 +5,9 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Users, Shield, Crown, UserPlus } from "lucide-react";
+import { ArrowLeft, Users, Shield, Crown, UserPlus, Mail, Check } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { GUILD_DETAIL_API_URL, GUILD_INVITE_PLAYER_API_URL } from "@/lib/api";
+import { GUILD_DETAIL_API_URL, GUILD_INVITE_PLAYER_API_URL, GUILD_ACCEPT_INVITE_API_URL } from "@/lib/api";
 import { GuildDetail as GuildDetailType } from "@/types/guild";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -178,6 +178,55 @@ export default function GuildDetail() {
     }
   };
 
+  const handleAcceptInvite = async (playerId: number, guildId: number) => {
+    const hideLoadingFn = showLoading("Aceitando convite...");
+    try {
+      const token = getAuthToken();
+      const response = await fetch(GUILD_ACCEPT_INVITE_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          player_id: playerId,
+          guild_id: guildId,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Falha ao aceitar convite');
+      }
+
+      toast({
+        title: "Convite Aceito!",
+        description: "Você agora faz parte da guild!",
+      });
+
+      await queryClient.invalidateQueries({ 
+        predicate: (query) => {
+          const key = query.queryKey[0];
+          return typeof key === 'string' && key.startsWith('/api/guild');
+        }
+      });
+    } catch (error) {
+      console.error('Error accepting invite:', error);
+      toast({
+        title: "Erro ao Aceitar Convite",
+        description: error instanceof Error ? error.message : "Não foi possível aceitar o convite.",
+        variant: "destructive",
+      });
+    } finally {
+      hideLoadingFn();
+    }
+  };
+
+  const isPlayerOwnedByUser = (playerId: number) => {
+    if (!accountPlayers || accountPlayers.length === 0) return false;
+    return accountPlayers.some(p => p.id === playerId);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -342,6 +391,74 @@ export default function GuildDetail() {
                       <UserPlus className="w-4 h-4 mr-2" />
                       Enviar Convite
                     </Button>
+                  </div>
+                </Card>
+              )}
+
+              {guild.guild_invite && guild.guild_invite.length > 0 && (
+                <Card className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Mail className="w-6 h-6 text-primary" />
+                    <h2 className="text-2xl font-heading font-bold">Convites Pendentes</h2>
+                  </div>
+                  <div className="space-y-3">
+                    {guild.guild_invite.map((invite) => {
+                      const invitedPlayer = invite.player[0];
+                      if (!invitedPlayer) return null;
+                      
+                      const isMyPlayer = isAuthenticated && isPlayerOwnedByUser(invitedPlayer.id);
+                      
+                      return (
+                        <div
+                          key={invitedPlayer.id}
+                          className="flex items-center gap-4 p-3 rounded-md border border-card-border"
+                          data-testid={`invite-row-${invitedPlayer.id}`}
+                        >
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <span className="font-heading font-semibold" data-testid={`text-invite-player-name-${invitedPlayer.id}`}>
+                                {invitedPlayer.name}
+                              </span>
+                              {invitedPlayer.online === 1 && (
+                                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                              )}
+                              <Badge variant="outline" className="bg-primary/10 border-primary/30">
+                                Convidado
+                              </Badge>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-4 text-sm">
+                            <Badge variant="secondary" className="font-mono">
+                              Nv. {invitedPlayer.level}
+                            </Badge>
+                            <div className="flex flex-col items-center gap-1 flex-shrink-0">
+                              <img
+                                src={`/vocations/${typeof invitedPlayer.vocation === 'number' ? 'Goku' : invitedPlayer.vocation || 'Goku'}.gif`}
+                                alt={`${invitedPlayer.vocation || 'Goku'}`}
+                                width={32}
+                                height={32}
+                                className="pixelated"
+                              />
+                              <span className="text-xs text-muted-foreground font-medium">
+                                {typeof invitedPlayer.vocation === 'string' ? invitedPlayer.vocation : 'Goku'}
+                              </span>
+                            </div>
+                            
+                            {isMyPlayer && (
+                              <Button
+                                onClick={() => handleAcceptInvite(invitedPlayer.id, guild.id)}
+                                size="sm"
+                                data-testid={`button-accept-invite-${invitedPlayer.id}`}
+                              >
+                                <Check className="w-4 h-4 mr-2" />
+                                Aceitar Convite
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </Card>
               )}
