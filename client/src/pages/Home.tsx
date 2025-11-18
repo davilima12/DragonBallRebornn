@@ -9,9 +9,25 @@ import { useQuery } from "@tanstack/react-query";
 import { GuildsPaginatedResponse } from "@/types/guild";
 import { PlayersPaginatedResponse } from "@/types/player";
 import { Skeleton } from "@/components/ui/skeleton";
-import { GUILDS_API_URL, PLAYERS_API_URL } from "@/lib/api";
+import { GUILDS_API_URL, PLAYERS_API_URL, ONLINE_PLAYERS_COUNT_API_URL } from "@/lib/api";
 
 export default function Home() {
+  const { data: onlinePlayersCount } = useQuery<number>({
+    queryKey: ['/api/qtd_online'],
+    queryFn: async () => {
+      const response = await fetch(ONLINE_PLAYERS_COUNT_API_URL);
+      
+      if (!response.ok) {
+        return 0;
+      }
+      
+      const data = await response.json();
+      return typeof data === 'number' ? data : (data.count || 0);
+    },
+    retry: false,
+    refetchInterval: 30000,
+  });
+
   const { data: playersData, isLoading: isLoadingPlayers } = useQuery<PlayersPaginatedResponse>({
     queryKey: ['/api/players/top10'],
     queryFn: async () => {
@@ -57,7 +73,7 @@ export default function Home() {
       <div className="pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
           <div className="max-w-2xl mx-auto">
-            <ServerStatus online={true} playerCount={247} />
+            <ServerStatus online={true} playerCount={onlinePlayersCount || 0} />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
