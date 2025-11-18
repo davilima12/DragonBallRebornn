@@ -19,7 +19,7 @@ import {
 export default function Navbar() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, account, isAuthenticated, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [, setLocation] = useLocation();
 
@@ -150,7 +150,7 @@ export default function Navbar() {
                         <span>Pontos</span>
                       </div>
                       <Badge variant="secondary" className="font-mono">
-                        {user?.points.toLocaleString()}
+                        {(account?.premium_points ?? 0).toLocaleString()}
                       </Badge>
                     </div>
                   </DropdownMenuItem>
@@ -267,11 +267,11 @@ export default function Navbar() {
               {isAuthenticated ? (
                 <>
                   <div className="p-3 bg-muted rounded-md">
-                    <p className="text-sm font-semibold mb-1">{user?.username}</p>
+                    <p className="text-sm font-semibold mb-1">{account?.nickname || user?.username}</p>
                     <div className="flex items-center gap-2">
                       <Coins className="w-4 h-4 text-primary" />
                       <Badge variant="secondary" className="font-mono">
-                        {user?.points.toLocaleString()} pontos
+                        {(account?.premium_points ?? 0).toLocaleString()} pontos
                       </Badge>
                     </div>
                   </div>
